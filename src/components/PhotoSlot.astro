@@ -1,0 +1,40 @@
+---
+/**
+ * A photo, or a labelled placeholder telling you what to shoot.
+ * Set `src` in the CMS and the placeholder disappears.
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  caption?: string;
+  shape?: 'wide' | 'standard' | 'tall';
+  width?: 'full' | 'inset';
+  note?: string;
+  index?: number;
+}
+
+const {
+  src,
+  alt = '',
+  caption,
+  shape = 'standard',
+  width = 'full',
+  note,
+  index,
+} = Astro.props;
+
+const shapeClass = shape === 'standard' ? '' : ` ${shape}`;
+---
+
+<figure class={width === 'inset' ? 'inset' : undefined}>
+  {src ? (
+    <img src={src} alt={alt} loading="lazy" decoding="async" />
+  ) : (
+    <div class={`ph${shapeClass}`}>
+      {index != null && <div class="ph-icon">{index}</div>}
+      <div class="ph-label">Photo needed</div>
+      {note && <div class="ph-note">{note}</div>}
+    </div>
+  )}
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

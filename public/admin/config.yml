@@ -1,0 +1,187 @@
+# Sveltia CMS — the admin panel at /admin
+#
+# Field names here must match the zod schema in src/content.config.ts. If they
+# drift apart, the CMS will happily save something the build then rejects, so
+# change both together.
+
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/harveys-try   # ← change this
+  branch: main
+  base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev   # ← your OAuth worker
+
+# Where uploaded images land in the repo, and how the site refers to them.
+media_folder: public/images
+public_folder: /images
+
+# Edits go straight to main and trigger a rebuild. Switch to editorial_workflow
+# if you'd rather stage changes as pull requests.
+publish_mode: simple
+
+collections:
+  - name: advertorials
+    label: Advertorials
+    label_singular: Advertorial
+    folder: src/content/advertorials
+    create: true
+    slug: '{{slug}}'
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: title
+    summary: '{{headline}}'
+    fields:
+      - { label: 'Internal title (also the browser tab)', name: title, widget: string }
+      - { label: Draft, name: draft, widget: boolean, default: false, hint: 'Draft pages are not built at all.' }
+      - { label: 'Primary — ads land here', name: primary, widget: boolean, default: false, hint: 'The one page served at the root URL. Only one should be on.' }
+
+      - { label: 'Meta description', name: description, widget: text, hint: 'About 155 characters. This is the link preview text.' }
+      - { label: 'Social share image', name: ogImage, widget: image, required: false, default: /og.jpg }
+      - { label: 'Hide from search engines', name: noindex, widget: boolean, default: true, hint: 'Leave on. A paid landing page competing with your store in search hurts you.' }
+
+      - { label: Kicker, name: kicker, widget: string, required: false }
+      - { label: Headline, name: headline, widget: text }
+      - { label: Subhead, name: dek, widget: text, required: false }
+      - { label: Author, name: author, widget: string, required: false }
+      - { label: Date, name: date, widget: datetime, required: false }
+      - { label: 'Reading time', name: readingTime, widget: string, required: false }
+
+      - label: 'Call to action'
+        name: cta
+        widget: object
+        hint: 'Written once, repeated identically wherever you place a CTA block.'
+        fields:
+          - { label: 'Offer line', name: offer, widget: text }
+          - { label: 'Urgency line', name: urgency, widget: text, required: false }
+          - { label: 'Button text', name: button, widget: string, default: 'TAKE THE QUIZ' }
+          - { label: 'Line under the button', name: sub, widget: string, required: false }
+          - { label: 'Guarantee line', name: risk, widget: string, required: false, default: '', hint: 'Leave empty and no guarantee shows. Only fill this in once the refund policy says the same thing.' }
+          - label: Bullets
+            name: bullets
+            widget: list
+            field: { label: Bullet, name: bullet, widget: string }
+          - { label: Destination, name: destination, widget: select, options: [quiz, shop], default: quiz, hint: 'Named destination resolved at the edge. Add new ones in functions/_lib/destinations.js.' }
+
+      - label: 'Sticky mobile bar'
+        name: sticky
+        widget: object
+        required: false
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Subtitle, name: sub, widget: string, required: false }
+
+      # ------------------------------------------------------------------
+      # The page itself. Add, remove and drag blocks into any order.
+      # ------------------------------------------------------------------
+      - label: Page blocks
+        name: blocks
+        widget: list
+        types:
+          - label: Prose
+            name: prose
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: 'Drop cap on first paragraph', name: lead, widget: boolean, default: false }
+              - { label: Body, name: body, widget: markdown }
+
+          - label: Photo
+            name: photo
+            widget: object
+            fields:
+              - { label: Image, name: src, widget: image, required: false }
+              - { label: 'Alt text', name: alt, widget: string, required: false }
+              - { label: Caption, name: caption, widget: string, required: false }
+              - { label: Shape, name: shape, widget: select, options: [wide, standard, tall], default: standard }
+              - { label: Width, name: width, widget: select, options: [full, inset], default: full }
+              - { label: 'Placeholder note', name: note, widget: string, required: false, hint: 'What to shoot. Shown only while no image is set.' }
+
+          - label: 'Call to action'
+            name: cta
+            widget: object
+            fields:
+              - { label: Variant, name: variant, widget: select, options: [standard, final], default: standard }
+
+          - label: 'Pull quote'
+            name: pullquote
+            widget: object
+            fields:
+              - { label: Text, name: text, widget: text }
+
+          - label: 'Comparison table'
+            name: compare
+            widget: object
+            fields:
+              - { label: Label, name: label, widget: string, required: false }
+              - { label: 'Their column heading', name: themHeading, widget: string, default: 'Supermarket bag' }
+              - { label: 'Your column heading', name: usHeading, widget: string, default: "Harvey's subscription" }
+              - label: Rows
+                name: rows
+                widget: list
+                fields:
+                  - { label: Row label, name: label, widget: string }
+                  - { label: Them, name: them, widget: string }
+                  - { label: Us, name: us, widget: string }
+
+          - label: Steps
+            name: steps
+            widget: object
+            fields:
+              - label: Steps
+                name: items
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Body, name: body, widget: text }
+
+          - label: 'Quiz preview card'
+            name: quizcard
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, default: 'What the quiz asks' }
+              - { label: 'Time line', name: time, widget: string, default: '5 questions · about 60 seconds' }
+              - label: Questions
+                name: questions
+                widget: list
+                field: { label: Question, name: question, widget: string }
+              - { label: Footnote, name: footnote, widget: string, required: false }
+
+          - label: 'Press strip'
+            name: press
+            widget: object
+            fields:
+              - { label: Label, name: label, widget: string, default: 'As covered by' }
+              - label: Outlets
+                name: items
+                widget: list
+                fields:
+                  - { label: Outlet, name: outlet, widget: string }
+                  - { label: Quote, name: quote, widget: text, hint: 'Paste the actual sentence from the article. Never paraphrase or invent.' }
+                  - { label: URL, name: url, widget: string }
+                  - { label: 'Link text', name: linkText, widget: string, default: 'Read the article →' }
+
+          - label: Reviews
+            name: reviews
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Reviews
+                name: items
+                widget: list
+                required: false
+                hint: 'Real reviews only, with permission. Leave empty and nothing renders.'
+                fields:
+                  - { label: Stars, name: stars, widget: number, default: 5, value_type: int, min: 1, max: 5 }
+                  - { label: Quote, name: quote, widget: text }
+                  - { label: Who, name: who, widget: string }
+
+          - label: FAQ
+            name: faq
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, default: Questions }
+              - label: Questions
+                name: items
+                widget: list
+                fields:
+                  - { label: Question, name: q, widget: string }
+                  - { label: Answer, name: a, widget: markdown }

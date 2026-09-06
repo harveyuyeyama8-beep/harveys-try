@@ -1,0 +1,131 @@
+---
+/**
+ * Browser-side tracking.
+ *
+ * The server side (functions/go.js) is the one that actually counts — it runs
+ * even when a pixel is blocked. This file exists to feed the ad platforms
+ * their client-side signal and to send the same event_id the edge uses, so
+ * Meta deduplicates the pair instead of double-counting it.
+ */
+import { site } from '../site.config';
+
+const { ga4Id, metaPixelId, linkerDomains } = site;
+---
+
+{ga4Id && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+    <script is:inline define:vars={{ ga4Id, linkerDomains }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', ga4Id, {
+        linker: { domains: linkerDomains, accept_incoming: true },
+      });
+    </script>
+  </>
+)}
+
+{metaPixelId && (
+  <script is:inline define:vars={{ metaPixelId }}>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', metaPixelId);
+    fbq('track', 'PageView');
+  </script>
+)}
+
+<script is:inline>
+  (function () {
+    'use strict';
+
+    function uuid() {
+      if (crypto && crypto.randomUUID) return crypto.randomUUID();
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (Math.random() * 16) | 0;
+        var v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+
+    /** Send an event to the edge (which forwards to Analytics Engine and the
+     *  Conversions API) and to whatever browser tags are loaded. */
+    function track(name, params) {
+      params = params || {};
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(Object.assign({ event: name }, params));
+      if (typeof window.gtag === 'function') window.gtag('event', name, params);
+
+      try {
+        var body = JSON.stringify(Object.assign({ event: name, path: location.pathname }, params));
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/event', new Blob([body], { type: 'application/json' }));
+        } else {
+          fetch('/api/event', { method: 'POST', body: body, keepalive: true,
+            headers: { 'content-type': 'application/json' } });
+        }
+      } catch (e) { /* tracking must never break the page */ }
+    }
+
+    /* ---- CTA clicks -------------------------------------------------- */
+    /* One event_id per click, shared between the browser pixel and the edge,
+       so Meta collapses the two reports into one event. */
+    document.querySelectorAll('a[data-cta]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var eid = uuid();
+        try {
+          var u = new URL(a.href, location.origin);
+          u.searchParams.set('eid', eid);
+          a.href = u.toString();
+        } catch (e) { /* leave the href alone if URL parsing fails */ }
+
+        if (typeof window.fbq === 'function') {
+          window.fbq('trackCustom', 'QuizStart', { cta_position: a.dataset.cta }, { eventID: eid });
+        }
+        track('quiz_start_click', { cta_position: a.dataset.cta, event_id: eid });
+      });
+    });
+
+    /* ---- reading progress, scroll depth, sticky bar ------------------ */
+    var progress = document.getElementById('progress');
+    var bar = document.getElementById('stickybar');
+    var firstCta = document.querySelector('.cta');
+    var marks = [25, 50, 75, 100];
+    var fired = {};
+    var stuck = false;
+
+    function onScroll() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      if (progress) progress.style.width = Math.min(100, Math.max(0, pct)) + '%';
+
+      marks.forEach(function (m) {
+        if (!fired[m] && pct >= m) {
+          fired[m] = true;
+          track('scroll_depth', { percent_scrolled: m });
+        }
+      });
+
+      if (bar && firstCta) {
+        var past = firstCta.getBoundingClientRect().bottom < 0;
+        bar.classList.toggle('show', past);
+        bar.setAttribute('aria-hidden', past ? 'false' : 'true');
+        if (past && !stuck) { stuck = true; document.body.classList.add('has-sticky'); }
+      }
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { onScroll(); ticking = false; });
+    }, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+
+    track('advertorial_view', {});
+  })();
+</script>

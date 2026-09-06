@@ -1,0 +1,46 @@
+---
+/**
+ * The CTA module. Five parts, always in this order, always identical —
+ * offer, urgency, button, sub-line, guarantee, bullets.
+ *
+ * Every CTA on a page renders from the same `cta` frontmatter object, so
+ * they cannot drift apart the way hand-copied blocks do.
+ *
+ * The href points at /go — a Pages Function that logs the click server-side
+ * before redirecting. It never contains the destination URL itself, only a
+ * named destination resolved at the edge.
+ */
+interface Props {
+  cta: {
+    offer: string;
+    urgency?: string;
+    button: string;
+    sub?: string;
+    risk: string;
+    bullets: string[];
+    destination: string;
+  };
+  position: string;
+  variant?: 'standard' | 'final';
+}
+
+const { cta, position, variant = 'standard' } = Astro.props;
+
+const href = `/go?to=${encodeURIComponent(cta.destination)}&pos=${encodeURIComponent(position)}`;
+---
+
+<div class={`cta${variant === 'final' ? ' final' : ''}`}>
+  <p class="cta-offer">{cta.offer}</p>
+  {cta.urgency && <p class="cta-urgency">{cta.urgency}</p>}
+
+  <a class="btn" href={href} data-cta={position} rel="noopener">{cta.button}</a>
+
+  {cta.sub && <p class="cta-sub">{cta.sub}</p>}
+  {cta.risk && <p class="cta-risk">{cta.risk}</p>}
+
+  {cta.bullets.length > 0 && (
+    <ul class="cta-bullets">
+      {cta.bullets.map((b) => <li>{b}</li>)}
+    </ul>
+  )}
+</div>

@@ -1,0 +1,26 @@
+---
+/**
+ * Real reviews only. An empty section beats an invented one, and a
+ * fabricated review is illegal, not merely risky.
+ */
+interface Props {
+  heading?: string;
+  items: { stars: number; quote: string; who: string }[];
+}
+const { heading, items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <>
+    {heading && <h3>{heading}</h3>}
+    <div class="reviews">
+      {items.map((r) => (
+        <div class="review">
+          <div class="stars" aria-label={`${r.stars} out of 5 stars`}>{'★'.repeat(r.stars)}</div>
+          <p>&ldquo;{r.quote}&rdquo;</p>
+          <div class="who">{r.who}</div>
+        </div>
+      ))}
+    </div>
+  </>
+)}

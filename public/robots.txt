@@ -1,0 +1,6 @@
+# This is a paid landing-page host, not a content site. It should not compete
+# with harveyscoffee.shop in search results.
+User-agent: *
+Disallow: /admin/
+Disallow: /go
+Disallow: /api/

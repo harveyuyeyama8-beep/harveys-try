@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  sub?: string;
+  button: string;
+  destination: string;
+}
+const { title, sub, button, destination } = Astro.props;
+const href = `/go?to=${encodeURIComponent(destination)}&pos=sticky`;
+---
+
+<div id="stickybar" aria-hidden="true">
+  <div class="sb-text">
+    <b>{title}</b>
+    {sub && <span>{sub}</span>}
+  </div>
+  <a class="btn" href={href} data-cta="sticky" rel="noopener">{button}</a>
+</div>

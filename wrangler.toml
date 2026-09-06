@@ -1,0 +1,19 @@
+name = "harveys-try"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "dist"
+
+# Analytics Engine — one row per click and per page event, queried with SQL.
+# Free tier is generous and there is no database to run.
+#
+# If the dashboard is easier: Workers & Pages → harveys-try → Settings →
+# Functions → Analytics Engine bindings → Add binding, variable name AE,
+# dataset harveys_try. Do it for both Production and Preview.
+[[analytics_engine_datasets]]
+binding = "AE"
+dataset = "harveys_try"
+
+# Plain (non-secret) variables can live here.
+# Secrets must NOT — see .env.example and README §7.
+[vars]
+META_API_VERSION = "v25.0"
+# DISCOUNT_CODE = "FIRSTORDER"   # uncomment to make every /go link self-apply a code

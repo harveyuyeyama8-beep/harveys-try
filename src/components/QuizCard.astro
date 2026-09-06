@@ -1,0 +1,20 @@
+---
+interface Props {
+  heading: string;
+  time: string;
+  questions: string[];
+  footnote?: string;
+}
+const { heading, time, questions, footnote } = Astro.props;
+---
+
+<div class="quizcard">
+  <div class="qhead">
+    <h3>{heading}</h3>
+    <span class="qtime">{time}</span>
+  </div>
+  <ol>
+    {questions.map((q) => <li>{q}</li>)}
+  </ol>
+  {footnote && <p class="qfoot">{footnote}</p>}
+</div>

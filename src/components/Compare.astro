@@ -1,0 +1,32 @@
+---
+interface Props {
+  label?: string;
+  themHeading: string;
+  usHeading: string;
+  rows: { label: string; them: string; us: string }[];
+}
+const { label, themHeading, usHeading, rows } = Astro.props;
+---
+
+<div class="table-scroll">
+  <table>
+    {label && <caption>{label}</caption>}
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">{themHeading}</th>
+        <th scope="col">{usHeading}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <td>{r.label}</td>
+          <td class="them">{r.them}</td>
+          <td class="us">{r.us}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="table-hint">Swipe the table sideways →</p>

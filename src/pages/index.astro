@@ -1,0 +1,21 @@
+---
+/**
+ * The root URL is the advertorial you're currently running ads to — the one
+ * with `primary: true`. Flip that flag in the CMS to swap which page your
+ * traffic lands on, without touching the ad itself.
+ */
+import { getCollection } from 'astro:content';
+import Advertorial from '../layouts/Advertorial.astro';
+
+const entries = await getCollection('advertorials', ({ data }) => !data.draft);
+const entry = entries.find((e) => e.data.primary) ?? entries[0];
+
+if (!entry) {
+  throw new Error(
+    'No published advertorial found. Add one in src/content/advertorials/ ' +
+    'or via /admin, and set primary: true on the one ads should point at.'
+  );
+}
+---
+
+<Advertorial entry={entry} />

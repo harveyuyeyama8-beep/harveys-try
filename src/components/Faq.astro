@@ -1,0 +1,19 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  heading: string;
+  items: { q: string; a: string }[];
+}
+const { heading, items } = Astro.props;
+---
+
+<h2>{heading}</h2>
+<div class="faq">
+  {items.map((item) => (
+    <details>
+      <summary>{item.q}</summary>
+      <div class="answer" set:html={marked.parse(item.a)} />
+    </details>
+  ))}
+</div>

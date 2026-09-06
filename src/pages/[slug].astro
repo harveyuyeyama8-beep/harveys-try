@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import Advertorial from '../layouts/Advertorial.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('advertorials', ({ data }) => !data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<Advertorial entry={entry} />

@@ -1,0 +1,22 @@
+---
+interface Props {
+  label: string;
+  items: { outlet: string; quote: string; url: string; linkText: string }[];
+}
+const { label, items } = Astro.props;
+---
+
+<div class="press">
+  <div class="wrap-wide">
+    <p class="press-label">{label}</p>
+    <div class="press-grid">
+      {items.map((p) => (
+        <div class="press-card">
+          <div class="press-outlet">{p.outlet}</div>
+          <p class="press-quote">&ldquo;{p.quote}&rdquo;</p>
+          <a class="press-link" href={p.url} target="_blank" rel="noopener">{p.linkText}</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

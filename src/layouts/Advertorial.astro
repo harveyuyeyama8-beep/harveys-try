@@ -1,0 +1,197 @@
+---
+import { marked } from 'marked';
+import { site } from '../site.config';
+import '../styles/theme.css';
+
+import Cta from '../components/Cta.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import Compare from '../components/Compare.astro';
+import Steps from '../components/Steps.astro';
+import QuizCard from '../components/QuizCard.astro';
+import PressStrip from '../components/PressStrip.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import StickyBar from '../components/StickyBar.astro';
+import Analytics from '../components/Analytics.astro';
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+/* Blocks that sit in the narrow reading column. Photos and the press strip
+   break out of it, which is what gives the page its rhythm. */
+const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq']);
+
+/* CTA positions are numbered in document order — cta-1, cta-2 … — so the
+   `utm_content` and the Analytics Engine rows tell you which one earned
+   the click. */
+let ctaCount = 0;
+let photoCount = 0;
+
+const dateStr = d.date
+  ? new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(d.date)
+  : null;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>{d.title}</title>
+  <meta name="description" content={d.description} />
+  <link rel="canonical" href={new URL(Astro.url.pathname, site.url).href} />
+  {d.noindex && <meta name="robots" content="noindex, follow" />}
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={d.headline} />
+  <meta property="og:description" content={d.description} />
+  <meta property="og:image" content={new URL(d.ogImage, site.url).href} />
+  <meta property="og:url" content={new URL(Astro.url.pathname, site.url).href} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <div id="progress"></div>
+
+  <div class="disclosure">
+    {site.disclosure.label} &nbsp;·&nbsp; <b>{site.disclosure.detail}</b>
+  </div>
+
+  <div class="masthead">
+    <div class="wrap-wide">
+      <a class="brand" href={site.storeUrl}>Harvey's<span>.</span>Coffee</a>
+      <div class="meta">{site.location}</div>
+    </div>
+  </div>
+
+  <header class="article">
+    <div class="wrap">
+      {d.kicker && <p class="kicker">{d.kicker}</p>}
+      <h1>{d.headline}</h1>
+      {d.dek && <p class="dek">{d.dek}</p>}
+
+      <div class="byline">
+        {d.author && <span>By <strong>{d.author}</strong></span>}
+        {d.author && dateStr && <span class="dot"></span>}
+        {dateStr && <span>{dateStr}</span>}
+        {dateStr && d.readingTime && <span class="dot"></span>}
+        {d.readingTime && <span>{d.readingTime}</span>}
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {d.blocks.map((block: any) => {
+      const inner = (() => {
+        switch (block.type) {
+          case 'prose':
+            return (
+              <>
+                {block.heading && <h2>{block.heading}</h2>}
+                <div class={block.lead ? 'prose lead-wrap' : 'prose'} set:html={marked.parse(block.body)} />
+              </>
+            );
+
+          case 'pullquote':
+            return <p class="pull">{block.text}</p>;
+
+          case 'cta':
+            ctaCount += 1;
+            return <Cta cta={d.cta} position={`cta-${ctaCount}`} variant={block.variant} />;
+
+          case 'compare':
+            return (
+              <Compare
+                label={block.label}
+                themHeading={block.themHeading}
+                usHeading={block.usHeading}
+                rows={block.rows}
+              />
+            );
+
+          case 'steps':
+            return <Steps items={block.items} />;
+
+          case 'quizcard':
+            return (
+              <QuizCard
+                heading={block.heading}
+                time={block.time}
+                questions={block.questions}
+                footnote={block.footnote}
+              />
+            );
+
+          case 'reviews':
+            return <Reviews heading={block.heading} items={block.items} />;
+
+          case 'faq':
+            return <Faq heading={block.heading} items={block.items} />;
+
+          case 'photo':
+            photoCount += 1;
+            return (
+              <PhotoSlot
+                src={block.src}
+                alt={block.alt}
+                caption={block.caption}
+                shape={block.shape}
+                width={block.width}
+                note={block.note}
+                index={photoCount}
+              />
+            );
+
+          case 'press':
+            return <PressStrip label={block.label} items={block.items} />;
+
+          default:
+            return null;
+        }
+      })();
+
+      return NARROW.has(block.type) ? <div class="wrap">{inner}</div> : inner;
+    })}
+  </main>
+
+  <footer>
+    <div class="wrap-wide">
+      <span class="brand">Harvey's<span style="color:#C98A4B">.</span>Coffee</span>
+      <p>{site.tagline}</p>
+      <nav>
+        {site.footerLinks.map((l) => <a href={l.href}>{l.text}</a>)}
+        <a href={`mailto:${site.contactEmail}`}>Contact</a>
+      </nav>
+      <p class="fine">{site.legal} &copy; {new Date().getFullYear()} {site.name}.</p>
+    </div>
+  </footer>
+
+  {d.sticky && (
+    <StickyBar
+      title={d.sticky.title}
+      sub={d.sticky.sub}
+      button={d.cta.button}
+      destination={d.cta.destination}
+    />
+  )}
+
+  <Analytics />
+
+  <noscript>
+    <div class="wrap">
+      <div class="cta">
+        <p class="cta-offer">Find your coffee</p>
+        <a class="btn" href={site.storeUrl + site.quizPath}>{d.cta.button}</a>
+      </div>
+    </div>
+  </noscript>
+</body>
+</html>

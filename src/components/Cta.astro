@@ -1,10 +1,15 @@
 ---
 /**
- * The CTA module. Five parts, always in this order, always identical —
+ * The CTA module. Five parts, always in this order —
  * offer, urgency, button, sub-line, guarantee, bullets.
  *
  * Every CTA on a page renders from the same `cta` frontmatter object, so
  * they cannot drift apart the way hand-copied blocks do.
+ *
+ * The one exception is `offer`, which a single placement may override to
+ * lead with a different deal. The button, sub-line and destination are NOT
+ * overridable: what the click does has to read the same everywhere, or the
+ * reader has to re-decide at every CTA.
  *
  * The href points at /go — a Pages Function that logs the click server-side
  * before redirecting. It never contains the destination URL itself, only a
@@ -23,9 +28,11 @@ interface Props {
   position: string;
   page: string;
   variant?: 'standard' | 'final';
+  offer?: string;   // overrides cta.offer for this placement only
 }
 
-const { cta, position, page, variant = 'standard' } = Astro.props;
+const { cta, position, page, variant = 'standard', offer } = Astro.props;
+const offerLine = offer ?? cta.offer;
 
 const href =
   `/go?to=${encodeURIComponent(cta.destination)}` +
@@ -34,7 +41,7 @@ const href =
 ---
 
 <div class={`cta${variant === 'final' ? ' final' : ''}`}>
-  <p class="cta-offer">{cta.offer}</p>
+  <p class="cta-offer">{offerLine}</p>
   {cta.urgency && <p class="cta-urgency">{cta.urgency}</p>}
 
   <a class="btn" href={href} data-cta={position} rel="noopener">{cta.button}</a>

@@ -48,7 +48,7 @@ collections:
       - label: 'Call to action'
         name: cta
         widget: object
-        hint: 'Written once, repeated identically wherever you place a CTA block.'
+        hint: 'The default for every CTA block. A single block may override the offer line, but never the button.'
         fields:
           - { label: 'Offer line', name: offer, widget: text }
           - { label: 'Urgency line', name: urgency, widget: text, required: false }
@@ -115,6 +115,7 @@ collections:
             widget: object
             fields:
               - { label: Variant, name: variant, widget: select, options: [standard, final], default: standard }
+              - { label: 'Offer line (override)', name: offer, widget: text, required: false, hint: 'Leave empty to use the page-wide offer. Set it only to lead this one placement with a different deal — the button never changes.' }
 
           - label: 'Pull quote'
             name: pullquote

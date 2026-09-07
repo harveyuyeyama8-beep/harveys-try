@@ -105,7 +105,7 @@ const dateStr = d.date
           case 'cta':
             ctaCount += 1;
             return (
-              <Cta cta={d.cta} position={`cta-${ctaCount}`} page={entry.id} variant={block.variant} />
+              <Cta cta={d.cta} offer={block.offer} position={`cta-${ctaCount}`} page={entry.id} variant={block.variant} />
             );
 
           case 'compare':

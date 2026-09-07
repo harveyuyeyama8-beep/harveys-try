@@ -14,7 +14,7 @@ date: 2026-09-07
 readingTime: "4 min read"
 
 cta:
-  offer: "Your first bag is half off. Or subscribe to two bags and the first one is free."
+  offer: "First bag 50% off."
   button: "TAKE THE QUIZ"
   sub: "4 questions · about 30 seconds"
   # Stays empty until the refund policy and the homepage promise agree.
@@ -58,6 +58,10 @@ blocks:
       accurate.
 
       It just stopped being good coffee a long time before then.
+
+  # Early exit for the reader who is already sold. Everything below this is
+  # for the one who needs the argument.
+  - type: cta
 
   - type: prose
     heading: "What actually happens to a coffee bean?"
@@ -227,4 +231,5 @@ blocks:
 
   - type: cta
     variant: final
+    offer: "First bag FREE with a double bag subscription."
 ---

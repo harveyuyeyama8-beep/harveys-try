@@ -50,6 +50,10 @@ const blocks = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('cta'),
     variant: z.enum(['standard', 'final']).default('standard'),
+    // Overrides the offer LINE for this one placement. The button, sub-line
+    // and destination still come from the page-level `cta` object, so what
+    // the click does never changes — only which offer is being led with.
+    offer: z.string().optional(),
   }),
 
   z.object({

@@ -33,12 +33,16 @@ const blocks = z.discriminatedUnion('type', [
 
   z.object({ type: z.literal('photo') }).merge(photo),
 
-  // Thin strip under the header — stars, proof, press names.
+  // Credibility strip under the header: a logo row, then social proof,
+  // then stars. Every field is optional — leave one out and that row
+  // doesn't render.
   z.object({
     type: z.literal('trustbar'),
-    stars: z.number().min(0).max(5).default(0),   // 0 = don't show stars
-    proof: z.string().optional(),                  // e.g. "5 star rating · 10,000+ customers"
-    seenIn: z.string().optional(),                 // e.g. "As seen in The Times of India · …"
+    label: z.string().optional(),                  // e.g. "As Seen In" — sits between two rules
+    logos: z.array(z.string()).default([]),        // keys from src/press.ts
+    heading: z.string().optional(),                // the bold line
+    proof: z.string().optional(),                  // the quieter line under it
+    stars: z.number().min(0).max(5).default(0),    // 0 = don't show stars
   }),
 
   // Places the CTA module. The copy comes from the `cta` field below, so
@@ -86,6 +90,7 @@ const blocks = z.discriminatedUnion('type', [
     label: z.string().default('As covered by'),
     items: z.array(z.object({
       outlet: z.string(),
+      logo: z.string().optional(),   // key from src/press.ts; falls back to the outlet name
       quote: z.string(),
       url: z.string().url(),
       linkText: z.string().default('Read the article →'),

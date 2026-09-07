@@ -1,7 +1,14 @@
 ---
+/**
+ * The press cards. Each one shows the outlet's logo where we have one and
+ * falls back to the outlet name set in type, so an outlet without a logo
+ * file still renders correctly rather than leaving a hole.
+ */
+import { pressLogo } from '../press';
+
 interface Props {
   label: string;
-  items: { outlet: string; quote: string; url: string; linkText: string }[];
+  items: { outlet: string; quote: string; url: string; linkText: string; logo?: string }[];
 }
 const { label, items } = Astro.props;
 ---
@@ -10,13 +17,18 @@ const { label, items } = Astro.props;
   <div class="wrap-wide">
     <p class="press-label">{label}</p>
     <div class="press-grid">
-      {items.map((p) => (
-        <div class="press-card">
-          <div class="press-outlet">{p.outlet}</div>
-          <p class="press-quote">&ldquo;{p.quote}&rdquo;</p>
-          <a class="press-link" href={p.url} target="_blank" rel="noopener">{p.linkText}</a>
-        </div>
-      ))}
+      {items.map((p) => {
+        const logo = pressLogo(p.logo);
+        return (
+          <div class="press-card">
+            {logo
+              ? <img class="press-logo" src={logo.src} alt={p.outlet} style={`height:${logo.height}px`} loading="lazy" decoding="async" />
+              : <div class="press-outlet">{p.outlet}</div>}
+            <p class="press-quote">&ldquo;{p.quote}&rdquo;</p>
+            <a class="press-link" href={p.url} target="_blank" rel="noopener">{p.linkText}</a>
+          </div>
+        );
+      })}
     </div>
   </div>
 </div>

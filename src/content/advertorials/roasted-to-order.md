@@ -28,9 +28,11 @@ sticky:
 
 blocks:
   - type: trustbar
-    stars: 5
+    label: "As Seen In"
+    logos: [abc10, sacbee, comstocks]
+    heading: "People All Over the USA Are Loving This Coffee…"
     proof: "5 star rating · 10,000+ customers"
-    seenIn: "As seen in The Sacramento Bee · ABC10 News · The Times of India · and more"
+    stars: 5
 
   - type: prose
     lead: true
@@ -158,18 +160,21 @@ blocks:
   - type: press
     label: "As seen in"
     items:
-      - outlet: "The Times of India"
-        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
-        url: "https://timesofindia.indiatimes.com/"
-        linkText: "Read the article →"
-      - outlet: "The Sacramento Bee"
-        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
-        url: "https://www.sacbee.com/food-drink/restaurants/article316083196.html"
-        linkText: "Read the article →"
-      - outlet: "ABC10 News"
+      - outlet: "ABC10"
+        logo: abc10
         quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
         url: "https://www.abc10.com/article/news/local/davis/davis-teen-honors-fathers-legacy-through-growing-coffee-business/103-ef62b1a4-9100-4616-afdd-7d1a9e07195c"
         linkText: "Watch the segment →"
+      - outlet: "The Sacramento Bee"
+        logo: sacbee
+        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
+        url: "https://www.sacbee.com/food-drink/restaurants/article316083196.html"
+        linkText: "Read the article →"
+      - outlet: "Comstock's Magazine"
+        logo: comstocks
+        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
+        url: "https://www.comstocksmag.com/article/what-it-takes-start-sacramento-food-business-turning-25"
+        linkText: "Read the article →"
 
   - type: cta
 

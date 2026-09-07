@@ -62,14 +62,9 @@ const dateStr = d.date
 <body>
   <div id="progress"></div>
 
-  <div class="disclosure">
-    {site.disclosure.label} &nbsp;·&nbsp; <b>{site.disclosure.detail}</b>
-  </div>
-
   <div class="masthead">
     <div class="wrap-wide">
-      <a class="brand" href={site.storeUrl}>Harvey's<span>.</span>Coffee</a>
-      <div class="meta">{site.location}</div>
+      <a class="brand" href={site.storeUrl}>Harvey&apos;s Coffee</a>
     </div>
   </div>
 
@@ -105,7 +100,7 @@ const dateStr = d.date
             return <p class="pull">{block.text}</p>;
 
           case 'trustbar':
-            return <TrustBar stars={block.stars} proof={block.proof} seenIn={block.seenIn} />;
+            return <TrustBar label={block.label} logos={block.logos} heading={block.heading} proof={block.proof} stars={block.stars} />;
 
           case 'cta':
             ctaCount += 1;
@@ -170,7 +165,7 @@ const dateStr = d.date
 
   <footer>
     <div class="wrap-wide">
-      <span class="brand">Harvey's<span style="color:#C98A4B">.</span>Coffee</span>
+      <span class="brand">Harvey&apos;s Coffee</span>
       <p>{site.tagline}</p>
       <nav>
         {site.footerLinks.map((l) => <a href={l.href}>{l.text}</a>)}

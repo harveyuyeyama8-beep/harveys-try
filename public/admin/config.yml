@@ -99,9 +99,16 @@ collections:
             name: trustbar
             widget: object
             fields:
+              - { label: Label, name: label, widget: string, required: false, default: 'As Seen In', hint: 'Sits between two rules above the logos. Leave empty to hide.' }
+              - label: Logos
+                name: logos
+                widget: list
+                required: false
+                field: { label: Outlet, name: logo, widget: select, options: [abc10, sacbee, comstocks] }
+                hint: 'Pick from the outlets in src/press.ts.'
+              - { label: 'Headline', name: heading, widget: string, required: false, hint: 'The bold line under the logos.' }
+              - { label: 'Proof line', name: proof, widget: string, required: false, hint: 'The quieter line under the headline. Any figure here needs a source.' }
               - { label: Stars, name: stars, widget: number, default: 0, value_type: int, min: 0, max: 5, hint: '0 hides the stars.' }
-              - { label: 'Proof line', name: proof, widget: string, required: false }
-              - { label: 'As seen in', name: seenIn, widget: string, required: false }
 
           - label: 'Call to action'
             name: cta
@@ -163,6 +170,7 @@ collections:
                 widget: list
                 fields:
                   - { label: Outlet, name: outlet, widget: string }
+                  - { label: Logo, name: logo, widget: select, required: false, options: [abc10, sacbee, comstocks], hint: 'Leave empty to show the outlet name as text instead.' }
                   - { label: Quote, name: quote, widget: text, hint: 'Paste the actual sentence from the article. Never paraphrase or invent.' }
                   - { label: URL, name: url, widget: string }
                   - { label: 'Link text', name: linkText, widget: string, default: 'Read the article →' }

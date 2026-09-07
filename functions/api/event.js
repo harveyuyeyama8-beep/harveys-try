@@ -33,10 +33,15 @@ export async function onRequest(context) {
   const position = clean(body.cta_position, '');
   const depth = Number.isFinite(body.percent_scrolled) ? String(body.percent_scrolled) : '';
 
+  // clean() strips the slashes, so "/origin-story" becomes "origin-story" and
+  // the root page becomes "root" — matching the slug that /go records.
+  const page = clean(body.path, '') || 'root';
+
   logToAE(env, {
     event,
     position: position || event,
-    destination: clean(body.path, '/').slice(0, 40),
+    page,
+    destination: '',
     request,
     extra: depth,
   });

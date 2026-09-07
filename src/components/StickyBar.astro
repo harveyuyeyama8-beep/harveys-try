@@ -4,9 +4,11 @@ interface Props {
   sub?: string;
   button: string;
   destination: string;
+  page: string;
 }
-const { title, sub, button, destination } = Astro.props;
-const href = `/go?to=${encodeURIComponent(destination)}&pos=sticky`;
+const { title, sub, button, destination, page } = Astro.props;
+const href =
+  `/go?to=${encodeURIComponent(destination)}&pos=sticky&pg=${encodeURIComponent(page)}`;
 ---
 
 <div id="stickybar" aria-hidden="true">

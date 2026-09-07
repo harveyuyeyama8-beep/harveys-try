@@ -71,7 +71,17 @@ git push -u origin main
 
 ## 4. Connect Cloudflare Pages
 
-Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
+> **Why Pages and not Workers.** Cloudflare now recommends Workers for new
+> projects. It is not an option here, and the reason is DNS. A Workers Custom
+> Domain requires the domain to be an active zone in your Cloudflare account —
+> Cloudflare refuses one "on a zone you do not own." harveyscoffee.shop is on
+> Wix nameservers, so a Worker could only ever be reached at `*.workers.dev`.
+> Pages custom domains accept a CNAME from external DNS, which is the only
+> reason `try.harveyscoffee.shop` can work at all. Same constraint that put the
+> blog on a subdomain. Revisit if nameservers ever move to Cloudflare.
+
+Cloudflare dashboard → **Workers & Pages** → **Create**. The Workers flow is
+the default now, so look for the **Pages** tab alongside it, then
 **Connect to Git** → pick the repo.
 
 Build settings:
@@ -233,30 +243,55 @@ failing the redirect — tracking must never be able to break the page.
 
 ## 8. Reading the data
 
-Analytics Engine is queried with SQL over the Cloudflare API. Column names are
-positional: `index1` is the CTA position, `blob1`–`blob6` are event, position,
-destination, country, referrer, extra.
+Analytics Engine is queried with SQL over the Cloudflare API. Columns are
+positional:
+
+| Column | Holds |
+|---|---|
+| `index1` | advertorial slug (what you group by cheaply) |
+| `blob1` | event name |
+| `blob2` | CTA position (`cta-1`…`cta-4`, `sticky`) |
+| `blob3` | advertorial slug |
+| `blob4` | destination key |
+| `blob5` | country |
+| `blob6` | referrer |
+| `blob7` | event_id, or scroll depth |
+
+Which advertorial is winning:
+
+```sql
+SELECT blob3 AS page, COUNT() AS clicks
+FROM harveys_try
+WHERE blob1 = 'quiz_start_click'
+  AND timestamp > NOW() - INTERVAL '7' DAY
+GROUP BY page
+ORDER BY clicks DESC
+```
+
+Which CTA within a page is doing the work:
 
 ```sql
 SELECT blob2 AS cta, COUNT() AS clicks
 FROM harveys_try
 WHERE blob1 = 'quiz_start_click'
+  AND blob3 = 'roasted-to-order'
   AND timestamp > NOW() - INTERVAL '7' DAY
 GROUP BY cta
 ORDER BY clicks DESC
 ```
 
-That tells you which CTA position is doing the work — the thing you can't learn
-from GA4 without a lot of setup. Pair it with:
+Where readers quit, per page:
 
 ```sql
-SELECT blob6 AS depth, COUNT() AS hits
+SELECT blob3 AS page, blob7 AS depth, COUNT() AS hits
 FROM harveys_try
 WHERE blob1 = 'scroll_depth'
-GROUP BY depth
+GROUP BY page, depth
 ```
 
-to see where readers quit, which is where the page needs work.
+Clicks alone don't decide a test — a page can win clicks and lose subscriptions.
+Judge on subscriptions started, using `utm_content` in Shopify, which arrives as
+`<page>--<cta-position>`.
 
 ## 9. Publishing a new advertorial
 

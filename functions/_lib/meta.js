@@ -91,20 +91,23 @@ export async function sendMetaEvent(env, request, url, event) {
  * Write one row to the Analytics Engine dataset, if the binding exists.
  * Query it later with SQL — see README §8.
  */
-export function logToAE(env, { event, position, destination, request, extra }) {
+export function logToAE(env, { event, position, page, destination, request, extra }) {
   if (!env || !env.AE) return;
   try {
     const cf = request.cf || {};
     env.AE.writeDataPoint({
-      // indexes are what you group by cheaply; one only.
-      indexes: [String(position || event || 'unknown')],
+      // Only one index is allowed, and it's what you can group by cheaply.
+      // The advertorial slug is the most useful thing to slice by once more
+      // than one page is running.
+      indexes: [String(page || position || event || 'unknown')],
       blobs: [
-        String(event || ''),
-        String(position || ''),
-        String(destination || ''),
-        String(cf.country || ''),
-        String(request.headers.get('referer') || ''),
-        String(extra || ''),
+        String(event || ''),        // blob1
+        String(position || ''),     // blob2
+        String(page || ''),         // blob3
+        String(destination || ''),  // blob4
+        String(cf.country || ''),   // blob5
+        String(request.headers.get('referer') || ''), // blob6
+        String(extra || ''),        // blob7
       ],
       doubles: [1],
     });

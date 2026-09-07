@@ -105,7 +105,9 @@ const dateStr = d.date
 
           case 'cta':
             ctaCount += 1;
-            return <Cta cta={d.cta} position={`cta-${ctaCount}`} variant={block.variant} />;
+            return (
+              <Cta cta={d.cta} position={`cta-${ctaCount}`} page={entry.id} variant={block.variant} />
+            );
 
           case 'compare':
             return (
@@ -180,6 +182,7 @@ const dateStr = d.date
       sub={d.sticky.sub}
       button={d.cta.button}
       destination={d.cta.destination}
+      page={entry.id}
     />
   )}
 

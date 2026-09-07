@@ -21,12 +21,16 @@ interface Props {
     destination: string;
   };
   position: string;
+  page: string;
   variant?: 'standard' | 'final';
 }
 
-const { cta, position, variant = 'standard' } = Astro.props;
+const { cta, position, page, variant = 'standard' } = Astro.props;
 
-const href = `/go?to=${encodeURIComponent(cta.destination)}&pos=${encodeURIComponent(position)}`;
+const href =
+  `/go?to=${encodeURIComponent(cta.destination)}` +
+  `&pos=${encodeURIComponent(position)}` +
+  `&pg=${encodeURIComponent(page)}`;
 ---
 
 <div class={`cta${variant === 'final' ? ' final' : ''}`}>

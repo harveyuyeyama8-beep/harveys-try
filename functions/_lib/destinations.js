@@ -44,7 +44,7 @@ export function clean(value, fallback = '') {
  * If DISCOUNT_CODE is set as an environment variable, the link is wrapped so
  * the code applies itself on arrival and nobody has to type one.
  */
-export function resolveDestination(name, position, env) {
+export function resolveDestination(name, position, env, page) {
   const key = Object.prototype.hasOwnProperty.call(DESTINATIONS, name)
     ? name
     : DEFAULT_DESTINATION;
@@ -53,7 +53,14 @@ export function resolveDestination(name, position, env) {
   const url = new URL(entry.url);
   const utm = { ...BASE_UTM, ...(entry.utm || {}) };
   for (const [k, v] of Object.entries(utm)) url.searchParams.set(k, v);
-  if (position) url.searchParams.set('utm_content', position);
+
+  // utm_content carries BOTH which advertorial and which CTA on it, as
+  // "<page>--<cta-position>". One field, because Shopify and GA4 both surface
+  // utm_content but neither reliably shows utm_term. With several advertorials
+  // running, this is what tells you which page earned the click.
+  if (position) {
+    url.searchParams.set('utm_content', page ? `${page}--${position}` : position);
+  }
 
   const code = env && env.DISCOUNT_CODE;
   if (code) {

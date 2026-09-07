@@ -26,13 +26,15 @@ export async function onRequestGet(context) {
 
   const to = clean(url.searchParams.get('to'), 'quiz');
   const position = clean(url.searchParams.get('pos'), 'unknown');
+  const page = clean(url.searchParams.get('pg'), '');
   const eventId = clean(url.searchParams.get('eid'), '') || crypto.randomUUID();
 
-  const { key, href } = resolveDestination(to, position, env);
+  const { key, href } = resolveDestination(to, position, env, page);
 
   logToAE(env, {
     event: 'quiz_start_click',
     position,
+    page,
     destination: key,
     request,
     extra: eventId,
@@ -43,7 +45,7 @@ export async function onRequestGet(context) {
       name: 'QuizStart',
       eventId,
       sourceUrl: request.headers.get('referer') || url.origin,
-      customData: { cta_position: position, destination: key },
+      customData: { cta_position: position, advertorial: page, destination: key },
     })
   );
 

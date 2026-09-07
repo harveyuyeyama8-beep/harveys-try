@@ -95,6 +95,14 @@ collections:
               - { label: Width, name: width, widget: select, options: [full, inset], default: full }
               - { label: 'Placeholder note', name: note, widget: string, required: false, hint: 'What to shoot. Shown only while no image is set.' }
 
+          - label: 'Trust bar'
+            name: trustbar
+            widget: object
+            fields:
+              - { label: Stars, name: stars, widget: number, default: 0, value_type: int, min: 0, max: 5, hint: '0 hides the stars.' }
+              - { label: 'Proof line', name: proof, widget: string, required: false }
+              - { label: 'As seen in', name: seenIn, widget: string, required: false }
+
           - label: 'Call to action'
             name: cta
             widget: object

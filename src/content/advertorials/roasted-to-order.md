@@ -1,217 +1,214 @@
 ---
-title: "[HEADLINE] — Harvey's Coffee"
+title: "How Old Is the Coffee You Drank This Morning? — Harvey's Coffee"
 draft: false
 primary: true
-description: "[ONE SENTENCE, ~155 CHARACTERS. THIS IS THE LINK PREVIEW TEXT.]"
+description: "Grocery coffee doesn't tell you when it was roasted. Here's what that does to your cup, and what happens when someone roasts it after you order."
 ogImage: /og.jpg
 noindex: true
 
-kicker: "[KICKER — e.g. Roasted To Order / Single Origin Subscription]"
-headline: "[HEADLINE. One idea, phrased as a question or a claim. Atlas used \"Is this the most delicious K-cup ever made?\" Yours should be about freshness or origin — the two things you can back harder than anyone.]"
-dek: "[SUBHEAD. One sentence that adds a specific fact the headline didn't — a place, a number, a timeline. Not a restatement of the headline.]"
-author: "[AUTHOR NAME]"
-date: 2026-09-06
-readingTime: "[X] min read"
+kicker: ""
+headline: "How Old Is the Coffee You Drank This Morning?"
+dek: "Nobody has to tell you. That isn't an accident."
+author: "Harvey Uyeyama"
+date: 2026-09-07
+readingTime: "4 min read"
 
 cta:
-  offer: "[OFFER LINE — name the bundle. e.g. “Free Origin Card & Brew Guide + [X]% Off Your First Shipment”]"
-  urgency: "[URGENCY LINE — why now. “Roasted in small batches; we cap how many go out each week” beats a fake countdown, and it's true.]"
+  offer: "[OFFER — e.g. “30% off your first shipment + free shipping”]"
   button: "TAKE THE QUIZ"
-  sub: "[5 questions · about 60 seconds · no card required to see your match]"
-  # Leave empty and no guarantee line renders. Fill it in only once the
-  # refund policy actually says the same thing.
+  sub: "4 questions · about 30 seconds"
+  # Stays empty until the refund policy and the homepage promise agree.
   risk: ""
-  bullets:
-    - "[Cancel anytime]"
-    - "[Roast date on every bag]"
-    - "[Skip or reschedule any delivery]"
-    - "[Free shipping]"
-    - "[Roasted in Davis, CA]"
+  bullets: []
   destination: quiz
 
 sticky:
   title: "[SHORT OFFER — 5 words max]"
-  sub: "[5 questions · 60 seconds]"
+  sub: "4 questions · 30 seconds"
 
 blocks:
-  # ---- BEAT 1: origin. A place, a farm, a harvest. No product yet. ----
-  - type: photo
-    shape: wide
-    note: "Green coffee, a burlap sack, or the hills at origin. Whatever puts the reader somewhere before the selling starts."
-    caption: "[CAPTION — where this is and what's happening.]"
+  - type: trustbar
+    stars: 5
+    proof: "5 star rating · 10,000+ customers"
+    seenIn: "As seen in The Sacramento Bee · ABC10 News · The Times of India · and more"
 
   - type: prose
     lead: true
     body: |
-      [OPENING PARAGRAPH. Start at origin — the farm, the region, the harvest.
-      Describe the place and the people. Don't mention a subscription, a price
-      or a website yet. The disclosure bar at the top has already told the
-      reader this is an ad; you don't need to sell in the first line.]
+      Give me four minutes, and I'll tell you why your coffee tastes the way it
+      does.
 
-      [SECOND PARAGRAPH. Elevation, process, harvest year. Concrete and
-      checkable. Facts are what make this readable instead of promotional.]
+      It isn't your machine. And it isn't you.
 
-      [THIRD PARAGRAPH. The importer or co-op, and how the lot reached you.
-      Most coffee brands skip this paragraph. It's the one that makes
-      everything after it believable.]
+      If you drink coffee every day (like I do), you already know the routine well
+      enough to do it half asleep. Kettle. Scoop or grinder. The same mug. You're
+      not really thinking about it, which is the point. It's the one thing you do
+      every single morning without deciding to.
+
+      So nobody ever stops to ask the obvious question.
+
+      **When did this come out of a roaster?**
+
+      Look for that on a grocery bag of coffee, and you won't find it. You'll find
+      a best by date, a year or two out, and those are not the same question.
+      Best-by is a shelf-stability number. Coffee doesn't spoil in a way that
+      hurts you, so that date can sit two years out and be completely accurate.
+
+      It just stopped being good coffee a long time before then.
+
+  - type: prose
+    heading: "What actually happens to a coffee bean?"
+    body: |
+      The moment it leaves the roaster, it starts venting CO2 and shedding the
+      aromatic compounds that make it taste like fruit, or chocolate, or anything
+      at all.
+
+      A few weeks in, the sweetness flattens.
+
+      A few months in, it's mostly bitterness.
+
+      That flat, sharp taste is what most Americans think coffee is. It's the
+      reason the sugar goes in. I sure was in for one rude of an awakening when I
+      discovered real coffee wasn't supposed to taste like that.
+
+  - type: prose
+    heading: "Nobody Made This Coffee for You"
+    body: |
+      Think about what a big coffee company has to do.
+
+      Fill every store in the country. Make every bag taste the same. Keep it
+      cheap.
+
+      That is a hard job, I'll admit. It is just not the same job as making coffee
+      taste good.
+
+      So they pick coffee with machines. Machines are fast. They also grab green
+      beans that are not ready yet.
+
+      They roast it dark. Dark covers things up. Burnt tastes like… well, burnt,
+      so you cannot tell what went in.
+
+      They print a "best by" date. They do not print the roast date. A roast date
+      would show you how old it really is.
+
+      Then the bag waits. In a truck. In a warehouse. In the back of a store. And
+      finally, in your cupboard.
+
+      None of that is lying. It is just what happens when your customer is a shelf.
+
+      **You are not their customer. You are the last stop.**
+
+  - type: photo
+    note: "IMG-4 — a home setup mid-fuss. Scale, timer, grinder, grounds scattered on the counter. Slightly messy. A real kitchen, not a studio."
+    alt: "Home coffee setup with a scale and grinder on a kitchen counter"
+
+  - type: prose
+    heading: "The Part That Annoyed Me Most"
+    body: |
+      I bought a $150 grinder.
+
+      I weighed my beans. I watched videos about water temperature. I had a
+      kettle with a long, skinny spout that I used at six in the morning like it
+      was lab equipment.
+
+      And I was grinding coffee that went stale months before I ever touched it.
+
+      It does not matter how good your technique is. Old beans just get you a more
+      exact cup of nothing.
+
+      So I quit trying. I decided I was one of those people who needs sugar in it.
+
+      I was wrong. The coffee was fine. It was just old.
 
   - type: cta
 
-  # ---- BEAT 2: the specific failure. One mechanism, one number. ----
-  - type: prose
-    heading: "[SECTION HEADING — name the specific failure. e.g. \"The bag in your cupboard was roasted [X] months ago.\"]"
-    body: |
-      [Explain the mechanism, not the vibe. Roast date versus best-by date.
-      How long a bag sits in a warehouse, then on a shelf. Why "best by" tells
-      you nothing about when it was roasted.]
-
-      [The consequence in the cup, in plain language. What staling actually
-      does to flavour — and why it's the reason most people think they don't
-      like coffee without sugar in it.]
-
-  - type: compare
-    label: "[TABLE LABEL — e.g. What you're actually comparing]"
-    themHeading: "[Supermarket bag]"
-    usHeading: "Harvey's subscription"
-    rows:
-      - label: "Roast date on the bag"
-        them: "[Rarely printed]"
-        us: "[Printed on every bag]"
-      - label: "Roasted before or after you order"
-        them: "Months before"
-        us: "After"
-      - label: "Time from roast to your door"
-        them: "[X–Y months]"
-        us: "[X days]"
-      - label: "Origin named"
-        them: "[Blend, region unstated]"
-        us: "Single farm, single lot"
-      - label: "Matched to how you brew"
-        them: "[One grind, take it or leave it]"
-        us: "Ground for your brewer, or whole bean"
-      - label: "Runs out"
-        them: "[You notice on a Monday]"
-        us: "Arrives before you're empty"
-
-  - type: pullquote
-    text: "[PULL QUOTE. The one sentence you'd want someone to remember if they read nothing else. Short enough to say out loud.]"
-
-  # ---- BEAT 3: the fix. The subscription appears here. ----
-  - type: prose
-    heading: "[SECTION HEADING — the fix, stated simply. e.g. \"We don't roast it until you order it.\"]"
-    body: |
-      [How it actually works at your end. You roast in Davis, in small batches,
-      to order. Say the real numbers — batch size, roast days, how a week runs.
-      The smallness is the selling point, not something to hide behind.]
-
-  - type: steps
-    items:
-      - title: "[STEP 1 — Take the quiz]"
-        body: "[One sentence. What it asks and how long it takes.]"
-      - title: "[STEP 2 — We match and roast]"
-        body: "[One sentence. Include the real day count from order to roast.]"
-      - title: "[STEP 3 — It arrives, then keeps arriving]"
-        body: "[One sentence. Delivery window, and how often the next one comes.]"
-
   - type: photo
-    note: "The roaster running — beans in the drum, or the dump into the cooling tray. This is the photo that proves the whole page. Phone quality is fine."
-    caption: "[CAPTION — the roast, the batch size, the date.]"
+    shape: wide
+    note: "IMG-5 — THE MONEY SHOT. The roaster running. Drum open, beans dropping into the cooling tray, a little smoke, hands in frame. Golden hour if you can get it. Your best photo goes here — it does more work than any sentence on the page."
+    alt: "Coffee beans dropping from a roaster into the cooling tray"
 
   - type: prose
+    heading: "What We Do Instead"
     body: |
-      [What a subscriber gets that a shelf can't give them. Roast date printed.
-      Ground for their brewer. The person who roasted it answers the emails.]
+      We are one roaster in a small town. We do not roast anything until somebody
+      orders it.
 
-  - type: cta
+      You tell us how you brew it and how you take it. We roast. We box it. It
+      ships.
 
-  # ---- BEAT 4: the match. The quiz does the picking. ----
+      Roaster. Box. Your door. There is no warehouse in that sentence because
+      there isn't one.
+
+      We buy from the top 1% of farms — the ones still picking by hand, when the
+      fruit is ready. Then we don't undo that by roasting it dark enough to hide
+      it.
+
   - type: prose
-    heading: "[SECTION HEADING — e.g. \"You don't have to know what you like yet.\"]"
+    heading: "What That Actually Tastes Like"
     body: |
-      [The objection you're answering: people don't subscribe to coffee because
-      they don't trust themselves to pick. Explain that the quiz does the
-      picking — how you brew, how strong, how often, how much.]
+      You smell it before you pour it.
 
-      [What the range covers, in plain English. Not tasting-note jargon. "If you
-      take it with milk, you get X. If you drink it black, you get Y."]
+      It is sweet on its own. Not sugar sweet. Closer to fruit, or brown sugar, or
+      chocolate, depending on where it came from.
 
-  - type: quizcard
-    heading: "[What the quiz asks]"
-    time: "[5 questions · about 60 seconds]"
-    questions:
-      - "[How do you brew it?]"
-      - "[How do you take it — black, milk, sweet?]"
-      - "[How many cups a day?]"
-      - "[Light, medium or dark — or \"no idea\"?]"
-      - "[Whole bean or ground?]"
-    footnote: "[One line on what happens at the end — e.g. \"You get a coffee, a grind and a delivery schedule. Change any of it later.\"]"
+      You finish it black. Not to prove a point. You just want to.
 
-  - type: photo
-    shape: tall
-    width: inset
-    note: "The bag, front-on and readable — roast date visible if you can. Then one in-hand or beside a brewed cup."
-    caption: "[CAPTION — what's in the bag and what a shipment looks like.]"
+      Nobody believes that until the first cup.
 
-  # ---- BEAT 5: credibility. Real outlets, real sentences. ----
   - type: press
-    label: "As covered by"
+    label: "As seen in"
     items:
-      - outlet: "ABC10"
-        quote: "[PASTE THE ACTUAL SENTENCE FROM THE ABC10 PIECE — quote it, don't paraphrase.]"
-        url: "https://www.abc10.com/article/news/local/davis/davis-teen-honors-fathers-legacy-through-growing-coffee-business/103-ef62b1a4-9100-4616-afdd-7d1a9e07195c"
-        linkText: "Watch the segment →"
+      - outlet: "The Times of India"
+        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
+        url: "https://timesofindia.indiatimes.com/"
+        linkText: "Read the article →"
       - outlet: "The Sacramento Bee"
-        quote: "[PASTE THE ACTUAL SENTENCE FROM THE SAC BEE PIECE.]"
+        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
         url: "https://www.sacbee.com/food-drink/restaurants/article316083196.html"
         linkText: "Read the article →"
-      - outlet: "Comstock's Magazine"
-        quote: "[PASTE THE ACTUAL SENTENCE FROM THE COMSTOCK'S PIECE.]"
-        url: "https://www.comstocksmag.com/article/what-it-takes-start-sacramento-food-business-turning-25"
-        linkText: "Read the article →"
+      - outlet: "ABC10 News"
+        quote: "[PASTE THE ACTUAL SENTENCE FROM THE PIECE.]"
+        url: "https://www.abc10.com/article/news/local/davis/davis-teen-honors-fathers-legacy-through-growing-coffee-business/103-ef62b1a4-9100-4616-afdd-7d1a9e07195c"
+        linkText: "Watch the segment →"
 
   - type: cta
 
-  # ---- BEAT 6: the story. Late, on purpose. ----
   - type: prose
-    heading: "[SECTION HEADING — the story, in your own words.]"
+    heading: "About the Price"
     body: |
-      [Write this yourself, first person, and don't over-polish it. Why the
-      business exists and what it's for. How much you say is your call — but
-      this is the part the press led with every single time, and it's the part
-      no competitor can copy.]
+      We are not cheaper than the store. We never will be.
+
+      Here is the number that matters. One $6 latte a week is $312 a year (and we
+      both know you're drinking more than that). A month of Harvey's is $17.50.
+      That's 77 cents a cup.
+
+      You are not choosing between us and the store shelf. You are choosing
+      whether the cup you drink every single morning is worth about three lattes a
+      month.
+
+  - type: reviews
+    heading: ""
+    items: []
 
   - type: photo
     width: inset
-    note: "Face, in the roasting setup. Not a logo, not a stock photo of beans. The page is asking a stranger to trust a person with a recurring payment."
-    caption: "[CAPTION — who this is and where.]"
-
-  # Real reviews only. Delete the items and the block renders nothing.
-  - type: reviews
-    heading: "[REVIEWS HEADING — remove the items below if you don't have real ones yet]"
-    items: []
+    note: "IMG-8 — your bags, lined up, clean background. People need to know what actually arrives."
+    alt: "Harvey's Coffee bags"
 
   - type: prose
-    heading: "[CLOSING HEADING — compress the whole page to two words. Atlas lands on \"source and freshness.\" Yours probably does too.]"
+    heading: "Start with One Bag"
     body: |
-      [Two or three sentences. Restate the argument, not the offer. Let the
-      final CTA carry the offer.]
+      Tell us how you drink it. We roast to match, and it ships that week.
+
+      Skip a delivery, change your grind, pause, or cancel. All from your account,
+      any time.
 
   - type: cta
     variant: final
 
-  - type: faq
-    heading: "Questions"
-    items:
-      - q: "[Can I cancel? How?]"
-        a: "[Answer first, in one sentence. Then say exactly where the button is. This is the number one reason people don't subscribe — answer it without hedging.]"
-      - q: "[How often does it come, and can I change that?]"
-        a: "[Real frequencies and prices per shipment. Say whether you can skip or push a delivery back.]"
-      - q: "[What if I don't like the coffee I'm matched with?]"
-        a: "[What you actually do. This answer must match your refund policy page word for word.]"
-      - q: "[How fresh is it, exactly?]"
-        a: "[Answer with a number, not an adjective. Days from roast to door.]"
-      - q: "[Whole bean or ground?]"
-        a: "[The grinds you offer and which brewer each one suits.]"
-      - q: "[Shipping — cost and speed?]"
-        a: "[Real numbers. State the threshold if free shipping is conditional.]"
+  - type: prose
+    body: |
+      Make the first cup black. If it needs sugar, we got it wrong.
+
+  - type: cta
 ---

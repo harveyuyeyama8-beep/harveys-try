@@ -1,0 +1,24 @@
+---
+/**
+ * Thin credibility strip that sits directly under the article header.
+ * Deliberately quiet — it is a signal, not a section.
+ */
+interface Props {
+  stars?: number;
+  proof?: string;
+  seenIn?: string;
+}
+const { stars = 0, proof, seenIn } = Astro.props;
+---
+
+<div class="trustbar">
+  {(stars > 0 || proof) && (
+    <p class="tb-proof">
+      {stars > 0 && (
+        <span class="tb-stars" aria-label={`${stars} out of 5 stars`}>{'★'.repeat(stars)}</span>
+      )}
+      {proof && <span>{proof}</span>}
+    </p>
+  )}
+  {seenIn && <p class="tb-seen">{seenIn}</p>}
+</div>

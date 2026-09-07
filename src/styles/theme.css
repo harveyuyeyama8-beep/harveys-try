@@ -329,3 +329,23 @@ body.has-sticky{padding-bottom:4.5rem}
   float:left; font-family:var(--display); font-weight:600;
   font-size:4.05rem; line-height:.82; padding:.32rem .55rem 0 0; color:var(--amber);
 }
+
+/* ---------- trust bar ---------- */
+.trustbar{
+  margin:-.5rem 0 2.25rem;
+  padding:.2rem 0 .95rem;
+  border-bottom:1px solid var(--rule);
+  text-align:center;
+  display:grid;
+  gap:.3rem;
+}
+.trustbar p{margin:0}
+.tb-proof{
+  font-family:var(--ui); font-size:.875rem; font-weight:600; color:var(--ink);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.5rem;
+}
+.tb-stars{color:var(--gold); letter-spacing:.1em; font-size:.9rem}
+.tb-seen{
+  font-family:var(--ui); font-size:.75rem; letter-spacing:.05em;
+  color:var(--ink-3); text-wrap:balance;
+}

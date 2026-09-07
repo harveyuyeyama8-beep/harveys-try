@@ -1,13 +1,29 @@
 name = "harveys-try"
-compatibility_date = "2026-09-01"
+compatibility_date = "2026-09-06"
 pages_build_output_dir = "dist"
 
-# Analytics Engine — one row per click and per page event, queried with SQL.
-# Free tier is generous and there is no database to run.
+# WHY PAGES AND NOT WORKERS
 #
-# If the dashboard is easier: Workers & Pages → harveys-try → Settings →
-# Functions → Analytics Engine bindings → Add binding, variable name AE,
-# dataset harveys_try. Do it for both Production and Preview.
+# Cloudflare now recommends Workers for new projects. It is not an option here,
+# and the reason is DNS, not preference:
+#
+#   A Workers Custom Domain requires the domain to be an ACTIVE ZONE in this
+#   Cloudflare account. harveyscoffee.shop is on Wix nameservers, so it isn't,
+#   and Cloudflare refuses a Custom Domain "on a zone you do not own."
+#   A Worker could therefore only ever be reached at *.workers.dev.
+#
+#   Pages Custom Domains are the exception: they accept a CNAME from external
+#   DNS. That is the only reason try.harveyscoffee.shop can work at all while
+#   nameservers stay at Wix — the same constraint that put the blog on a
+#   subdomain instead of /blog.
+#
+# Revisit only if nameservers ever move to Cloudflare. Until then, Pages.
+
+# Analytics Engine — one row per click and per page event, queried with SQL.
+# Free tier is generous and there's no database to run.
+#
+# Dashboard equivalent: Workers & Pages → harveys-try → Settings → Functions →
+# Analytics Engine bindings → variable name AE, dataset harveys_try.
 [[analytics_engine_datasets]]
 binding = "AE"
 dataset = "harveys_try"

@@ -33,6 +33,14 @@ const blocks = z.discriminatedUnion('type', [
 
   z.object({ type: z.literal('photo') }).merge(photo),
 
+  // Thin strip under the header — stars, proof, press names.
+  z.object({
+    type: z.literal('trustbar'),
+    stars: z.number().min(0).max(5).default(0),   // 0 = don't show stars
+    proof: z.string().optional(),                  // e.g. "5 star rating · 10,000+ customers"
+    seenIn: z.string().optional(),                 // e.g. "As seen in The Times of India · …"
+  }),
+
   // Places the CTA module. The copy comes from the `cta` field below, so
   // every CTA on the page is identical by construction.
   z.object({

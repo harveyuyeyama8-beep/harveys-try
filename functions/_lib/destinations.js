@@ -13,7 +13,9 @@
 export const BASE_UTM = {
   utm_source: 'advertorial',
   utm_medium: 'referral',
-  utm_campaign: 'roasted-to-order',
+  // Fallback only. resolveDestination replaces this with the advertorial's
+  // own slug, so renaming a page cannot leave a stale campaign name behind.
+  utm_campaign: 'advertorial',
 };
 
 export const DESTINATIONS = {
@@ -52,6 +54,14 @@ export function resolveDestination(name, position, env, page) {
 
   const url = new URL(entry.url);
   const utm = { ...BASE_UTM, ...(entry.utm || {}) };
+
+  // The campaign IS the advertorial. Hardcoding one page's slug here meant a
+  // rename silently kept reporting the old campaign; deriving it means each
+  // advertorial shows up separately in Shopify and GA4 without maintenance.
+  // `page` arrives already stripped to a short safe token by clean().
+  // An explicit per-destination override still wins.
+  if (page && !(entry.utm && entry.utm.utm_campaign)) utm.utm_campaign = page;
+
   for (const [k, v] of Object.entries(utm)) url.searchParams.set(k, v);
 
   // utm_content carries BOTH which advertorial and which CTA on it, as

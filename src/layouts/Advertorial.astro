@@ -163,18 +163,6 @@ const dateStr = d.date
     })}
   </main>
 
-  <footer>
-    <div class="wrap-wide">
-      <span class="brand">Harvey&apos;s Coffee</span>
-      <p>{site.tagline}</p>
-      <nav>
-        {site.footerLinks.map((l) => <a href={l.href}>{l.text}</a>)}
-        <a href={`mailto:${site.contactEmail}`}>Contact</a>
-      </nav>
-      <p class="fine">{site.legal} &copy; {new Date().getFullYear()} {site.name}.</p>
-    </div>
-  </footer>
-
   {d.sticky && (
     <StickyBar
       title={d.sticky.title}

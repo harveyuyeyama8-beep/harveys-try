@@ -40,7 +40,7 @@ export const site = {
    * because an access token must never sit in a public repo.
    */
   ga4Id: '',        // 'G-XXXXXXXXXX'
-  metaPixelId: '',  // '1804928640922147'
+  metaPixelId: '1804928640922147',  // '1804928640922147'
 
   /**
    * Both hosts must also be listed in GA4 Admin → Data Streams → Configure

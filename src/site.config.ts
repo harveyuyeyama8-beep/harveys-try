@@ -10,7 +10,7 @@ export const site = {
 
   storeUrl: 'https://harveyscoffee.shop',
   quizPath: '/pages/take-our-quiz',
-  contactEmail: '[YOUR@DOMAIN.EMAIL]',
+  contactEmail: 'harveyscoffeesupport@gmail.com',
 
   // The disclosure bar. Keep it — it is what makes this an honest
   // advertorial rather than a page pretending to be journalism.

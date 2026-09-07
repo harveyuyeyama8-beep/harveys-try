@@ -14,7 +14,7 @@ date: 2026-09-07
 readingTime: "4 min read"
 
 cta:
-  offer: "First bag 50% off."
+  offer: "Try your first bag 50% off."
   button: "TAKE THE QUIZ"
   sub: "4 questions · about 30 seconds"
   # Stays empty until the refund policy and the homepage promise agree.

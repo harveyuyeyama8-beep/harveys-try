@@ -364,6 +364,10 @@ body.has-sticky{padding-bottom:4.5rem}
   justify-content:center; gap:1.35rem 2.4rem;
 }
 .tb-logos img{
+  /* Each logo carries its own --logo-h inline, tuned in src/press.ts so the
+     three read as equal weight despite aspect ratios from 2:1 to 12:1.
+     Scaling that one variable keeps them balanced at any size. */
+  height:var(--logo-h);
   width:auto; max-width:min(42vw,220px);
   object-fit:contain;
   opacity:.86;
@@ -384,9 +388,16 @@ body.has-sticky{padding-bottom:4.5rem}
   color:var(--gold); letter-spacing:.12em; font-size:1.15rem;
 }
 
+/* Keep all three on one line on a phone. At full size they total roughly
+   410px, which will not fit a 375px screen, so shrink the row rather than
+   let it stack. */
 @media(max-width:30rem){
-  .tb-logos{gap:1.1rem 1.6rem}
-  .tb-logos img{max-width:38vw}
+  .tb-logos{gap:.85rem}
+  .tb-logos img{height:calc(var(--logo-h) * .66); max-width:44vw}
+}
+@media(max-width:22.5rem){
+  .tb-logos{gap:.7rem}
+  .tb-logos img{height:calc(var(--logo-h) * .56)}
 }
 
 /* Press-card logo sits where the outlet name used to. Same optical role,

@@ -33,7 +33,7 @@ const resolved = logos.map((k) => pressLogo(k)).filter((l) => l !== null);
   {resolved.length > 0 && (
     <div class="tb-logos">
       {resolved.map((l) => (
-        <img src={l!.src} alt={l!.name} height={l!.height} style={`height:${l!.height}px`} loading="lazy" decoding="async" />
+        <img src={l!.src} alt={l!.name} height={l!.height} style={`--logo-h:${l!.height}px`} loading="lazy" decoding="async" />
       ))}
     </div>
   )}

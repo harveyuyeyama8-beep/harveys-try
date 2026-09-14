@@ -1,6 +1,20 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v11
+  Harvey's Coffee — Subscription Quiz v12
   Trade Coffee style click-through
+
+  v12 changes (2026-09-14) - WARM-UP FLOW + TYPE SCALE ONLY. No pricing,
+  no cart logic, no variant/selling-plan changes.
+    - The quiz now starts HIDDEN. The page shows only the warm-up (hero,
+      press strip, Build Your Plan). cqStart() adds cq-active to #cqFlow
+      and scrolls to step 1. All quiz elements are still in the DOM on
+      load, so initDefaults() pre-selects as before.
+    - ONE CTA: the hero button is gone (hero_cta setting removed); the
+      single Start the Quiz button sits under the Build Your Plan card,
+      after the education has done its work.
+    - Type scale bumped throughout: hero 58/20, plan heading 34,
+      includes 22/16, warm CTA 18px with bigger padding, question titles
+      27, subtitles 16, option names 17, Next buttons 17, Back 16,
+      trust badges 15, press heading 15, matching mobile bumps.
 
   v11 changes (2026-09-14) - WARM-UP LAYOUT ONLY. No pricing, no cart
   logic, no variant/selling-plan changes, no changes to any quiz step.
@@ -151,24 +165,24 @@
 .cq-hero-veil{position:absolute;inset:0;background:#fff;pointer-events:none}
 .cq-hero-inner{position:relative;z-index:1;max-width:680px}
 .cq-hero-badge{display:inline-block;background:var(--cq-amber-light);color:var(--cq-espresso);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:16px}
-.cq-hero-title{font-family:var(--cq-font-body);font-size:52px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;line-height:1.1;margin-bottom:12px}
-.cq-hero-sub{font-size:18px;margin:0 auto 28px;max-width:540px}
-.cq-warm{max-width:780px;margin:0 auto;padding:40px 20px 4px;text-align:center}
-.cq-warm-heading{font-family:var(--cq-font-display);font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px}
+.cq-hero-title{font-family:var(--cq-font-body);font-size:58px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;line-height:1.1;margin-bottom:14px}
+.cq-hero-sub{font-size:20px;margin:0 auto 8px;max-width:560px}
+.cq-warm{max-width:800px;margin:0 auto;padding:40px 20px 4px;text-align:center}
+.cq-warm-heading{font-family:var(--cq-font-display);font-size:34px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px}
 .cq-warm-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:28px;align-items:center;text-align:left;background:var(--cq-white);border-radius:16px;box-shadow:var(--cq-shadow);padding:28px 30px}
 .cq-warm-img-wrap{position:relative;max-width:250px;margin:0 auto}
 .cq-warm-img{width:100%;aspect-ratio:1;border-radius:50%;object-fit:cover;display:block}
 .cq-warm-img-ph{width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#d4a574,#8B6914);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.55);box-shadow:inset 0 2px 8px rgba(0,0,0,0.15)}
 .cq-warm-sticker{position:absolute;top:-8px;left:-12px;width:88px;height:88px;border-radius:50%;background:var(--cq-amber-light);color:var(--cq-espresso);display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;line-height:1.25;padding:10px;transform:rotate(-12deg);box-shadow:0 3px 10px rgba(0,0,0,0.18);z-index:2}
-.cq-warm-inc-title{font-family:var(--cq-font-display);font-size:19px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px}
-.cq-warm-inc{list-style:none;display:flex;flex-direction:column;gap:13px}
-.cq-warm-inc li{display:flex;gap:12px;align-items:center;font-size:14px;line-height:1.45}
-.cq-warm-ic{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--cq-sage);display:flex;align-items:center;justify-content:center}
-.cq-warm-ic svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2}
-.cq-warm-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;padding:16px 46px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition)}
+.cq-warm-inc-title{font-family:var(--cq-font-display);font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px}
+.cq-warm-inc{list-style:none;display:flex;flex-direction:column;gap:14px}
+.cq-warm-inc li{display:flex;gap:13px;align-items:center;font-size:16px;line-height:1.45}
+.cq-warm-ic{flex:0 0 38px;width:38px;height:38px;border-radius:50%;background:var(--cq-sage);display:flex;align-items:center;justify-content:center}
+.cq-warm-ic svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2}
+.cq-warm-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;padding:19px 54px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:18px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition)}
 .cq-warm-cta:hover{background:var(--cq-amber-light);transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,146,11,0.3)}
-.cq-warm-cta svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
-.cq-warm-reassure{font-size:13px;color:var(--cq-muted);margin-top:12px}
+.cq-warm-cta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5}
+.cq-warm-reassure{font-size:15px;color:var(--cq-muted);margin-top:12px}
 
 /* As Seen On strip - the store's existing section, embedded on a white
    band like Atlas. Height-based sizing per logo via --logo-h so the
@@ -177,7 +191,7 @@
    outrank the section's own * reset. */
 .coffee-quiz .as-seen-on{padding:32px 16px;background:var(--cq-white)}
 .coffee-quiz .as-seen-on__container{max-width:1200px;margin:0 auto;text-align:center}
-.coffee-quiz .as-seen-on__title{font-size:14px;letter-spacing:0.15em;color:#2C1A0E;margin:0 0 24px 0;font-weight:600}
+.coffee-quiz .as-seen-on__title{font-size:15px;letter-spacing:0.15em;color:#2C1A0E;margin:0 0 24px 0;font-weight:600}
 .coffee-quiz .as-seen-on__logos{font-size:clamp(0.28rem,1.816vw - 0.29px,1rem);display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:3em;width:100%}
 .coffee-quiz .as-seen-on__logos img{flex:0 0 auto;height:calc(var(--logo-h) * 1em / 16);width:auto;max-width:none;object-fit:contain}
 @media screen and (max-width:480px){
@@ -186,14 +200,14 @@
 
 @media(max-width:600px){
   .cq-hero-banner{min-height:260px;padding:48px 16px}
-  .cq-hero-title{font-size:32px}
-  .cq-hero-sub{font-size:15px;margin-bottom:22px}
+  .cq-hero-title{font-size:36px}
+  .cq-hero-sub{font-size:16px;margin-bottom:4px}
   .cq-warm{padding-top:28px}
-  .cq-warm-heading{font-size:24px;margin-bottom:18px}
+  .cq-warm-heading{font-size:27px;margin-bottom:18px}
   .cq-warm-grid{grid-template-columns:1fr;padding:20px 18px;gap:18px}
   .cq-warm-img-wrap{max-width:180px}
   .cq-warm-sticker{width:74px;height:74px;font-size:10px}
-  .cq-warm-inc li{font-size:13px}
+  .cq-warm-inc li{font-size:15px}
   .cq-warm-cta{width:100%;margin-top:22px}
 }
 
@@ -204,7 +218,7 @@
 .cq-progress-bar{max-width:500px;margin:0 auto;padding:32px 24px 0;display:flex;align-items:center;gap:8px}
 .cq-prog-seg{flex:1;height:4px;border-radius:4px;background:var(--cq-border);transition:background 0.4s ease}
 .cq-prog-seg.cq-done{background:var(--cq-amber)}
-.cq-prog-text{font-size:12px;font-weight:600;color:var(--cq-muted);white-space:nowrap;min-width:55px;text-align:right}
+.cq-prog-text{font-size:13px;font-weight:600;color:var(--cq-muted);white-space:nowrap;min-width:55px;text-align:right}
 
 .cq-container{max-width:640px;margin:0 auto;padding:0 20px 80px}
 
@@ -215,8 +229,8 @@
 .cq-step.cq-back{animation:cqSlideBack 0.3s ease both}
 
 .cq-q-card{background:var(--cq-white);border-radius:16px;box-shadow:var(--cq-shadow-hover);padding:40px 32px;margin-top:24px}
-.cq-q-title{font-family:var(--cq-font-display);font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;text-align:center;margin-bottom:6px}
-.cq-q-sub{font-size:14px;color:var(--cq-muted);text-align:center;margin-bottom:28px}
+.cq-q-title{font-family:var(--cq-font-display);font-size:27px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;text-align:center;margin-bottom:6px}
+.cq-q-sub{font-size:16px;color:var(--cq-muted);text-align:center;margin-bottom:28px}
 
 /* ══════ OPTION CARDS ══════ */
 .cq-opts{display:grid;gap:12px}
@@ -229,8 +243,8 @@
 
 .cq-opt-img{width:100%;max-width:100px;height:80px;object-fit:contain;margin:0 auto 10px;display:block}
 .cq-opt-img-ph{width:80px;height:80px;border-radius:10px;background:linear-gradient(145deg,#d4a574,#8B6914);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.5);box-shadow:inset 0 2px 6px rgba(0,0,0,0.12)}
-.cq-opt-name{font-weight:700;font-size:15px;margin-bottom:3px}
-.cq-opt-desc{font-size:12px;color:var(--cq-muted);line-height:1.4}
+.cq-opt-name{font-weight:700;font-size:17px;margin-bottom:3px}
+.cq-opt-desc{font-size:13px;color:var(--cq-muted);line-height:1.4}
 
 /* Radio */
 .cq-dot-wrap{width:22px;height:22px;border-radius:50%;border:2px solid var(--cq-border);margin:10px auto 0;display:flex;align-items:center;justify-content:center;transition:all var(--cq-transition)}
@@ -288,9 +302,9 @@
 .cq-freq.cq-on{border-color:var(--cq-amber);box-shadow:0 0 0 3px rgba(212,146,11,0.15),var(--cq-shadow)}
 .cq-freq.cq-on .cq-dot-wrap{border-color:var(--cq-amber);background:var(--cq-amber)}
 .cq-freq.cq-on .cq-dot{opacity:1}
-.cq-freq-ev{font-size:14px;font-weight:600;color:var(--cq-muted);text-transform:uppercase;letter-spacing:1px}
+.cq-freq-ev{font-size:15px;font-weight:600;color:var(--cq-muted);text-transform:uppercase;letter-spacing:1px}
 .cq-freq-num{font-family:var(--cq-font-display);font-size:52px;font-weight:900;line-height:1.1;color:var(--cq-espresso)}
-.cq-freq-u{font-size:16px;font-weight:600;color:var(--cq-espresso)}
+.cq-freq-u{font-size:17px;font-weight:600;color:var(--cq-espresso)}
 .cq-freq .cq-dot-wrap{margin:10px auto 0}
 
 /* Need More */
@@ -303,10 +317,10 @@
 
 /* Nav */
 .cq-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
-.cq-back{display:inline-flex;align-items:center;gap:6px;padding:12px 20px;background:transparent;color:var(--cq-muted);font-family:var(--cq-font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:color var(--cq-transition)}
+.cq-back{display:inline-flex;align-items:center;gap:6px;padding:12px 20px;background:transparent;color:var(--cq-muted);font-family:var(--cq-font-body);font-size:16px;font-weight:600;border:none;cursor:pointer;transition:color var(--cq-transition)}
 .cq-back:hover{color:var(--cq-espresso)}
 .cq-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
-.cq-next{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 36px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:15px;font-weight:700;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition);margin-left:auto;opacity:0.35;pointer-events:none}
+.cq-next{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 42px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:17px;font-weight:700;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition);margin-left:auto;opacity:0.35;pointer-events:none}
 .cq-next.cq-go{opacity:1;pointer-events:auto}
 .cq-next.cq-go:hover{background:var(--cq-amber-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(212,146,11,0.3)}
 .cq-next svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
@@ -333,7 +347,7 @@
 .cq-trust-i{text-align:center;padding:8px}
 .cq-trust-ic{width:38px;height:38px;margin:0 auto 10px;background:var(--cq-sage);border-radius:50%;display:flex;align-items:center;justify-content:center}
 .cq-trust-ic svg{width:19px;height:19px;stroke:white;fill:none;stroke-width:2}
-.cq-trust-t{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;line-height:1.3}
+.cq-trust-t{font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;line-height:1.3}
 
 /* Responsive */
 @media(max-width:600px){
@@ -421,7 +435,6 @@ body.cq-hide-cart{overflow:visible !important}
         {% endif %}
         <h1 class="cq-hero-title">{{ section.settings.hero_title | default: 'Fall Sale' }}</h1>
         <p class="cq-hero-sub">{{ section.settings.hero_subtitle | default: 'Get your first bag free, personalized to your preferences' }}</p>
-        <button class="cq-warm-cta" style="margin-top:0" onclick="cqStart()">{{ section.settings.hero_cta | default: 'Get Started' }}</button>
       </div>
     </div>
 
@@ -488,9 +501,10 @@ body.cq-hide-cart{overflow:visible !important}
   </div>
 
   <!-- ══════════════════════════════════════
-       QUIZ FLOW (always visible, no Get Started gate)
+       QUIZ FLOW (v12: hidden until the warm-up CTA is clicked;
+       cqStart() adds cq-active and scrolls to step 1)
        ══════════════════════════════════════ -->
-  <div id="cqFlow" class="cq-quiz-flow cq-active">
+  <div id="cqFlow" class="cq-quiz-flow">
 
     <div class="cq-progress-bar">
       <div class="cq-prog-seg cq-done" id="cqP1"></div>
@@ -814,9 +828,11 @@ body.cq-hide-cart{overflow:visible !important}
     initDefaults();
   }
 
-  // v10 - warm-up CTA. The quiz is already rendered below the warm-up;
-  // this just carries the visitor to question one.
+  // v12 - warm-up CTA. The quiz starts hidden; the single CTA reveals it
+  // and carries the visitor to question one.
   window.cqStart=function(){
+    var f=document.getElementById('cqFlow');
+    if(f)f.classList.add('cq-active');
     var p=document.querySelector('.cq-progress-bar');
     if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
   };
@@ -1076,7 +1092,6 @@ body.cq-hide-cart{overflow:visible !important}
     {"type":"text","id":"warmup_badge","label":"Offer badge (optional)","info":"Small pill above the headline. Leave empty to hide, Atlas-style; the announcement bar already carries the offer."},
     {"type":"text","id":"hero_title","label":"Hero heading","default":"Fall Sale","info":"Rename per sale: Fall Sale, Black Friday Sale, etc."},
     {"type":"textarea","id":"hero_subtitle","label":"Hero subheading","default":"Get your first bag free, personalized to your preferences"},
-    {"type":"text","id":"hero_cta","label":"Hero button text","default":"Get Started"},
     {"type":"header","content":"Build Your Plan"},
     {"type":"text","id":"warmup_heading","label":"Section heading","default":"Build Your Plan"},
     {"type":"image_picker","id":"warmup_image","label":"Box image","info":"The open box photo. Cropped to a circle, like Atlas."},

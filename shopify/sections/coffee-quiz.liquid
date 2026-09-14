@@ -1,6 +1,19 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v15
+  Harvey's Coffee — Subscription Quiz v16
   Trade Coffee style click-through
+
+  v16 changes (2026-09-14) - HERO REMOVED, MOBILE COMPACTED.
+    - The photo hero banner is gone (markup, CSS, and its five schema
+      settings: hero_image, hero_overlay, hero_text_color, warmup_badge,
+      hero_title, hero_subtitle). The warm-up now opens directly on the
+      Recommended By strip, then the Build Your Plan card, then the CTA.
+      The announcement bar carries the offer.
+    - CTA default renamed "Start the Quiz" -> "Get Started". If the old
+      label was SAVED in the Customizer it must be retyped there.
+    - Mobile spacing compacted (smaller circle photo, tighter card and
+      list, full-width CTA) so the whole warm-up including the button
+      fits in the first screen or one short swipe.
+    - The quiz still reveals on CTA click and scrolls to step 1.
 
   v15 changes (2026-09-14) - CHECKOUT SPEED ONLY. Same cart semantics.
     - The click was paying for: iframe setup + POST /cart/clear.js +
@@ -187,22 +200,11 @@
 .coffee-quiz *{box-sizing:border-box;margin:0;padding:0}
 .coffee-quiz{font-family:var(--cq-font-body);color:var(--cq-espresso);background:var(--cq-cream);line-height:1.6;-webkit-font-smoothing:antialiased}
 
-/* ══════ WARM-UP (v11, Atlas-style hero + press strip + plan above Q1) ══════
+/* ══════ WARM-UP (v16: press strip + plan card above Q1, no hero) ══════
    Wrapped in .cq-hero-section so the existing go() logic hides it on
    steps after 1 and shows it again when the customer comes back. */
 .cq-hero-section{background:var(--cq-cream)}
-/* Full-width photo hero, Atlas style. The white veil lightens the image
-   so dark text stays readable; strength is a Customizer setting. */
-.cq-hero-banner{position:relative;min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center;padding:64px 20px;background:linear-gradient(145deg,#e8d3b0,#d4a574);background-size:cover;background-position:center}
-.cq-hero-veil{position:absolute;inset:0;background:#fff;pointer-events:none}
-.cq-hero-inner{position:relative;z-index:1;max-width:680px}
-.cq-hero-badge{display:inline-block;background:var(--cq-amber-light);color:var(--cq-espresso);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:16px}
-/* Fluid type + balanced wrapping so a long saved headline never breaks
-   into a ragged two-liner; the white glow keeps dark text readable on
-   any photo (the veil slider still works on top of it). */
-.cq-hero-title{font-family:var(--cq-font-body);font-size:clamp(34px,6vw,58px);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;line-height:1.12;margin-bottom:14px;text-wrap:balance;text-shadow:0 0 24px rgba(255,255,255,0.9),0 0 6px rgba(255,255,255,0.8)}
-.cq-hero-sub{font-size:clamp(15px,2.4vw,20px);margin:0 auto 8px;max-width:560px;text-wrap:balance;text-shadow:0 0 18px rgba(255,255,255,0.9),0 0 4px rgba(255,255,255,0.8)}
-.cq-warm{max-width:800px;margin:0 auto;padding:40px 20px 4px;text-align:center}
+.cq-warm{max-width:800px;margin:0 auto;padding:28px 20px 4px;text-align:center}
 .cq-warm-heading{font-family:var(--cq-font-display);font-size:clamp(26px,4vw,34px);font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px;text-wrap:balance}
 .cq-warm-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:28px;align-items:center;text-align:left;background:var(--cq-white);border-radius:16px;box-shadow:var(--cq-shadow);padding:28px 30px}
 /* The wrapper owns the square (aspect-ratio) and the image is pinned
@@ -239,19 +241,19 @@
 }
 
 @media(max-width:600px){
-  /* Atlas mobile pattern: shorter hero, stacked plan card with the
-     circle photo on top, full-width CTA, everything one column. The
-     hero and heading font sizes are fluid (clamp) so no overrides
-     needed here. */
-  .cq-hero-banner{min-height:240px;padding:44px 16px}
-  .cq-hero-sub{margin-bottom:4px}
-  .cq-warm{padding-top:28px}
-  .cq-warm-heading{margin-bottom:18px}
-  .cq-warm-grid{grid-template-columns:1fr;padding:20px 18px;gap:20px}
-  .cq-warm-img-wrap{max-width:200px}
-  .cq-warm-sticker{width:74px;height:74px;font-size:10px}
-  .cq-warm-inc li{font-size:15px;text-align:left}
-  .cq-warm-cta{width:100%;margin-top:22px;padding:18px 24px}
+  /* Mobile: everything one column and compact enough that the press
+     strip, plan card, and the Get Started button land within the first
+     screen or one short swipe. */
+  .cq-warm{padding-top:20px}
+  .cq-warm-heading{margin-bottom:14px}
+  .cq-warm-grid{grid-template-columns:1fr;padding:16px 16px;gap:14px}
+  .cq-warm-img-wrap{max-width:150px}
+  .cq-warm-sticker{width:66px;height:66px;font-size:9px;top:-6px;left:-8px}
+  .cq-warm-inc{gap:10px}
+  .cq-warm-inc li{font-size:14px;text-align:left}
+  .cq-warm-inc-title{font-size:19px;margin-bottom:10px}
+  .cq-warm-cta{width:100%;margin-top:16px;padding:17px 24px}
+  .cq-warm-reassure{margin-top:9px;font-size:14px}
 }
 
 /* ══════ QUIZ FLOW ══════ */
@@ -469,18 +471,6 @@ body.cq-hide-cart{overflow:visible !important}
        ══════════════════════════════════════ -->
   <div class="cq-hero-section">
 
-    <!-- Hero banner -->
-    <div class="cq-hero-banner"{% if section.settings.hero_image != blank %} style="background-image:url('{{ section.settings.hero_image | image_url: width: 2000 }}')"{% endif %}>
-      <div class="cq-hero-veil" style="opacity:{{ section.settings.hero_overlay | default: 35 | divided_by: 100.0 }}"></div>
-      <div class="cq-hero-inner" style="color:{{ section.settings.hero_text_color | default: '#2C1810' }}">
-        {% if section.settings.warmup_badge != blank %}
-          <div class="cq-hero-badge">{{ section.settings.warmup_badge }}</div>
-        {% endif %}
-        <h1 class="cq-hero-title">{{ section.settings.hero_title | default: 'Fall Sale' }}</h1>
-        <p class="cq-hero-sub">{{ section.settings.hero_subtitle | default: 'Get your first bag free, personalized to your preferences' }}</p>
-      </div>
-    </div>
-
     <!-- Press strip: the existing As Seen On section, verbatim, on white -->
     <section class="as-seen-on">
       <div class="as-seen-on__container page-width">
@@ -535,7 +525,7 @@ body.cq-hide-cart{overflow:visible !important}
         </div>
       </div>
 
-      <button class="cq-warm-cta" onclick="cqStart()">{{ section.settings.warmup_cta | default: 'Start the Quiz' }} <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      <button class="cq-warm-cta" onclick="cqStart()">{{ section.settings.warmup_cta | default: 'Get Started' }} <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
       {% if section.settings.warmup_reassure != blank %}
         <div class="cq-warm-reassure">{{ section.settings.warmup_reassure }}</div>
       {% endif %}
@@ -1182,15 +1172,8 @@ body.cq-hide-cart{overflow:visible !important}
   "tag":"section",
   "class":"coffee-quiz-section",
   "settings":[
-    {"type":"header","content":"Hero Banner (above quiz)"},
-    {"type":"paragraph","content":"v11: Atlas-style warm-up. Order: photo hero, Recommended By strip, Build Your Plan card, then the quiz. Everything hides automatically once the customer moves past step 1."},
-    {"type":"image_picker","id":"hero_image","label":"Hero background image","info":"Full-width photo. A tan gradient shows until one is picked."},
-    {"type":"range","id":"hero_overlay","label":"White overlay","min":0,"max":80,"step":5,"unit":"%","default":35,"info":"Lightens the photo so the text stays readable."},
-    {"type":"color","id":"hero_text_color","label":"Hero text color","default":"#2C1810"},
-    {"type":"text","id":"warmup_badge","label":"Offer badge (optional)","info":"Small pill above the headline. Leave empty to hide, Atlas-style; the announcement bar already carries the offer."},
-    {"type":"text","id":"hero_title","label":"Hero heading","default":"Fall Sale","info":"Rename per sale: Fall Sale, Black Friday Sale, etc."},
-    {"type":"textarea","id":"hero_subtitle","label":"Hero subheading","default":"Get your first bag free, personalized to your preferences"},
-    {"type":"header","content":"Build Your Plan"},
+    {"type":"header","content":"Build Your Plan (above quiz)"},
+    {"type":"paragraph","content":"v16: warm-up with no hero image. Order: Recommended By strip, Build Your Plan card, Get Started, then the quiz (hidden until the button is clicked). The warm-up hides automatically once the customer moves past step 1."},
     {"type":"text","id":"warmup_heading","label":"Section heading","default":"Build Your Plan"},
     {"type":"image_picker","id":"warmup_image","label":"Box image","info":"The open box photo. Cropped to a circle, like Atlas."},
     {"type":"text","id":"warmup_sticker","label":"Sticker text","default":"Sale! Free Bag","info":"Yellow round sticker on the image. Leave empty to hide."},
@@ -1199,7 +1182,7 @@ body.cq-hide-cart{overflow:visible !important}
     {"type":"text","id":"include_2","label":"Include line 2","default":"A card with tasting notes & the story behind each roast"},
     {"type":"text","id":"include_3","label":"Include line 3","default":"Coffee tips & fun facts with every box"},
     {"type":"text","id":"include_4","label":"Include line 4","default":"100% satisfaction guarantee: love it or your money back"},
-    {"type":"text","id":"warmup_cta","label":"Start button text","default":"Start the Quiz"},
+    {"type":"text","id":"warmup_cta","label":"Start button text","default":"Get Started","info":"If an older value like 'Start the Quiz' was saved in the Customizer, retype it here."},
     {"type":"text","id":"warmup_reassure","label":"Reassurance line","default":"Takes 2 minutes · Skip or cancel anytime","info":"Small text under the button. Leave empty to hide."},
     {"type":"header","content":"Colors"},
     {"type":"color","id":"color_background","label":"Background","default":"#FAF3E8"},

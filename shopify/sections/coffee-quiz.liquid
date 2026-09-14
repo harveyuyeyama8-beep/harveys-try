@@ -1,6 +1,20 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v14
+  Harvey's Coffee — Subscription Quiz v15
   Trade Coffee style click-through
+
+  v15 changes (2026-09-14) - CHECKOUT SPEED ONLY. Same cart semantics.
+    - The click was paying for: iframe setup + POST /cart/clear.js +
+      POST /cart/add.js in sequence. Now a primer at page load (and on
+      every bfcache restore) builds the pristine iframe ahead of time
+      and GETs /cart.js; when the cart is already empty - the common
+      case for quiz traffic - the clear round trip is skipped entirely.
+      Unknown or non-empty cart still clears first, exactly as before,
+      and the cached count is consumed per attempt so a failed attempt
+      (item now in cart) can never skip the clear on retry. Back from
+      checkout re-primes, sees the item, and clears correctly.
+    - The button swaps to "One moment…" instantly on click (restored on
+      error / Back), so the wait reads as progress instead of a dead
+      button.
 
   v14 changes (2026-09-14) - CHECKOUT BUTTON FIX ONLY.
     - Coming BACK from checkout left "Continue to Checkout" permanently
@@ -950,7 +964,34 @@ body.cq-hide-cart{overflow:visible !important}
   // (/cart/{variant}:1?selling_plan=...) silently discarded the plan and
   // produced one-time orders with no error of any kind.
   function cqRestoreBtn(btn){
-    if(btn){btn.dataset.busy='';btn.style.pointerEvents='';btn.classList.remove('cq-busy');}
+    if(btn){
+      btn.dataset.busy='';btn.style.pointerEvents='';btn.classList.remove('cq-busy');
+      if(btn.dataset.orig){btn.innerHTML=btn.dataset.orig;btn.dataset.orig='';}
+    }
+  }
+
+  // v15 - cart primer. At page load (and again on bfcache restore) the
+  // pristine iframe is built ahead of time and the cart count fetched,
+  // so the click skips both the iframe setup and, when the cart is
+  // already empty (the common case), the whole /cart/clear.js round
+  // trip. null = unknown -> clear runs, the safe default. After coming
+  // back from checkout the cart HAS an item, so the pageshow re-prime
+  // sees count>0 and the clear correctly runs again.
+  var cqCartCount=null;
+  function cqPrime(){
+    cqCartCount=null;
+    try{
+      var xf=cqCleanFetch();
+      xf(window.location.origin+'/cart.js',{credentials:'same-origin',headers:{'Accept':'application/json'}})
+        .then(function(r){return r.json()})
+        .then(function(c){cqCartCount=(c&&typeof c.item_count==='number')?c.item_count:null})
+        .catch(function(){cqCartCount=null});
+    }catch(e){}
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',cqPrime);
+  }else{
+    cqPrime();
   }
 
   // Invisible guard, active only between the click and the redirect.
@@ -1009,6 +1050,7 @@ body.cq-hide-cart{overflow:visible !important}
   window.addEventListener('pageshow',function(){
     cqGuardStop();
     cqRestoreBtn(document.getElementById('cqN4'));
+    cqPrime();
   });
 
   // Pristine fetch from a same-origin iframe. Theme/app scripts that wrap
@@ -1055,7 +1097,13 @@ body.cq-hide-cart{overflow:visible !important}
       return;
     }
 
-    if(btn){btn.dataset.busy='1';btn.style.pointerEvents='none';btn.classList.add('cq-busy');}
+    if(btn){
+      btn.dataset.busy='1';btn.style.pointerEvents='none';btn.classList.add('cq-busy');
+      // Instant feedback while the cart calls run; cqRestoreBtn puts the
+      // original label back on error or on Back-from-checkout.
+      btn.dataset.orig=btn.innerHTML;
+      btn.innerHTML='One moment…';
+    }
 
     // Guard goes up BEFORE any cart call is made.
     cqGuardStart();
@@ -1063,12 +1111,7 @@ body.cq-hide-cart{overflow:visible !important}
     var xfetch=cqCleanFetch();
     var origin=window.location.origin;
 
-    xfetch(origin+'/cart/clear.js',{
-      method:'POST',
-      credentials:'same-origin',
-      headers:{'Content-Type':'application/json','Accept':'application/json'}
-    })
-    .then(function(){
+    function cqAdd(){
       return xfetch(origin+'/cart/add.js',{
         method:'POST',
         credentials:'same-origin',
@@ -1081,7 +1124,22 @@ body.cq-hide-cart{overflow:visible !important}
           }]
         })
       });
-    })
+    }
+
+    // v15 - skip the clear round trip when the primer saw an empty cart.
+    // Unknown (null) or non-empty -> clear first, same as before. The
+    // cached count is consumed here: a failed attempt leaves an item in
+    // the cart, so any retry must clear.
+    var cqSkipClear=(cqCartCount===0);
+    cqCartCount=null;
+    (cqSkipClear
+      ? cqAdd()
+      : xfetch(origin+'/cart/clear.js',{
+          method:'POST',
+          credentials:'same-origin',
+          headers:{'Content-Type':'application/json','Accept':'application/json'}
+        }).then(cqAdd)
+    )
     .then(function(r){
       return r.json().then(function(d){
         if(!r.ok) throw new Error(d.description||d.message||'Could not add item to cart');

@@ -1,6 +1,16 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v18
+  Harvey's Coffee — Subscription Quiz v19
   Trade Coffee style click-through
+
+  v19 changes (2026-09-14) - MOBILE COMPACTION.
+    - Press strip back ABOVE Build Your Plan on mobile (v17's order
+      swap removed; natural DOM order everywhere).
+    - Mobile warm-up shrunk across the board (smaller press padding,
+      heading 22, circle photo 110px, tighter list, smaller icons and
+      sticker) so logos + plan card + Get Started fit one phone screen
+      with no scrolling.
+    - Step buttons slightly smaller on mobile (15px / tighter padding)
+      so "Continue to Checkout" sits comfortably.
 
   v18 changes (2026-09-14) - FULL-SCREEN QUIZ TAKEOVER.
     - Clicking Get Started now HIDES the whole warm-up (press strip +
@@ -262,24 +272,26 @@
 }
 
 @media(max-width:600px){
-  /* Mobile: everything one column and compact enough that the plan
-     card and the Get Started button land within the first screen.
-     v17: on phones the plan card comes FIRST and the press strip moves
-     below it (flex order swap; the DOM order is unchanged, so desktop
-     keeps press strip on top). */
-  .cq-hero-section{display:flex;flex-direction:column}
-  .coffee-quiz .as-seen-on{order:2}
-  .cq-warm{order:1}
-  .cq-warm{padding-top:20px}
-  .cq-warm-heading{margin-bottom:14px}
-  .cq-warm-grid{grid-template-columns:1fr;padding:16px 16px;gap:14px}
-  .cq-warm-img-wrap{max-width:150px}
-  .cq-warm-sticker{width:66px;height:66px;font-size:9px;top:-6px;left:-8px}
-  .cq-warm-inc{gap:10px}
-  .cq-warm-inc li{font-size:14px;text-align:left}
-  .cq-warm-inc-title{font-size:19px;margin-bottom:10px}
-  .cq-warm-cta{width:100%;margin-top:16px;padding:17px 24px}
-  .cq-warm-reassure{margin-top:9px;font-size:14px}
+  /* Mobile (v19): press strip back on top (natural DOM order), and the
+     whole warm-up compacted so logos + plan card + Get Started all fit
+     in one phone screen with no scrolling. */
+  .coffee-quiz .as-seen-on{padding:12px 8px}
+  .coffee-quiz .as-seen-on__title{font-size:13px;margin-bottom:10px}
+  .cq-warm{padding-top:10px}
+  .cq-warm-heading{font-size:22px;margin-bottom:10px}
+  .cq-warm-grid{grid-template-columns:1fr;padding:12px 14px;gap:10px}
+  .cq-warm-img-wrap{max-width:110px}
+  .cq-warm-sticker{width:56px;height:56px;font-size:8px;top:-4px;left:-8px;padding:6px}
+  .cq-warm-inc{gap:8px}
+  .cq-warm-inc li{font-size:13px;text-align:left;gap:10px}
+  .cq-warm-ic{flex:0 0 30px;width:30px;height:30px}
+  .cq-warm-ic svg{width:15px;height:15px}
+  .cq-warm-inc-title{font-size:17px;margin-bottom:8px}
+  .cq-warm-cta{width:100%;margin-top:12px;padding:15px 20px;font-size:16px}
+  .cq-warm-reassure{margin-top:6px;font-size:13px}
+  /* Slightly smaller step buttons so "Continue to Checkout" fits
+     comfortably on a phone. */
+  .cq-next{font-size:15px;padding:14px 26px}
 }
 
 /* ══════ QUIZ FLOW ══════

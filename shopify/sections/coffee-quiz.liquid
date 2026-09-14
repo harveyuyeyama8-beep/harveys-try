@@ -1,6 +1,14 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v19
+  Harvey's Coffee — Subscription Quiz v20
   Trade Coffee style click-through
+
+  v20 changes (2026-09-14) - CTA ARROW + MOBILE SCROLL FIX.
+    - Get Started arrow nudges right on a 1.2s loop (reduced-motion
+      safe) so the button reads as tappable.
+    - Mobile step scroll fixed: the centering math was aiming a
+      taller-than-screen card at mid-viewport, which scrolled past the
+      progress bar after question one. Phones (<=600px) now always
+      anchor to the progress bar at the top; desktop keeps centering.
 
   v19 changes (2026-09-14) - MOBILE COMPACTION.
     - Press strip back ABOVE Build Your Plan on mobile (v17's order
@@ -254,7 +262,11 @@
 .cq-warm-ic svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2}
 .cq-warm-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;padding:19px 54px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:18px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition)}
 .cq-warm-cta:hover{background:var(--cq-amber-light);transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,146,11,0.3)}
-.cq-warm-cta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5}
+/* v20 - the arrow nudges right on a loop so the button reads as "tap
+   me". Respects reduced-motion. */
+.cq-warm-cta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;animation:cqArrowNudge 1.2s ease-in-out infinite}
+@keyframes cqArrowNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){.cq-warm-cta svg{animation:none}}
 .cq-warm-reassure{font-size:15px;color:var(--cq-muted);margin-top:12px}
 
 /* As Seen On strip - the store's existing section, embedded on a white
@@ -921,7 +933,21 @@ body.cq-hide-cart{overflow:visible !important}
   }
   function cqScrollToStep(id){
     var s=document.getElementById('cqS'+id);
-    cqScrollTo(s?(s.querySelector('.cq-q-card')||s):null);
+    var card=s?(s.querySelector('.cq-q-card')||s):null;
+    if(!card)return;
+    // v20 - on phones the next card is usually taller than the screen,
+    // so the centering math scrolled past the progress bar and looked
+    // like a weird jump. Mobile always anchors to the progress bar at
+    // the top; desktop keeps vertical centering.
+    var vw=window.innerWidth||document.documentElement.clientWidth;
+    if(vw<=600){
+      var bar=document.querySelector('.cq-progress-bar')||card;
+      var y=window.pageYOffset+bar.getBoundingClientRect().top-8;
+      try{window.scrollTo({top:Math.max(y,0),behavior:'smooth'});}
+      catch(e){window.scrollTo(0,Math.max(y,0));}
+      return;
+    }
+    cqScrollTo(card);
   }
 
   // v18 - warm-up CTA. Clicking it swaps the page: the warm-up is

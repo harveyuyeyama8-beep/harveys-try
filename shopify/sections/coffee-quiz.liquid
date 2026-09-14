@@ -1,6 +1,18 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v20
+  Harvey's Coffee — Subscription Quiz v21
   Trade Coffee style click-through
+
+  v21 changes (2026-09-14) - AUDIT FIXES.
+    - Progress bar now shows a 5th segment on the Ground path, so the
+      bar matches the "Step x of 5" label instead of showing a full bar
+      on both of the last two steps.
+    - "Need More?" panel max-height 500 -> 1400px: 500 clipped the
+      bottom of the Triple card (and any extra_bag blocks). The value
+      only drives the open/close animation.
+    - Removed dead CSS from the deleted hero (.cq-hero-img-wrap,
+      .cq-hero-content) and two unused Customizer settings
+      (two_bags_badge, summary_title). Refreshed stale comments that
+      still described pre-v18 behavior.
 
   v20 changes (2026-09-14) - CTA ARROW + MOBILE SCROLL FIX.
     - Get Started arrow nudges right on a 1.2s loop (reduced-motion
@@ -239,9 +251,9 @@
 .coffee-quiz *{box-sizing:border-box;margin:0;padding:0}
 .coffee-quiz{font-family:var(--cq-font-body);color:var(--cq-espresso);background:var(--cq-cream);line-height:1.6;-webkit-font-smoothing:antialiased}
 
-/* ══════ WARM-UP (v16: press strip + plan card above Q1, no hero) ══════
-   Wrapped in .cq-hero-section so the existing go() logic hides it on
-   steps after 1 and shows it again when the customer comes back. */
+/* ══════ WARM-UP (press strip + plan card above Q1) ══════
+   Hidden for good by cqStart() when the customer clicks Get Started;
+   the quiz then owns the screen. */
 .cq-hero-section{background:var(--cq-cream)}
 .cq-warm{max-width:800px;margin:0 auto;padding:28px 20px 4px;text-align:center}
 .cq-warm-heading{font-family:var(--cq-font-display);font-size:clamp(26px,4vw,34px);font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px;text-wrap:balance}
@@ -411,7 +423,9 @@
 .cq-more-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;vertical-align:middle;margin-left:4px;transition:transform 0.3s ease}
 .cq-more-btn.cq-open svg{transform:rotate(180deg)}
 .cq-more-panel{max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.3s ease;opacity:0}
-.cq-more-panel.cq-show{max-height:500px;opacity:1;margin-top:16px}
+/* v21 - 500px clipped the bottom of the Triple card (and any extra_bag
+   blocks); the cap only drives the animation, so give it headroom. */
+.cq-more-panel.cq-show{max-height:1400px;opacity:1;margin-top:16px}
 
 /* Nav */
 .cq-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
@@ -449,9 +463,6 @@
 
 /* Responsive */
 @media(max-width:600px){
-  .cq-hero-img-wrap{display:none}
-  .cq-hero-content{display:none}
-  .cq-hero-content h1{font-size:32px}
   .cq-q-card{padding:28px 18px}
   .cq-opts.cq-g2{grid-template-columns:1fr 1fr}
   .cq-opts.cq-g3{grid-template-columns:1fr 1fr 1fr}
@@ -518,9 +529,8 @@ body.cq-hide-cart{overflow:visible !important}
 <div class="coffee-quiz">
 
   <!-- ══════════════════════════════════════
-       WARM-UP (v11) - Atlas order: photo hero, press strip, plan card,
-       then the quiz. Class cq-hero-section is what go() hides after
-       step 1.
+       WARM-UP - press strip, then the Build Your Plan card. Hidden for
+       good by cqStart() when Get Started is clicked.
        ══════════════════════════════════════ -->
   <div class="cq-hero-section">
 
@@ -587,8 +597,8 @@ body.cq-hide-cart{overflow:visible !important}
   </div>
 
   <!-- ══════════════════════════════════════
-       QUIZ FLOW (v12: hidden until the warm-up CTA is clicked;
-       cqStart() adds cq-active and scrolls to step 1)
+       QUIZ FLOW - hidden until Get Started is clicked; cqStart() adds
+       cq-active (full-screen, flex-centered) and jumps to the top.
        ══════════════════════════════════════ -->
   <div id="cqFlow" class="cq-quiz-flow">
 
@@ -597,6 +607,7 @@ body.cq-hide-cart{overflow:visible !important}
       <div class="cq-prog-seg" id="cqP2"></div>
       <div class="cq-prog-seg" id="cqP3"></div>
       <div class="cq-prog-seg" id="cqP4"></div>
+      <div class="cq-prog-seg" id="cqP5" style="display:none"></div>
       <div class="cq-prog-text" id="cqPTxt">Step 1 of 4</div>
     </div>
 
@@ -829,7 +840,7 @@ body.cq-hide-cart{overflow:visible !important}
 
 <script>
 (function(){
-  var STEPS=4,cur=0;
+  var cur=0;
   // ── Pre-populated defaults ──────────────────────────────────────────────
   var S={
     brewType:'whole_bean',
@@ -1023,10 +1034,13 @@ body.cq-hide-cart{overflow:visible !important}
 
     var order=getStepOrder();
     var pos=order.indexOf(String(n));
-    var totalSegs=STEPS;
-    for(var i=1;i<=totalSegs;i++){
+    // v21 - the Ground path has 5 steps; the 5th segment shows only on
+    // that path so the bar always matches the "Step x of y" label.
+    for(var i=1;i<=5;i++){
       var p=document.getElementById('cqP'+i);
-      if(p)p.classList.toggle('cq-done',i<=pos+1);
+      if(!p)continue;
+      p.style.display=(i<=order.length)?'':'none';
+      p.classList.toggle('cq-done',i<=pos+1);
     }
     var lbl=document.getElementById('cqPTxt');
     lbl.textContent='Step '+(pos+1)+' of '+order.length;
@@ -1296,7 +1310,6 @@ body.cq-hide-cart{overflow:visible !important}
     {"type":"image_picker","id":"img_two_bags","label":"Double Bag image"},
     {"type":"text","id":"label_two_bags","label":"Double Bag label","default":"Double Bag"},
     {"type":"text","id":"desc_two_bags","label":"Double Bag desc","default":"2 bags · 24oz · ~60 cups"},
-    {"type":"text","id":"two_bags_badge","label":"Badge text","default":"Best Value"},
     {"type":"text","id":"price_two_bags_original","label":"Original price","default":"32"},
     {"type":"text","id":"price_two_bags_sale","label":"Sale price","default":"16"},
     {"type":"text","id":"discount_two_bags","label":"Offer text","default":"1st Bag FREE","info":"Shown as a red chip. This is the headline offer — keep it short."},
@@ -1318,8 +1331,7 @@ body.cq-hide-cart{overflow:visible !important}
     {"type":"header","content":"Q4 - Frequency"},
     {"type":"text","id":"q4_title","label":"Title","default":"Delivery Frequency"},
     {"type":"text","id":"q4_sub","label":"Subtitle","default":"Pause, skip, or change your delivery frequency any time"},
-    {"type":"header","content":"Summary & Checkout"},
-    {"type":"text","id":"summary_title","label":"Heading","default":"Order Summary"},
+    {"type":"header","content":"Checkout"},
     {"type":"text","id":"checkout_text","label":"Button text","default":"Continue to Checkout"},
     {"type":"header","content":"Trust Badges"},
     {"type":"text","id":"trust1_title","label":"Badge 1","default":"Satisfaction Guaranteed"},

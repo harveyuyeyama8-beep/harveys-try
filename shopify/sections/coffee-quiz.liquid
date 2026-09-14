@@ -1,0 +1,1138 @@
+{% comment %}
+  Harvey's Coffee — Subscription Quiz v10
+  Trade Coffee style click-through
+
+  v10 changes (2026-09-14) - WARM-UP SECTION ONLY. No pricing, no cart
+  logic, no variant/selling-plan changes, no changes to any quiz step.
+    - Added an Atlas-style warm-up block ABOVE question one: offer badge,
+      headline, "Each shipment includes" list with the box photo and a
+      FREE BAG sticker, a Start the Quiz button, reassurance line, and an
+      optional "Recommended by" press-logo row.
+    - The warm-up uses the existing .cq-hero-section class. go() already
+      hides that class on every step after 1 and shows it again on step 1
+      (that hook was dead code until now), so the warm-up vanishes once
+      the customer starts answering and returns if they navigate back.
+      Zero new step logic.
+    - The old hero title/subtitle markup inside the Q1 card is removed;
+      hero_title and hero_subtitle now render in the warm-up instead.
+      (Same setting ids, so any values saved in the Customizer carry
+      over.) Note the Q1 card previously hid that hero on mobile via the
+      .cq-hero-content media rule; the warm-up is visible on mobile.
+    - Start the Quiz smooth-scrolls to the progress bar. The quiz stays
+      fully rendered below the warm-up, Atlas-style: no page change, no
+      gate, question one is one scroll away with defaults pre-selected.
+    - New settings under "Warm-Up (above quiz)". All ids are NEW except
+      hero_title/hero_subtitle, so their defaults apply immediately even
+      on a store where the section was saved before.
+
+  !! IMPORTANT AFTER UPLOAD !!
+  Liquid `default:` values and schema defaults only apply to settings
+  that have never been saved in the Customizer. hero_title and
+  hero_subtitle keep whatever is saved. Everything else in the warm-up is
+  new and will show its default until you edit it. Upload the box photo
+  into "Warm-up image" and the press logos, or those spots render a
+  placeholder / stay hidden respectively.
+
+  v9 changes (2026-09-08) — OFFER LABELLING ONLY. No pricing, no cart
+  logic, no variant/selling-plan changes.
+    - The store was ALREADY giving a free bag on the Double ($32 -> $16
+      via FIRSTORDER is exactly one of two bags free) but labelling it
+      "Get $16 Off". Ads promised a free bag, the quiz said discount, and
+      customers concluded the offer had changed. Relabelled to match what
+      the code already does.
+        Double: "Get $16 Off"      -> "1ST BAG FREE"
+        Triple: "Get $23.75 Off"   -> "1½ BAGS FREE"
+        Single: "Get $8.75 Off"    -> "50% OFF"        (kept as a discount
+          on purpose — if every card says FREE the Double loses its pull)
+    - FIXED A FALSE CLAIM: savings_three_bags read "+ Always save 50%".
+      Triple is $47.50 vs $64.50 retail = 26%, not 50%. Double read 24%;
+      also 26%. Both replaced with the actual per-shipment price, which is
+      the more useful number anyway.
+    - Bag counts added to the descriptions so "1st bag free" has an
+      obvious referent.
+    - New .cq-pr-free chip style for the free-bag callout.
+
+  v8 changes (2026-09-08):
+    - Removed the full-screen "Taking you to checkout" cover (Harvey
+      wanted it gone). The pristine-fetch isolation from v7 is what
+      actually stops the popup; the cover was belt-and-suspenders.
+    - Replaced it with an invisible guard: from click until the page
+      navigates, any fixed/sticky element that was NOT visible at click
+      time and becomes visible is hidden. Quiz elements are exempt. Stops
+      on navigation or on error. Zero visual change on the page.
+    - Button dims slightly while the cart calls run.
+
+  v7 changes (2026-09-08):
+    - Cart popup on "Continue to Checkout" fixed three ways, so it no
+      longer depends on guessing which element the theme/app pops:
+        1. The two cart calls go through a PRISTINE fetch taken from a
+           same-origin iframe. Theme/app scripts that monkey-patch
+           window.fetch or XMLHttpRequest to open a cart UI on
+           /cart/add.js never see the request.
+        2. The instant the button is clicked, a full-screen "Taking you
+           to checkout" cover opens as a top-layer <dialog>. Anything
+           that pops underneath it is invisible. It is removed only on
+           error (page navigates away on success).
+        3. Dawn's actual cart elements (theme is Dawn, cart_type =
+           notification) are hidden by CSS scoped to body.cq-hide-cart:
+           <cart-notification>, #cart-notification, <cart-drawer>,
+           #CartDrawer.
+    - Removed the v6 MutationObserver; the cover makes it unnecessary.
+
+  v6 changes (2026-09-08):
+    - Re-added cart drawer suppression, which the v5 rewrite dropped.
+
+  v5 changes (2026-09-07):
+    - Checkout now uses /cart/add.js with selling_plan instead of a cart
+      permalink. Permalinks were silently dropping ?selling_plan= and
+      creating one-time orders.
+    - Hard-fail if no selling plan ID resolves, instead of degrading
+      silently to a one-time purchase.
+    - single_bag 4_weeks plan ID updated to 27403878434.
+    - Removed unused CFG.pricing block (nothing read it, and its figures
+      had drifted from the section settings).
+{% endcomment %}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.coffee-quiz{
+  --cq-cream:{{ section.settings.color_background | default: '#FAF3E8' }};
+  --cq-espresso:{{ section.settings.color_text | default: '#2C1810' }};
+  --cq-amber:{{ section.settings.color_accent | default: '#D4920B' }};
+  --cq-amber-light:#F5C842;
+  --cq-spice:#8B4513;
+  --cq-sage:{{ section.settings.color_success | default: '#3D5A3E' }};
+  --cq-white:#FFFFFF;
+  --cq-border:#E0D5C7;
+  --cq-muted:#7A6E63;
+  --cq-red:#B8342E;
+  --cq-font-display:'Playfair Display',Georgia,serif;
+  --cq-font-body:'DM Sans',-apple-system,sans-serif;
+  --cq-radius:12px;
+  --cq-shadow:0 2px 16px rgba(44,24,16,0.08);
+  --cq-shadow-hover:0 4px 24px rgba(44,24,16,0.14);
+  --cq-transition:0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.coffee-quiz *{box-sizing:border-box;margin:0;padding:0}
+.coffee-quiz{font-family:var(--cq-font-body);color:var(--cq-espresso);background:var(--cq-cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ══════ WARM-UP (v10, Atlas-style education above Q1) ══════
+   Wrapped in .cq-hero-section so the existing go() logic hides it on
+   steps after 1 and shows it again when the customer comes back. */
+.cq-hero-section{background:var(--cq-cream)}
+.cq-warm{max-width:780px;margin:0 auto;padding:44px 20px 4px;text-align:center}
+.cq-warm-badge{display:inline-block;background:var(--cq-amber-light);color:var(--cq-espresso);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:18px}
+.cq-warm-title{font-family:var(--cq-font-display);font-size:40px;font-weight:900;line-height:1.15;margin-bottom:10px}
+.cq-warm-sub{font-size:16px;color:var(--cq-muted);max-width:500px;margin:0 auto 28px}
+.cq-warm-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:28px;align-items:center;text-align:left;background:var(--cq-white);border-radius:16px;box-shadow:var(--cq-shadow);padding:28px 30px}
+.cq-warm-img-wrap{position:relative;max-width:250px;margin:0 auto}
+.cq-warm-img{width:100%;aspect-ratio:1;border-radius:50%;object-fit:cover;display:block}
+.cq-warm-img-ph{width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#d4a574,#8B6914);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.55);box-shadow:inset 0 2px 8px rgba(0,0,0,0.15)}
+.cq-warm-sticker{position:absolute;top:-8px;left:-12px;width:88px;height:88px;border-radius:50%;background:var(--cq-amber-light);color:var(--cq-espresso);display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;line-height:1.25;padding:10px;transform:rotate(-12deg);box-shadow:0 3px 10px rgba(0,0,0,0.18);z-index:2}
+.cq-warm-inc-title{font-family:var(--cq-font-display);font-size:19px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px}
+.cq-warm-inc{list-style:none;display:flex;flex-direction:column;gap:13px}
+.cq-warm-inc li{display:flex;gap:12px;align-items:center;font-size:14px;line-height:1.45}
+.cq-warm-ic{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--cq-sage);display:flex;align-items:center;justify-content:center}
+.cq-warm-ic svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2}
+.cq-warm-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;padding:16px 46px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition)}
+.cq-warm-cta:hover{background:var(--cq-amber-light);transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,146,11,0.3)}
+.cq-warm-cta svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+.cq-warm-reassure{font-size:13px;color:var(--cq-muted);margin-top:12px}
+.cq-warm-press{margin-top:34px}
+.cq-warm-press-t{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cq-muted);margin-bottom:14px}
+.cq-warm-press-logos{display:flex;justify-content:center;align-items:center;gap:36px;flex-wrap:wrap}
+.cq-warm-press-logos img{height:26px;width:auto;opacity:0.75;filter:grayscale(1)}
+@media(max-width:600px){
+  .cq-warm{padding-top:28px}
+  .cq-warm-title{font-size:30px}
+  .cq-warm-sub{font-size:14px;margin-bottom:20px}
+  .cq-warm-grid{grid-template-columns:1fr;padding:20px 18px;gap:18px}
+  .cq-warm-img-wrap{max-width:180px}
+  .cq-warm-sticker{width:74px;height:74px;font-size:10px}
+  .cq-warm-inc li{font-size:13px}
+  .cq-warm-cta{width:100%;margin-top:22px}
+  .cq-warm-press{margin-top:26px}
+  .cq-warm-press-logos{gap:20px}
+  .cq-warm-press-logos img{height:20px}
+}
+
+/* ══════ QUIZ FLOW ══════ */
+.cq-quiz-flow{display:none;background:var(--cq-cream);min-height:100vh}
+.cq-quiz-flow.cq-active{display:block}
+
+.cq-progress-bar{max-width:500px;margin:0 auto;padding:32px 24px 0;display:flex;align-items:center;gap:8px}
+.cq-prog-seg{flex:1;height:4px;border-radius:4px;background:var(--cq-border);transition:background 0.4s ease}
+.cq-prog-seg.cq-done{background:var(--cq-amber)}
+.cq-prog-text{font-size:12px;font-weight:600;color:var(--cq-muted);white-space:nowrap;min-width:55px;text-align:right}
+
+.cq-container{max-width:640px;margin:0 auto;padding:0 20px 80px}
+
+.cq-step{display:none;animation:cqSlideIn 0.3s ease both}
+.cq-step.cq-active{display:block}
+@keyframes cqSlideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes cqSlideBack{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+.cq-step.cq-back{animation:cqSlideBack 0.3s ease both}
+
+.cq-q-card{background:var(--cq-white);border-radius:16px;box-shadow:var(--cq-shadow-hover);padding:40px 32px;margin-top:24px}
+.cq-q-title{font-family:var(--cq-font-display);font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;text-align:center;margin-bottom:6px}
+.cq-q-sub{font-size:14px;color:var(--cq-muted);text-align:center;margin-bottom:28px}
+
+/* ══════ OPTION CARDS ══════ */
+.cq-opts{display:grid;gap:12px}
+.cq-opts.cq-g2{grid-template-columns:1fr 1fr}
+.cq-opts.cq-g3{grid-template-columns:1fr 1fr 1fr}
+
+.cq-opt{position:relative;background:var(--cq-white);border:2px solid var(--cq-border);border-radius:var(--cq-radius);padding:22px 16px;text-align:center;cursor:pointer;transition:all var(--cq-transition);user-select:none}
+.cq-opt:hover{border-color:var(--cq-spice);box-shadow:var(--cq-shadow);transform:translateY(-2px)}
+.cq-opt.cq-on{border-color:var(--cq-amber);background:linear-gradient(to bottom,#FFFDF7,var(--cq-white));box-shadow:0 0 0 3px rgba(212,146,11,0.15),var(--cq-shadow)}
+
+.cq-opt-img{width:100%;max-width:100px;height:80px;object-fit:contain;margin:0 auto 10px;display:block}
+.cq-opt-img-ph{width:80px;height:80px;border-radius:10px;background:linear-gradient(145deg,#d4a574,#8B6914);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.5);box-shadow:inset 0 2px 6px rgba(0,0,0,0.12)}
+.cq-opt-name{font-weight:700;font-size:15px;margin-bottom:3px}
+.cq-opt-desc{font-size:12px;color:var(--cq-muted);line-height:1.4}
+
+/* Radio */
+.cq-dot-wrap{width:22px;height:22px;border-radius:50%;border:2px solid var(--cq-border);margin:10px auto 0;display:flex;align-items:center;justify-content:center;transition:all var(--cq-transition)}
+.cq-opt.cq-on .cq-dot-wrap{border-color:var(--cq-amber);background:var(--cq-amber)}
+.cq-dot{width:8px;height:8px;border-radius:50%;background:white;opacity:0;transition:opacity var(--cq-transition)}
+.cq-opt.cq-on .cq-dot{opacity:1}
+
+/* Badge */
+.cq-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--cq-sage);color:white;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 14px;border-radius:100px;white-space:nowrap}
+
+/* Pricing in bag cards */
+.cq-price-row{margin-top:14px;display:flex;align-items:baseline;justify-content:center;gap:6px}
+.cq-pr-old{font-size:18px;color:var(--cq-muted);text-decoration:line-through}
+.cq-pr-new{font-size:36px;font-family:var(--cq-font-display);font-weight:900;color:var(--cq-red)}
+.cq-pr-off{display:block;font-size:13px;font-weight:800;color:var(--cq-red);text-transform:uppercase;letter-spacing:0.5px;margin-top:6px}
+.cq-pr-save{font-size:12px;color:var(--cq-sage);font-weight:700;text-transform:uppercase;letter-spacing:0.3px;margin-top:4px}
+
+/* v9 — free-bag callout chip. Applied only to tiers where the first
+   order genuinely includes a free bag (Double, Triple). The Single keeps
+   the plain discount treatment so the contrast stays visible. */
+.cq-pr-off.cq-pr-free{
+  display:inline-block;
+  background:var(--cq-red);
+  color:#fff;
+  padding:5px 14px;
+  border-radius:100px;
+  letter-spacing:1px;
+  font-size:12px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+/* Bag card image - larger for bag step */
+.cq-bag-img{width:100%;max-width:140px;height:160px;object-fit:contain;margin:0 auto 14px;display:block}
+.cq-bag-img-ph{width:100px;height:140px;border-radius:10px;background:linear-gradient(145deg,#d4a574,#8B6914);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.5);box-shadow:inset 0 2px 8px rgba(0,0,0,0.15);position:relative}
+.cq-bag-img, .cq-ribbon-wrap, .cq-ribbon-wrap img, .cq-bag-img-ph{border-radius:12px !important;overflow:hidden !important}
+
+/* Sale ribbon - diagonal like Atlas */
+.cq-ribbon-wrap{position:relative;display:inline-block;border-radius:12px;overflow:hidden}
+.cq-ribbon{position:absolute;top:12px;right:-12px;background:var(--cq-amber-light);color:var(--cq-espresso);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:5px 20px;transform:rotate(25deg);z-index:3;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+.cq-ribbon::before,.cq-ribbon::after{content:'';position:absolute;bottom:-4px;border:4px solid transparent}
+.cq-ribbon::before{left:0;border-top-color:#c8920a;border-left-color:#c8920a}
+.cq-ribbon::after{right:0;border-top-color:#c8920a;border-right-color:#c8920a}
+
+/* Most Popular badge - Atlas circle style */
+.cq-popular{position:absolute;top:-14px;left:-14px;width:60px;height:60px;border-radius:50%;background:var(--cq-sage);color:white;font-size:9px;font-weight:800;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;letter-spacing:0.3px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+
+/* Bag cards equal height */
+.cq-bag-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cq-bag-grid .cq-opt{padding:30px 12px 18px;overflow:visible}
+
+/* Frequency cards */
+.cq-freq{position:relative;background:var(--cq-white);border:2px solid var(--cq-border);border-radius:var(--cq-radius);padding:28px 18px;text-align:center;cursor:pointer;transition:all var(--cq-transition);user-select:none}
+.cq-freq:hover{border-color:var(--cq-spice);box-shadow:var(--cq-shadow)}
+.cq-freq.cq-on{border-color:var(--cq-amber);box-shadow:0 0 0 3px rgba(212,146,11,0.15),var(--cq-shadow)}
+.cq-freq.cq-on .cq-dot-wrap{border-color:var(--cq-amber);background:var(--cq-amber)}
+.cq-freq.cq-on .cq-dot{opacity:1}
+.cq-freq-ev{font-size:14px;font-weight:600;color:var(--cq-muted);text-transform:uppercase;letter-spacing:1px}
+.cq-freq-num{font-family:var(--cq-font-display);font-size:52px;font-weight:900;line-height:1.1;color:var(--cq-espresso)}
+.cq-freq-u{font-size:16px;font-weight:600;color:var(--cq-espresso)}
+.cq-freq .cq-dot-wrap{margin:10px auto 0}
+
+/* Need More */
+.cq-more-btn{text-align:center;margin-top:20px;cursor:pointer;font-size:14px;font-weight:700;color:var(--cq-espresso);text-transform:uppercase;letter-spacing:1px;user-select:none;transition:color var(--cq-transition)}
+.cq-more-btn:hover{color:var(--cq-amber)}
+.cq-more-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;vertical-align:middle;margin-left:4px;transition:transform 0.3s ease}
+.cq-more-btn.cq-open svg{transform:rotate(180deg)}
+.cq-more-panel{max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.3s ease;opacity:0}
+.cq-more-panel.cq-show{max-height:500px;opacity:1;margin-top:16px}
+
+/* Nav */
+.cq-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.cq-back{display:inline-flex;align-items:center;gap:6px;padding:12px 20px;background:transparent;color:var(--cq-muted);font-family:var(--cq-font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:color var(--cq-transition)}
+.cq-back:hover{color:var(--cq-espresso)}
+.cq-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+.cq-next{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 36px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:15px;font-weight:700;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition);margin-left:auto;opacity:0.35;pointer-events:none}
+.cq-next.cq-go{opacity:1;pointer-events:auto}
+.cq-next.cq-go:hover{background:var(--cq-amber-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(212,146,11,0.3)}
+.cq-next svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ══════ ORDER SUMMARY ══════ */
+.cq-sum-rows{display:flex;flex-direction:column;margin-bottom:20px}
+.cq-sum-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--cq-border);font-size:15px}
+.cq-sum-row:last-child{border-bottom:none}
+.cq-sum-lbl{color:var(--cq-muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.cq-sum-val{font-weight:700;text-align:right}
+.cq-sum-div{height:1px;background:var(--cq-espresso);margin:4px 0 16px;opacity:0.15}
+.cq-sum-price{margin:0 0 24px;text-align:center}
+.cq-sum-price-lbl{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:var(--cq-muted);margin-bottom:4px}
+.cq-sum-old{font-size:18px;text-decoration:line-through;color:var(--cq-muted);margin-right:8px}
+.cq-sum-new{font-family:var(--cq-font-display);font-size:38px;font-weight:900;color:var(--cq-espresso)}
+.cq-sum-msg{font-size:14px;font-weight:600;color:var(--cq-sage);margin-top:6px;font-style:italic}
+
+.cq-cta-checkout{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px 40px;background:var(--cq-amber);color:var(--cq-espresso);font-family:var(--cq-font-body);font-size:17px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:60px;cursor:pointer;transition:all var(--cq-transition);text-decoration:none}
+.cq-cta-checkout:hover{background:var(--cq-amber-light);transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,146,11,0.3)}
+.cq-cta-checkout svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* Trust */
+.cq-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;padding-top:24px;border-top:1px solid var(--cq-border)}
+.cq-trust-i{text-align:center;padding:8px}
+.cq-trust-ic{width:38px;height:38px;margin:0 auto 10px;background:var(--cq-sage);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cq-trust-ic svg{width:19px;height:19px;stroke:white;fill:none;stroke-width:2}
+.cq-trust-t{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;line-height:1.3}
+
+/* Responsive */
+@media(max-width:600px){
+  .cq-hero-img-wrap{display:none}
+  .cq-hero-content{display:none}
+  .cq-hero-content h1{font-size:32px}
+  .cq-q-card{padding:28px 18px}
+  .cq-opts.cq-g2{grid-template-columns:1fr 1fr}
+  .cq-opts.cq-g3{grid-template-columns:1fr 1fr 1fr}
+  .cq-opt{padding:16px 10px}
+  .cq-opt-img-ph{width:60px;height:60px}
+  .cq-trust{grid-template-columns:repeat(3,1fr);gap:4px;margin-top:20px;padding-top:18px}
+  .cq-trust-i{padding:0}
+  .cq-trust-ic{width:30px;height:30px;margin-bottom:7px}
+  .cq-trust-ic svg{width:15px;height:15px}
+  .cq-trust-t{font-size:11px;letter-spacing:0.2px;line-height:1.25}
+  .cq-sum-new{font-size:30px}
+  .cq-freq-num{font-size:40px}
+  .cq-pr-new{font-size:28px}
+  .cq-bag-img-ph{width:70px;height:100px}
+  .cq-bag-img{max-width:100px;height:120px}
+  .cq-popular{display:none}
+  .cq-bag-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .cq-bag-grid .cq-opt{padding:16px 8px 14px}
+  .cq-bag-grid .cq-opt-name{font-size:13px !important;white-space:nowrap}
+  .cq-bag-grid .cq-opt-desc{font-size:11px}
+  .cq-bag-grid .cq-pr-old{font-size:13px}
+  .cq-bag-grid .cq-pr-new{font-size:24px}
+  .cq-bag-grid .cq-pr-off{font-size:10px}
+  /* v9 — keep the free chip legible on mobile; the generic 10px rule
+     above would shrink it below the surrounding text. */
+  .cq-bag-grid .cq-pr-off.cq-pr-free{font-size:10px;padding:4px 10px;letter-spacing:0.5px}
+  .cq-bag-grid .cq-pr-save{font-size:9px;white-space:normal;line-height:1.3}
+  .cq-bag-grid .cq-bag-img-ph{width:60px;height:80px}
+  .cq-bag-grid .cq-bag-img{max-width:80px;height:100px}
+  .cq-ribbon{font-size:7px;padding:3px 10px}
+}
+@media(max-width:420px){
+  .cq-opts.cq-g3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:360px){
+  .cq-trust{gap:3px}
+  .cq-trust-t{font-size:10px;letter-spacing:0}
+}
+
+/* ══════ HIDE DAWN'S CART UI ON THIS PAGE ══════
+   Theme is Dawn with cart_type = notification. These are Dawn's real
+   element names (from snippets/cart-notification.liquid and
+   snippets/cart-drawer.liquid). Scoped to body.cq-hide-cart, which the
+   script at the bottom adds, so no other template is affected. */
+body.cq-hide-cart cart-notification,
+body.cq-hide-cart #cart-notification,
+body.cq-hide-cart .cart-notification,
+body.cq-hide-cart .cart-notification-wrapper,
+body.cq-hide-cart cart-drawer,
+body.cq-hide-cart #CartDrawer,
+body.cq-hide-cart .cart-drawer,
+body.cq-hide-cart .cart-drawer__overlay{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+body.cq-hide-cart{overflow:visible !important}
+
+/* Busy state on the checkout button while the cart calls run */
+.cq-next.cq-busy{opacity:0.6 !important;pointer-events:none !important}
+</style>
+
+<div class="coffee-quiz">
+
+  <!-- ══════════════════════════════════════
+       WARM-UP (v10) - offer, education, social proof, then the quiz.
+       Class cq-hero-section is what go() hides after step 1.
+       ══════════════════════════════════════ -->
+  <div class="cq-hero-section">
+    <div class="cq-warm">
+
+      {% if section.settings.warmup_badge != blank %}
+        <div class="cq-warm-badge">{{ section.settings.warmup_badge }}</div>
+      {% endif %}
+
+      <h1 class="cq-warm-title">{{ section.settings.hero_title | default: 'Find Your Dream Cup' }}</h1>
+      <p class="cq-warm-sub">{{ section.settings.hero_subtitle | default: "Take our two-minute quiz to receive your curated roasting profile." }}</p>
+
+      <div class="cq-warm-grid">
+        <div class="cq-warm-img-wrap">
+          {% if section.settings.warmup_sticker != blank %}
+            <div class="cq-warm-sticker">{{ section.settings.warmup_sticker }}</div>
+          {% endif %}
+          {% if section.settings.warmup_image != blank %}
+            <img class="cq-warm-img" src="{{ section.settings.warmup_image | image_url: width: 500 }}" alt="{{ section.settings.warmup_image.alt | default: "Harvey's Coffee subscription box" }}" loading="eager" width="500" height="500">
+          {% else %}
+            <div class="cq-warm-img-ph">box photo</div>
+          {% endif %}
+        </div>
+        <div>
+          <div class="cq-warm-inc-title">{{ section.settings.warmup_includes_title | default: 'Each Shipment Includes:' }}</div>
+          <ul class="cq-warm-inc">
+            <li>
+              <span class="cq-warm-ic"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1"/></svg></span>
+              <span>{{ section.settings.include_1 | default: 'Only single origin, small-batch beans' }}</span>
+            </li>
+            <li>
+              <span class="cq-warm-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+              <span>{{ section.settings.include_2 | default: "A card with tasting notes & the story behind each roast" }}</span>
+            </li>
+            <li>
+              <span class="cq-warm-ic"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></span>
+              <span>{{ section.settings.include_3 | default: 'Coffee tips & fun facts with every box' }}</span>
+            </li>
+            <li>
+              <span class="cq-warm-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
+              <span>{{ section.settings.include_4 | default: '100% satisfaction guarantee: love it or your money back' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <button class="cq-warm-cta" onclick="cqStart()">{{ section.settings.warmup_cta | default: 'Start the Quiz' }} <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      {% if section.settings.warmup_reassure != blank %}
+        <div class="cq-warm-reassure">{{ section.settings.warmup_reassure }}</div>
+      {% endif %}
+
+      {% if section.settings.press_logo_1 != blank or section.settings.press_logo_2 != blank or section.settings.press_logo_3 != blank %}
+        <div class="cq-warm-press">
+          <div class="cq-warm-press-t">{{ section.settings.press_title | default: 'Recommended By' }}</div>
+          <div class="cq-warm-press-logos">
+            {% if section.settings.press_logo_1 != blank %}<img src="{{ section.settings.press_logo_1 | image_url: width: 300 }}" alt="{{ section.settings.press_logo_1.alt | default: 'Press logo' }}" loading="lazy" width="150" height="26">{% endif %}
+            {% if section.settings.press_logo_2 != blank %}<img src="{{ section.settings.press_logo_2 | image_url: width: 300 }}" alt="{{ section.settings.press_logo_2.alt | default: 'Press logo' }}" loading="lazy" width="150" height="26">{% endif %}
+            {% if section.settings.press_logo_3 != blank %}<img src="{{ section.settings.press_logo_3 | image_url: width: 300 }}" alt="{{ section.settings.press_logo_3.alt | default: 'Press logo' }}" loading="lazy" width="150" height="26">{% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       QUIZ FLOW (always visible, no Get Started gate)
+       ══════════════════════════════════════ -->
+  <div id="cqFlow" class="cq-quiz-flow cq-active">
+
+    <div class="cq-progress-bar">
+      <div class="cq-prog-seg cq-done" id="cqP1"></div>
+      <div class="cq-prog-seg" id="cqP2"></div>
+      <div class="cq-prog-seg" id="cqP3"></div>
+      <div class="cq-prog-seg" id="cqP4"></div>
+      <div class="cq-prog-text" id="cqPTxt">Step 1 of 4</div>
+    </div>
+
+    <div class="cq-container">
+
+      <!-- ══════ Q1: WHOLE BEAN OR GROUND? ══════ -->
+      <div class="cq-step cq-active" id="cqS1">
+        <div class="cq-q-card">
+          <div class="cq-q-title">{{ section.settings.q1_title | default: 'How Do You Brew?' }}</div>
+          <div class="cq-q-sub">{{ section.settings.q1_sub | default: ' ' }}</div>
+          <div class="cq-opts cq-g2">
+            <div class="cq-opt" data-val="whole_bean" onclick="cqPick(this,'brewType')">
+              {% if section.settings.img_whole_bean != blank %}
+                <img class="cq-opt-img" src="{{ section.settings.img_whole_bean | image_url: width: 200 }}" alt="Whole Bean" loading="lazy" width="200" height="160">
+              {% else %}
+                <div class="cq-opt-img-ph">image</div>
+              {% endif %}
+              <div class="cq-opt-name">Whole Bean</div>
+              <div class="cq-opt-desc">I grind my own beans</div>
+              <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+            </div>
+            <div class="cq-opt" data-val="ground" onclick="cqPick(this,'brewType')">
+              {% if section.settings.img_ground != blank %}
+                <img class="cq-opt-img" src="{{ section.settings.img_ground | image_url: width: 200 }}" alt="Ground" loading="lazy" width="200" height="160">
+              {% else %}
+                <div class="cq-opt-img-ph">image</div>
+              {% endif %}
+              <div class="cq-opt-name">Ground</div>
+              <div class="cq-opt-desc">Pre-ground for my brew method</div>
+              <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+            </div>
+          </div>
+          <div class="cq-nav">
+            <div></div>
+            <button class="cq-next" id="cqN1" onclick="cqNext(1)">Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ Q1b: GRIND METHOD (only if Ground) ══════ -->
+      <div class="cq-step" id="cqS1b">
+        <div class="cq-q-card">
+          <div class="cq-q-title">Ground Perfectly For Your...</div>
+          <div class="cq-q-sub">Select your brew method</div>
+          <div class="cq-opts cq-g3">
+            {% for block in section.blocks %}
+              {% if block.type == 'brew_method' %}
+                <div class="cq-opt" data-val="{{ block.settings.brew_value }}" onclick="cqPick(this,'brew')">
+                  {% if block.settings.brew_image != blank %}
+                    <img class="cq-opt-img" src="{{ block.settings.brew_image | image_url: width: 200 }}" alt="{{ block.settings.brew_label }}" loading="lazy" width="200" height="160">
+                  {% else %}
+                    <div class="cq-opt-img-ph">image</div>
+                  {% endif %}
+                  <div class="cq-opt-name">{{ block.settings.brew_label }}</div>
+                  <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="cq-nav">
+            <button class="cq-back" onclick="cqBack('1b')"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
+            <button class="cq-next" id="cqN1b" onclick="cqNext('1b')">Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ Q2: ROAST LEVEL ══════ -->
+      <div class="cq-step" id="cqS2">
+        <div class="cq-q-card">
+          <div class="cq-q-title">{{ section.settings.q2_title | default: 'Select Roast Level' }}</div>
+          <div class="cq-q-sub">{{ section.settings.q2_sub | default: ' ' }}</div>
+          <div class="cq-opts cq-g2">
+            {% for block in section.blocks %}
+              {% if block.type == 'roast_level' %}
+                <div class="cq-opt" data-val="{{ block.settings.roast_value }}" onclick="cqPick(this,'roast')">
+                  {% if block.settings.roast_image != blank %}
+                    <img class="cq-opt-img" src="{{ block.settings.roast_image | image_url: width: 200 }}" alt="{{ block.settings.roast_label }}" loading="lazy" width="200" height="160">
+                  {% else %}
+                    <div class="cq-opt-img-ph">image</div>
+                  {% endif %}
+                  <div class="cq-opt-name">{{ block.settings.roast_label }}</div>
+                  <div class="cq-opt-desc">{{ block.settings.roast_desc }}</div>
+                  <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="cq-nav">
+            <button class="cq-back" onclick="cqBack(2)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
+            <button class="cq-next" id="cqN2" onclick="cqNext(2)">Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ Q3: NUMBER OF BAGS ══════ -->
+      <div class="cq-step" id="cqS3">
+        <div class="cq-q-card">
+          <div class="cq-q-title">{{ section.settings.q3_title | default: 'Number of Bags to Ship' }}</div>
+          <div class="cq-q-sub">{{ section.settings.q3_sub | default: ' ' }}</div>
+          <div class="cq-bag-grid">
+            <!-- Double Bag — $32 -> $16 IS one of two bags free. Label says so. -->
+            <div class="cq-opt" data-val="two_bags" onclick="cqPick(this,'quantity')">
+              <div class="cq-popular">Most Popular</div>
+              <div class="cq-ribbon-wrap">
+                <div class="cq-ribbon">On Sale Now</div>
+                {% if section.settings.img_two_bags != blank %}
+                  <img class="cq-bag-img" src="{{ section.settings.img_two_bags | image_url: width: 300 }}" alt="Double Bag" loading="lazy" width="300" height="200">
+                {% else %}
+                  <div class="cq-bag-img-ph"><span>image</span></div>
+                {% endif %}
+              </div>
+              <div class="cq-opt-name" >{{ section.settings.label_two_bags | default: 'Double Bag' }}</div>
+              <div class="cq-opt-desc">{{ section.settings.desc_two_bags | default: '2 bags · 24oz · ~60 cups' }}</div>
+              <div class="cq-price-row">
+                <span class="cq-pr-old">${{ section.settings.price_two_bags_original | default: '32' }}</span>
+                <span class="cq-pr-new">${{ section.settings.price_two_bags_sale | default: '16' }}</span>
+              </div>
+              <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+              <div class="cq-pr-off cq-pr-free">{{ section.settings.discount_two_bags | default: '1st Bag FREE' }}</div>
+              <div class="cq-pr-save">{{ section.settings.savings_two_bags | default: 'Then $32/shipment · cancel anytime' }}</div>
+            </div>
+            <!-- Single Bag — deliberately stays a DISCOUNT, not a free bag.
+                 If every card says FREE the Double loses its pull, and a
+                 free single is $0 revenue against $8.41 COGS. -->
+            <div class="cq-opt" data-val="single_bag" onclick="cqPick(this,'quantity')">
+              <div class="cq-ribbon-wrap">
+                <div class="cq-ribbon">On Sale Now</div>
+                {% if section.settings.img_single_bag != blank %}
+                  <img class="cq-bag-img" src="{{ section.settings.img_single_bag | image_url: width: 300 }}" alt="Single Bag" loading="lazy" width="300" height="200">
+                {% else %}
+                  <div class="cq-bag-img-ph"><span>image</span></div>
+                {% endif %}
+              </div>
+              <div class="cq-opt-name" >{{ section.settings.label_single_bag | default: 'Single Bag' }}</div>
+              <div class="cq-opt-desc">{{ section.settings.desc_single_bag | default: '1 bag · 12oz · ~30 cups' }}</div>
+              <div class="cq-price-row">
+                <span class="cq-pr-old">${{ section.settings.price_single_bag_original | default: '17.50' }}</span>
+                <span class="cq-pr-new">${{ section.settings.price_single_bag_sale | default: '8.75' }}</span>
+              </div>
+              <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+              <div class="cq-pr-off">{{ section.settings.discount_single_bag | default: '50% Off' }}</div>
+              <div class="cq-pr-save">{{ section.settings.savings_single_bag | default: 'Then $17.50/shipment · cancel anytime' }}</div>
+            </div>
+          </div>
+
+          <!-- Need More -->
+          <div class="cq-more-btn" id="cqMoreBtn" onclick="cqToggleMore()">
+            Need More? <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="cq-more-panel" id="cqMorePanel">
+            <div class="cq-bag-grid" style="max-width:280px;margin:0 auto;grid-template-columns:1fr">
+              <!-- Triple Bag — $47.50 -> $23.75 is 1.5 of 3 bags free. -->
+              <div class="cq-opt" data-val="three_bags" onclick="cqPick(this,'quantity')">
+                <div class="cq-ribbon-wrap">
+                  <div class="cq-ribbon">On Sale Now</div>
+                  {% if section.settings.img_three_bags != blank %}
+                    <img class="cq-bag-img" src="{{ section.settings.img_three_bags | image_url: width: 300 }}" alt="Triple Bag" loading="lazy" width="300" height="200">
+                  {% else %}
+                    <div class="cq-bag-img-ph"><span>image</span></div>
+                  {% endif %}
+                </div>
+                <div class="cq-opt-name" >{{ section.settings.label_three_bags | default: 'Triple Bag' }}</div>
+                <div class="cq-opt-desc">{{ section.settings.desc_three_bags | default: '3 bags · 36oz · ~90 cups' }}</div>
+                <div class="cq-price-row">
+                  <span class="cq-pr-old">${{ section.settings.price_three_bags_original | default: '47.50' }}</span>
+                  <span class="cq-pr-new">${{ section.settings.price_three_bags_sale | default: '23.75' }}</span>
+                </div>
+                <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+                <div class="cq-pr-off cq-pr-free">{{ section.settings.discount_three_bags | default: '1½ Bags FREE' }}</div>
+                <div class="cq-pr-save">{{ section.settings.savings_three_bags | default: 'Then $47.50/shipment · cancel anytime' }}</div>
+              </div>
+              {% for block in section.blocks %}
+                {% if block.type == 'extra_bag' %}
+                  <div class="cq-opt" data-val="{{ block.settings.bag_value }}" onclick="cqPick(this,'quantity')">
+                    <div class="cq-opt-name">{{ block.settings.bag_label }}</div>
+                    <div class="cq-opt-desc">{{ block.settings.bag_desc }}</div>
+                    <div class="cq-price-row">
+                      <span class="cq-pr-old">${{ block.settings.bag_price_old }}</span>
+                      <span class="cq-pr-new">${{ block.settings.bag_price_new }}</span>
+                    </div>
+                    {% if block.settings.bag_savings != blank %}<div class="cq-pr-save">{{ block.settings.bag_savings }}</div>{% endif %}
+                    <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="cq-nav">
+            <button class="cq-back" onclick="cqBack(3)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
+            <button class="cq-next" id="cqN3" onclick="cqNext(3)">Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ Q4: DELIVERY FREQUENCY ══════ -->
+      <div class="cq-step" id="cqS4">
+        <div class="cq-q-card">
+          <div class="cq-q-title">{{ section.settings.q4_title | default: 'Delivery Frequency' }}</div>
+          <div class="cq-q-sub">{{ section.settings.q4_sub | default: 'Pause, skip, or change your delivery frequency any time' }}</div>
+          <div class="cq-opts cq-g2">
+            <div class="cq-freq" data-val="2_weeks" onclick="cqPick(this,'frequency')">
+              <div class="cq-freq-ev">Every</div>
+              <div class="cq-freq-num">2</div>
+              <div class="cq-freq-u">Weeks</div>
+              <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+            </div>
+            <div class="cq-freq" data-val="4_weeks" onclick="cqPick(this,'frequency')">
+              <div class="cq-freq-ev">Every</div>
+              <div class="cq-freq-num">4</div>
+              <div class="cq-freq-u">Weeks</div>
+              <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
+            </div>
+          </div>
+          <div class="cq-trust">
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="cq-trust-t">{{ section.settings.trust1_title | default: 'Satisfaction Guaranteed' }}</div></div>
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg></div><div class="cq-trust-t">{{ section.settings.trust2_title | default: 'Skip or Cancel Anytime' }}</div></div>
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="cq-trust-t">{{ section.settings.trust3_title | default: 'Roasted in Davis, CA' }}</div></div>
+          </div>
+          <div class="cq-nav">
+            <button class="cq-back" onclick="cqBack(4)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
+            <button class="cq-next" id="cqN4" onclick="cqCheckout()">{{ section.settings.checkout_text | default: 'Continue to Checkout' }} <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var STEPS=4,cur=0;
+  // ── Pre-populated defaults ──────────────────────────────────────────────
+  var S={
+    brewType:'whole_bean',
+    brew:'whole_bean',
+    roast:'medium_dark',
+    quantity:'two_bags',
+    frequency:'4_weeks'
+  };
+
+  function getStepOrder(){
+    if(S.brewType==='ground') return ['1','1b','2','3','4'];
+    return ['1','2','3','4'];
+  }
+  function stepIndex(id){return getStepOrder().indexOf(String(id))}
+  function nextStep(id){var o=getStepOrder();var i=o.indexOf(String(id));return i>=0&&i<o.length-1?o[i+1]:null}
+  function prevStep(id){var o=getStepOrder();var i=o.indexOf(String(id));return i>0?o[i-1]:null}
+
+  var CFG={
+    storeDomain:'awa1ji-pb.myshopify.com',
+    discountCode:'FIRSTORDER',
+    // Shopify SELLING PLAN ids (not selling plan GROUP ids).
+    // Verify against Shopify after any Recharge plan edit — recreating a
+    // plan in Recharge issues a NEW id and silently orphans the old one.
+    sellingPlans:{
+      single_bag:{'4_weeks':'27403878434','2_weeks':'27002667042'},
+      two_bags:{'4_weeks':'27003519010','2_weeks':'27003551778'},
+      three_bags:{'4_weeks':'27003617314','2_weeks':'27003584546'}
+    },
+    variants:{
+      single_bag:{
+        light_medium:{whole_bean:'45225479274530',coffee_maker:'45225479307298',french_press:'45225479340066',pour_over:'45225479372834',espresso:'45225479405602',aeropress:'45225479438370',cold_brew:'45225479471138'},
+        medium_dark:{whole_bean:'45225479503906',coffee_maker:'45225479536674',french_press:'45225479569442',pour_over:'45225479602210',espresso:'45225479634978',aeropress:'45225479667746',cold_brew:'45225479700514'},
+        espresso_roast:{whole_bean:'45225479733282',coffee_maker:'45225479766050',french_press:'45225479798818',pour_over:'45225479831586',espresso:'45225479864354',aeropress:'45225479897122',cold_brew:'45225479929890'},
+        decaf:{whole_bean:'45225479962658',coffee_maker:'45225479995426',french_press:'45225480028194',pour_over:'45225480060962',espresso:'45225480093730',aeropress:'45225480126498',cold_brew:'45225480159266'}
+      },
+      two_bags:{
+        light_medium:{whole_bean:'45231045115938',coffee_maker:'45231045148706',french_press:'45231045181474',pour_over:'45231045214242',espresso:'45231045247010',aeropress:'45231045279778',cold_brew:'45231045312546'},
+        medium_dark:{whole_bean:'45231045345314',coffee_maker:'45231045378082',french_press:'45231045410850',pour_over:'45231045443618',espresso:'45231045476386',aeropress:'45231045509154',cold_brew:'45231045541922'},
+        espresso_roast:{whole_bean:'45231045574690',coffee_maker:'45231045607458',french_press:'45231045640226',pour_over:'45231045672994',espresso:'45231045705762',aeropress:'45231045738530',cold_brew:'45231045771298'},
+        decaf:{whole_bean:'45231045804066',coffee_maker:'45231045836834',french_press:'45231045869602',pour_over:'45231045902370',espresso:'45231045935138',aeropress:'45231045967906',cold_brew:'45231046000674'}
+      },
+      three_bags:{
+        light_medium:{whole_bean:'45231117795362',coffee_maker:'45231117828130',french_press:'45231117860898',pour_over:'45231117893666',espresso:'45231117926434',aeropress:'45231117959202',cold_brew:'45231117991970'},
+        medium_dark:{whole_bean:'45231118024738',coffee_maker:'45231118057506',french_press:'45231118090274',pour_over:'45231118123042',espresso:'45231118155810',aeropress:'45231118188578',cold_brew:'45231118221346'},
+        espresso_roast:{whole_bean:'45231118254114',coffee_maker:'45231118286882',french_press:'45231118319650',pour_over:'45231118352418',espresso:'45231118385186',aeropress:'45231118417954',cold_brew:'45231118450722'},
+        decaf:{whole_bean:'45231118483490',coffee_maker:'45231118516258',french_press:'45231118549026',pour_over:'45231118581794',espresso:'45231118614562',aeropress:'45231118647330',cold_brew:'45231118680098'}
+      }
+    }
+  };
+
+  cur=1;
+
+  // ── Apply visual defaults on DOM ready ─────────────────────────────────
+  function initDefaults(){
+    // Q1: Whole Bean
+    var wbOpt=document.querySelector('#cqS1 .cq-opt[data-val="whole_bean"]');
+    if(wbOpt) wbOpt.classList.add('cq-on');
+
+    // Q2: Medium Dark (first roast_level block with that value)
+    var roastOpt=document.querySelector('#cqS2 .cq-opt[data-val="medium_dark"]');
+    if(roastOpt) roastOpt.classList.add('cq-on');
+
+    // Q3: Double Bag — lives in #cqS3, data-val="two_bags"
+    var bagOpt=document.querySelector('#cqS3 .cq-opt[data-val="two_bags"]');
+    if(bagOpt) bagOpt.classList.add('cq-on');
+
+    // Q4: Every 4 Weeks
+    var freqOpt=document.querySelector('#cqS4 .cq-freq[data-val="4_weeks"]');
+    if(freqOpt) freqOpt.classList.add('cq-on');
+
+    // Enable all Next buttons since defaults are set
+    ['1','2','3','4'].forEach(function(n){
+      var btn=document.getElementById('cqN'+n);
+      if(btn) btn.classList.add('cq-go');
+    });
+  }
+
+  // Run after DOM is ready
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initDefaults);
+  }else{
+    initDefaults();
+  }
+
+  // v10 - warm-up CTA. The quiz is already rendered below the warm-up;
+  // this just carries the visitor to question one.
+  window.cqStart=function(){
+    var p=document.querySelector('.cq-progress-bar');
+    if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+
+  window.cqPick=function(el,field){
+    if(field==='quantity'){
+      document.querySelectorAll('#cqS3 .cq-opt').forEach(function(c){c.classList.remove('cq-on')});
+    }else{
+      el.parentElement.querySelectorAll('.cq-opt,.cq-freq').forEach(function(c){c.classList.remove('cq-on')});
+    }
+    el.classList.add('cq-on');
+    S[field]=el.getAttribute('data-val');
+
+    if(field==='brewType'){
+      if(S.brewType==='whole_bean'){
+        S.brew='whole_bean';
+      }else{
+        S.brew=null;
+      }
+    }
+    enableBtn(cur);
+  };
+
+  function enableBtn(s){
+    var btn=document.getElementById('cqN'+s);
+    if(!btn)return;
+    var ok=false;
+    switch(String(s)){
+      case '1':ok=!!S.brewType;break;
+      case '1b':ok=!!S.brew;break;
+      case '2':ok=!!S.roast;break;
+      case '3':ok=!!S.quantity;break;
+      case '4':ok=!!S.frequency;break;
+    }
+    btn.classList.toggle('cq-go',ok);
+  }
+
+  window.cqNext=function(from){
+    var btn=document.getElementById('cqN'+from);
+    if(!btn||!btn.classList.contains('cq-go'))return;
+    var to=nextStep(from);
+    if(!to)return;
+    go(to,false);
+  };
+  window.cqBack=function(from){
+    var to=prevStep(from);
+    if(!to)return;
+    go(to,true);
+  };
+
+  function go(n,back){
+    var old=document.getElementById('cqS'+cur);
+    if(old)old.classList.remove('cq-active','cq-back');
+    cur=n;
+    var nxt=document.getElementById('cqS'+n);
+    if(back)nxt.classList.add('cq-back');
+    else nxt.classList.remove('cq-back');
+    void nxt.offsetWidth;
+    nxt.classList.add('cq-active');
+
+    var heroWrap=document.querySelector('.cq-hero-section');
+    if(heroWrap){heroWrap.style.display=(String(n)==='1')?'':'none'}
+
+    var order=getStepOrder();
+    var pos=order.indexOf(String(n));
+    var totalSegs=STEPS;
+    for(var i=1;i<=totalSegs;i++){
+      var p=document.getElementById('cqP'+i);
+      if(p)p.classList.toggle('cq-done',i<=pos+1);
+    }
+    var lbl=document.getElementById('cqPTxt');
+    lbl.textContent='Step '+(pos+1)+' of '+order.length;
+
+    document.querySelector('.cq-progress-bar').scrollIntoView({behavior:'smooth',block:'start'});
+    enableBtn(n);
+  }
+
+  window.cqToggleMore=function(){
+    document.getElementById('cqMoreBtn').classList.toggle('cq-open');
+    document.getElementById('cqMorePanel').classList.toggle('cq-show');
+  };
+
+  // ── Checkout ────────────────────────────────────────────────────────────
+  // Uses /cart/add.js so the selling_plan is bound to the line item by
+  // Shopify's cart API. The old cart-permalink approach
+  // (/cart/{variant}:1?selling_plan=...) silently discarded the plan and
+  // produced one-time orders with no error of any kind.
+  function cqRestoreBtn(btn){
+    if(btn){btn.dataset.busy='';btn.style.pointerEvents='';btn.classList.remove('cq-busy');}
+  }
+
+  // Invisible guard, active only between the click and the redirect.
+  // Snapshots which fixed/sticky elements are visible at click time; any
+  // fixed/sticky element that becomes visible AFTER that (a cart popup,
+  // a drawer, an app toast) is hidden. Nothing inside the quiz is touched.
+  var cqGuardObs=null, cqGuardSeen=null;
+  function cqIsOverlay(el){
+    if(!(el instanceof Element)) return false;
+    if(el.closest('.coffee-quiz')) return false;
+    if(el===document.body||el===document.documentElement) return false;
+    var cs=getComputedStyle(el);
+    if(cs.position!=='fixed'&&cs.position!=='sticky') return false;
+    if(cs.display==='none'||cs.visibility==='hidden') return false;
+    var r=el.getBoundingClientRect();
+    return r.width>0&&r.height>0;
+  }
+  function cqGuardStart(){
+    cqGuardStop();
+    cqGuardSeen=(typeof WeakSet==='function')?new WeakSet():null;
+    if(cqGuardSeen){
+      var all=document.body.getElementsByTagName('*');
+      for(var i=0;i<all.length;i++){ if(cqIsOverlay(all[i])) cqGuardSeen.add(all[i]); }
+    }
+    if(!window.MutationObserver) return;
+    cqGuardObs=new MutationObserver(function(recs){
+      for(var i=0;i<recs.length;i++){
+        var rec=recs[i], cands=[];
+        if(rec.type==='childList'){ for(var j=0;j<rec.addedNodes.length;j++) cands.push(rec.addedNodes[j]); }
+        else cands.push(rec.target);
+        for(var k=0;k<cands.length;k++){
+          var el=cands[k];
+          if(!(el instanceof Element)) continue;
+          var list=[el]; if(el.querySelectorAll){ var q=el.querySelectorAll('*'); for(var m=0;m<q.length;m++) list.push(q[m]); }
+          for(var n=0;n<list.length;n++){
+            var e=list[n];
+            if(cqGuardSeen&&cqGuardSeen.has(e)) continue;
+            if(cqIsOverlay(e)){ e.style.setProperty('display','none','important'); e.style.setProperty('visibility','hidden','important'); }
+          }
+        }
+      }
+    });
+    cqGuardObs.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style','open','hidden','aria-hidden']});
+  }
+  function cqGuardStop(){
+    if(cqGuardObs){ cqGuardObs.disconnect(); cqGuardObs=null; }
+    cqGuardSeen=null;
+  }
+
+  // Pristine fetch from a same-origin iframe. Theme/app scripts that wrap
+  // window.fetch or XMLHttpRequest to pop a cart UI on /cart/add.js only
+  // patch THIS window; the iframe's realm is untouched.
+  function cqCleanFetch(){
+    try{
+      var f=document.getElementById('cqNetFrame');
+      if(!f){
+        f=document.createElement('iframe');
+        f.id='cqNetFrame';
+        f.setAttribute('aria-hidden','true');
+        f.tabIndex=-1;
+        f.style.cssText='position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none';
+        document.body.appendChild(f);
+      }
+      var w=f.contentWindow;
+      if(w&&typeof w.fetch==='function'){
+        return function(u,o){return w.fetch(u,o)};
+      }
+    }catch(e){}
+    return function(u,o){return window.fetch(u,o)};
+  }
+
+  window.cqCheckout=function(){
+    var btn=document.getElementById('cqN4');
+    if(btn&&(btn.dataset.busy==='1'||!btn.classList.contains('cq-go')))return;
+
+    var productKey=S.quantity||'single_bag';
+    var productMap=CFG.variants[productKey];
+    var roastMap=productMap?productMap[S.roast]:null;
+    var vid=roastMap?roastMap[S.brew]:null;
+    var spid=CFG.sellingPlans[productKey]?CFG.sellingPlans[productKey][S.frequency]:null;
+
+    if(!vid){
+      alert('Could not find variant for:\nRoast: '+S.roast+'\nBrew: '+S.brew+'\n\nPlease check the variant mapping in coffee-quiz.liquid');
+      return;
+    }
+
+    // Never fall through to a one-time purchase. If the plan is missing the
+    // customer would be charged subscription pricing with nothing recurring.
+    if(!spid){
+      alert('Subscription plans are temporarily unavailable. Please contact us at harveyuyeyama@gmail.com and we will set this up for you.');
+      return;
+    }
+
+    if(btn){btn.dataset.busy='1';btn.style.pointerEvents='none';btn.classList.add('cq-busy');}
+
+    // Guard goes up BEFORE any cart call is made.
+    cqGuardStart();
+
+    var xfetch=cqCleanFetch();
+    var origin=window.location.origin;
+
+    xfetch(origin+'/cart/clear.js',{
+      method:'POST',
+      credentials:'same-origin',
+      headers:{'Content-Type':'application/json','Accept':'application/json'}
+    })
+    .then(function(){
+      return xfetch(origin+'/cart/add.js',{
+        method:'POST',
+        credentials:'same-origin',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          items:[{
+            id:Number(vid),
+            quantity:1,
+            selling_plan:Number(spid)
+          }]
+        })
+      });
+    })
+    .then(function(r){
+      return r.json().then(function(d){
+        if(!r.ok) throw new Error(d.description||d.message||'Could not add item to cart');
+        return d;
+      });
+    })
+    .then(function(d){
+      // Confirm the plan actually attached before sending them to checkout.
+      var item=d&&d.items&&d.items[0];
+      if(item&&!item.selling_plan_allocation){
+        throw new Error('Subscription plan did not attach. Please contact us.');
+      }
+      // Guard stays up — the page is about to navigate away.
+      window.location.href = CFG.discountCode
+        ? '/discount/'+encodeURIComponent(CFG.discountCode)+'?redirect=%2Fcheckout'
+        : '/checkout';
+    })
+    .catch(function(e){
+      cqGuardStop();
+      alert('Could not start checkout: '+(e&&e.message?e.message:'unknown error'));
+      cqRestoreBtn(btn);
+    });
+  };
+})();
+</script>
+
+<script>
+/* Adds the body class that scopes the Dawn cart-UI hide above.
+   Additive — the quiz script does not depend on it. */
+(function(){
+  function start(){ document.body.classList.add('cq-hide-cart'); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start);
+  else start();
+})();
+</script>
+
+{% schema %}
+{
+  "name":"Coffee Quiz",
+  "tag":"section",
+  "class":"coffee-quiz-section",
+  "settings":[
+    {"type":"header","content":"Warm-Up (above quiz)"},
+    {"type":"paragraph","content":"v10: Atlas-style education shown above question one. Hidden automatically once the customer moves past step 1. hero_title and hero_subtitle render here now instead of inside the Q1 card."},
+    {"type":"text","id":"warmup_badge","label":"Offer badge","default":"Fall Sale · First Bag Free with Subscription","info":"Keep this matching the announcement bar and your ads (message match)."},
+    {"type":"text","id":"hero_title","label":"Heading","default":"Find Your Dream Cup"},
+    {"type":"textarea","id":"hero_subtitle","label":"Subheading","default":"Take our two-minute quiz to receive your curated roasting profile."},
+    {"type":"image_picker","id":"warmup_image","label":"Warm-up image","info":"The open box photo. Cropped to a circle, like Atlas."},
+    {"type":"text","id":"warmup_sticker","label":"Sticker text","default":"Sale! Free Bag","info":"Yellow round sticker on the image. Leave empty to hide."},
+    {"type":"text","id":"warmup_includes_title","label":"Includes heading","default":"Each Shipment Includes:"},
+    {"type":"text","id":"include_1","label":"Include line 1","default":"Only single origin, small-batch beans"},
+    {"type":"text","id":"include_2","label":"Include line 2","default":"A card with tasting notes & the story behind each roast"},
+    {"type":"text","id":"include_3","label":"Include line 3","default":"Coffee tips & fun facts with every box"},
+    {"type":"text","id":"include_4","label":"Include line 4","default":"100% satisfaction guarantee: love it or your money back"},
+    {"type":"text","id":"warmup_cta","label":"Warm-up button text","default":"Start the Quiz"},
+    {"type":"text","id":"warmup_reassure","label":"Reassurance line","default":"Takes 2 minutes · Skip or cancel anytime","info":"Small text under the button. Leave empty to hide."},
+    {"type":"text","id":"press_title","label":"Press heading","default":"Recommended By"},
+    {"type":"image_picker","id":"press_logo_1","label":"Press logo 1"},
+    {"type":"image_picker","id":"press_logo_2","label":"Press logo 2"},
+    {"type":"image_picker","id":"press_logo_3","label":"Press logo 3"},
+    {"type":"header","content":"Hero (legacy)"},
+    {"type":"image_picker","id":"hero_image","label":"Hero image"},
+    {"type":"text","id":"hero_cta","label":"Button text","default":"Get Started"},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"color_background","label":"Background","default":"#FAF3E8"},
+    {"type":"color","id":"color_text","label":"Text","default":"#2C1810"},
+    {"type":"color","id":"color_accent","label":"Accent","default":"#D4920B"},
+    {"type":"color","id":"color_success","label":"Success","default":"#3D5A3E"},
+    {"type":"header","content":"Q1 - Brew Method"},
+    {"type":"text","id":"q1_title","label":"Title","default":"How Do You Brew?"},
+    {"type":"text","id":"q1_sub","label":"Subtitle"},
+    {"type":"image_picker","id":"img_whole_bean","label":"Whole Bean image"},
+    {"type":"image_picker","id":"img_ground","label":"Ground image"},
+    {"type":"header","content":"Q2 - Roast Level"},
+    {"type":"text","id":"q2_title","label":"Title","default":"Select Roast Level"},
+    {"type":"text","id":"q2_sub","label":"Subtitle"},
+    {"type":"header","content":"Q3 - Bags"},
+    {"type":"paragraph","content":"OFFER WORDING: $32 → $16 on the Double is exactly one of two bags free, so the Double and Triple are labelled FREE. The Single is deliberately left as a discount — if every card says FREE the Double loses its pull."},
+    {"type":"text","id":"q3_title","label":"Title","default":"Number of Bags to Ship"},
+    {"type":"text","id":"q3_sub","label":"Subtitle"},
+    {"type":"image_picker","id":"img_two_bags","label":"Double Bag image"},
+    {"type":"text","id":"label_two_bags","label":"Double Bag label","default":"Double Bag"},
+    {"type":"text","id":"desc_two_bags","label":"Double Bag desc","default":"2 bags · 24oz · ~60 cups"},
+    {"type":"text","id":"two_bags_badge","label":"Badge text","default":"Best Value"},
+    {"type":"text","id":"price_two_bags_original","label":"Original price","default":"32"},
+    {"type":"text","id":"price_two_bags_sale","label":"Sale price","default":"16"},
+    {"type":"text","id":"discount_two_bags","label":"Offer text","default":"1st Bag FREE","info":"Shown as a red chip. This is the headline offer — keep it short."},
+    {"type":"text","id":"savings_two_bags","label":"Ongoing price text","default":"Then $32/shipment · cancel anytime"},
+    {"type":"image_picker","id":"img_single_bag","label":"Single Bag image"},
+    {"type":"text","id":"label_single_bag","label":"Single Bag label","default":"Single Bag"},
+    {"type":"text","id":"desc_single_bag","label":"Single Bag desc","default":"1 bag · 12oz · ~30 cups"},
+    {"type":"text","id":"price_single_bag_original","label":"Original price","default":"17.50"},
+    {"type":"text","id":"price_single_bag_sale","label":"Sale price","default":"8.75"},
+    {"type":"text","id":"discount_single_bag","label":"Offer text","default":"50% Off","info":"Keep this a DISCOUNT, not a free bag. A free single is $0 revenue against $8.41 COGS."},
+    {"type":"text","id":"savings_single_bag","label":"Ongoing price text","default":"Then $17.50/shipment · cancel anytime"},
+    {"type":"image_picker","id":"img_three_bags","label":"Triple Bag image"},
+    {"type":"text","id":"label_three_bags","label":"Triple Bag label","default":"Triple Bag"},
+    {"type":"text","id":"desc_three_bags","label":"Triple Bag desc","default":"3 bags · 36oz · ~90 cups"},
+    {"type":"text","id":"price_three_bags_original","label":"Original price","default":"47.50"},
+    {"type":"text","id":"price_three_bags_sale","label":"Sale price","default":"23.75"},
+    {"type":"text","id":"discount_three_bags","label":"Offer text","default":"1½ Bags FREE","info":"$47.50 → $23.75 is 1.5 of 3 bags. Swap to '50% Off' if the half-bag reads oddly."},
+    {"type":"text","id":"savings_three_bags","label":"Ongoing price text","default":"Then $47.50/shipment · cancel anytime"},
+    {"type":"header","content":"Q4 - Frequency"},
+    {"type":"text","id":"q4_title","label":"Title","default":"Delivery Frequency"},
+    {"type":"text","id":"q4_sub","label":"Subtitle","default":"Pause, skip, or change your delivery frequency any time"},
+    {"type":"header","content":"Summary & Checkout"},
+    {"type":"text","id":"summary_title","label":"Heading","default":"Order Summary"},
+    {"type":"text","id":"checkout_text","label":"Button text","default":"Continue to Checkout"},
+    {"type":"header","content":"Trust Badges"},
+    {"type":"text","id":"trust1_title","label":"Badge 1","default":"Satisfaction Guaranteed"},
+    {"type":"text","id":"trust2_title","label":"Badge 2","default":"Skip or Cancel Anytime"},
+    {"type":"text","id":"trust3_title","label":"Badge 3","default":"Roasted in Davis, CA"}
+  ],
+  "blocks":[
+    {
+      "type":"brew_method",
+      "name":"Brew Method",
+      "settings":[
+        {"type":"text","id":"brew_value","label":"Value key","info":"lowercase: coffee_maker, espresso, french_press, pour_over, aeropress, cold_brew"},
+        {"type":"text","id":"brew_label","label":"Display name"},
+        {"type":"image_picker","id":"brew_image","label":"Image"}
+      ]
+    },
+    {
+      "type":"roast_level",
+      "name":"Roast Level",
+      "settings":[
+        {"type":"text","id":"roast_value","label":"Value key","info":"lowercase: light_medium, medium_dark, espresso_roast, decaf"},
+        {"type":"text","id":"roast_label","label":"Display name"},
+        {"type":"text","id":"roast_desc","label":"Description"},
+        {"type":"image_picker","id":"roast_image","label":"Image"}
+      ]
+    },
+    {
+      "type":"extra_bag",
+      "name":"Extra Bag Option",
+      "settings":[
+        {"type":"text","id":"bag_value","label":"Value key"},
+        {"type":"text","id":"bag_label","label":"Display name"},
+        {"type":"text","id":"bag_desc","label":"Description"},
+        {"type":"text","id":"bag_price_old","label":"Original price"},
+        {"type":"text","id":"bag_price_new","label":"Sale price"},
+        {"type":"text","id":"bag_savings","label":"Savings text"}
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"Coffee Quiz",
+      "blocks":[
+        {"type":"brew_method","settings":{"brew_value":"coffee_maker","brew_label":"Coffee Maker"}},
+        {"type":"brew_method","settings":{"brew_value":"espresso","brew_label":"Espresso"}},
+        {"type":"brew_method","settings":{"brew_value":"french_press","brew_label":"French Press"}},
+        {"type":"brew_method","settings":{"brew_value":"pour_over","brew_label":"Pour Over"}},
+        {"type":"brew_method","settings":{"brew_value":"aeropress","brew_label":"Aeropress"}},
+        {"type":"brew_method","settings":{"brew_value":"cold_brew","brew_label":"Cold Brew"}},
+        {"type":"roast_level","settings":{"roast_value":"light_medium","roast_label":"Light to Medium","roast_desc":"Fruit, citrus, berry"}},
+        {"type":"roast_level","settings":{"roast_value":"medium_dark","roast_label":"Medium to Dark","roast_desc":"Chocolate, bold, full-bodied, rich"}},
+        {"type":"roast_level","settings":{"roast_value":"espresso_roast","roast_label":"Espresso Roast","roast_desc":"Perfectly roasted and crafted for espresso"}},
+        {"type":"roast_level","settings":{"roast_value":"decaf","roast_label":"Decaf","roast_desc":"No caffeine? No problem!"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

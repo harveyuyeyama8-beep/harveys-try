@@ -1,6 +1,16 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v16
+  Harvey's Coffee — Subscription Quiz v17
   Trade Coffee style click-through
+
+  v17 changes (2026-09-14) - MOBILE ORDER + QUIZ CENTERING.
+    - Mobile only: the Build Your Plan card now renders ABOVE the
+      Recommended By strip (flex order swap inside .cq-hero-section;
+      DOM order unchanged, desktop unchanged).
+    - Step navigation now centers the active question card vertically
+      in the viewport (cqScrollToStep) instead of pinning the progress
+      bar to the top, which left every card sitting high on desktop and
+      question one high on mobile. Cards taller than the viewport align
+      to the top with 64px headroom instead, so nothing is cut off.
 
   v16 changes (2026-09-14) - HERO REMOVED, MOBILE COMPACTED.
     - The photo hero banner is gone (markup, CSS, and its five schema
@@ -241,9 +251,14 @@
 }
 
 @media(max-width:600px){
-  /* Mobile: everything one column and compact enough that the press
-     strip, plan card, and the Get Started button land within the first
-     screen or one short swipe. */
+  /* Mobile: everything one column and compact enough that the plan
+     card and the Get Started button land within the first screen.
+     v17: on phones the plan card comes FIRST and the press strip moves
+     below it (flex order swap; the DOM order is unchanged, so desktop
+     keeps press strip on top). */
+  .cq-hero-section{display:flex;flex-direction:column}
+  .coffee-quiz .as-seen-on{order:2}
+  .cq-warm{order:1}
   .cq-warm{padding-top:20px}
   .cq-warm-heading{margin-bottom:14px}
   .cq-warm-grid{grid-template-columns:1fr;padding:16px 16px;gap:14px}
@@ -861,13 +876,34 @@ body.cq-hide-cart{overflow:visible !important}
     initDefaults();
   }
 
+  // v17 - center the active question card in the viewport instead of
+  // pinning the progress bar to the very top, which left the card
+  // sitting high. A card taller than the screen aligns to the top with
+  // a little headroom so nothing gets cut off (the bag step on mobile).
+  function cqScrollTo(el){
+    if(!el)return;
+    var r=el.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    var y;
+    if(r.height<vh-48){
+      y=window.pageYOffset+r.top-(vh-r.height)/2;
+    }else{
+      y=window.pageYOffset+r.top-64;
+    }
+    try{window.scrollTo({top:Math.max(y,0),behavior:'smooth'});}
+    catch(e){window.scrollTo(0,Math.max(y,0));}
+  }
+  function cqScrollToStep(id){
+    var s=document.getElementById('cqS'+id);
+    cqScrollTo(s?(s.querySelector('.cq-q-card')||s):null);
+  }
+
   // v12 - warm-up CTA. The quiz starts hidden; the single CTA reveals it
   // and carries the visitor to question one.
   window.cqStart=function(){
     var f=document.getElementById('cqFlow');
     if(f)f.classList.add('cq-active');
-    var p=document.querySelector('.cq-progress-bar');
-    if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
+    cqScrollToStep(cur);
   };
 
   window.cqPick=function(el,field){
@@ -939,7 +975,7 @@ body.cq-hide-cart{overflow:visible !important}
     var lbl=document.getElementById('cqPTxt');
     lbl.textContent='Step '+(pos+1)+' of '+order.length;
 
-    document.querySelector('.cq-progress-bar').scrollIntoView({behavior:'smooth',block:'start'});
+    cqScrollToStep(n);
     enableBtn(n);
   }
 

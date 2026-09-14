@@ -1,6 +1,24 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v12
+  Harvey's Coffee — Subscription Quiz v14
   Trade Coffee style click-through
+
+  v14 changes (2026-09-14) - CHECKOUT BUTTON FIX ONLY.
+    - Coming BACK from checkout left "Continue to Checkout" permanently
+      grayed out: the click locks the button (dataset.busy + cq-busy)
+      against double-submits, the page navigates to checkout on success,
+      and the browser then restores this page from the back-forward
+      cache as a frozen snapshot with the lock still on. A pageshow
+      listener now unlocks the button and stops the overlay guard on
+      every show, so Back -> change an answer -> checkout again works.
+
+  v13 changes (2026-09-14) - IMAGE CROPS, HERO LEGIBILITY, MOBILE.
+    - Plan-card circle enforced by the wrapper (aspect-ratio square,
+      image pinned absolute inside), so portrait uploads can no longer
+      stretch it into an oval or overflow the card.
+    - Hero headline/subheading: fluid clamp sizing, balanced wrapping,
+      white glow for legibility on busy photos; default overlay 35%.
+    - Mobile: shorter hero, stacked plan card with the photo on top,
+      full-width CTA.
 
   v12 changes (2026-09-14) - WARM-UP FLOW + TYPE SCALE ONLY. No pricing,
   no cart logic, no variant/selling-plan changes.
@@ -981,6 +999,17 @@ body.cq-hide-cart{overflow:visible !important}
     if(cqGuardObs){ cqGuardObs.disconnect(); cqGuardObs=null; }
     cqGuardSeen=null;
   }
+
+  // v14 - unlock the checkout button when the customer comes BACK from
+  // checkout. On success the button locks (dataset.busy, cq-busy) and
+  // the page navigates away; browsers restore this page from the
+  // back-forward cache as a frozen snapshot, so without this the button
+  // stayed dead until a hard refresh. pageshow fires on both normal
+  // loads (harmless no-op) and bfcache restores (e.persisted).
+  window.addEventListener('pageshow',function(){
+    cqGuardStop();
+    cqRestoreBtn(document.getElementById('cqN4'));
+  });
 
   // Pristine fetch from a same-origin iframe. Theme/app scripts that wrap
   // window.fetch or XMLHttpRequest to pop a cart UI on /cart/add.js only

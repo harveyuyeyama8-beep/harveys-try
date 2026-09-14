@@ -1,6 +1,18 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v21
+  Harvey's Coffee — Subscription Quiz v22
   Trade Coffee style click-through
+
+  v22 changes (2026-09-14) - MOBILE QUIZ CENTERING + FOOTER + IMAGE.
+    - Mobile quiz wrapper extends 120px past the viewport (container
+      bottom padding rebalances the flex centering), so the theme
+      footer stays below the fold while the card sits at the visual
+      middle of the screen. Mobile cards slightly bigger.
+    - Mobile step scroll: cards that fit the screen are CENTERED again
+      (Q1, frequency); taller-than-screen cards keep the progress-bar
+      anchor from v20 so there is no weird jump. Get Started lands
+      centered on question one via the same logic.
+    - Build Your Plan circle photo enlarged: 250 -> 300px desktop,
+      110 -> 175px mobile, sticker scaled up to match.
 
   v21 changes (2026-09-14) - AUDIT FIXES.
     - Progress bar now shows a 5th segment on the Ground path, so the
@@ -263,7 +275,7 @@
    stretch the circle into an oval or overflow the card - theme img
    rules (height:auto etc.) have nothing to override. The sticker sits
    above on z-index 2. */
-.cq-warm-img-wrap{position:relative;width:100%;max-width:250px;margin:0 auto;aspect-ratio:1}
+.cq-warm-img-wrap{position:relative;width:100%;max-width:300px;margin:0 auto;aspect-ratio:1}
 .cq-warm-img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
 .cq-warm-img-ph{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;background:linear-gradient(145deg,#d4a574,#8B6914);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.55);box-shadow:inset 0 2px 8px rgba(0,0,0,0.15)}
 .cq-warm-sticker{position:absolute;top:-8px;left:-12px;width:88px;height:88px;border-radius:50%;background:var(--cq-amber-light);color:var(--cq-espresso);display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;line-height:1.25;padding:10px;transform:rotate(-12deg);box-shadow:0 3px 10px rgba(0,0,0,0.18);z-index:2}
@@ -304,8 +316,8 @@
   .cq-warm{padding-top:10px}
   .cq-warm-heading{font-size:22px;margin-bottom:10px}
   .cq-warm-grid{grid-template-columns:1fr;padding:12px 14px;gap:10px}
-  .cq-warm-img-wrap{max-width:110px}
-  .cq-warm-sticker{width:56px;height:56px;font-size:8px;top:-4px;left:-8px;padding:6px}
+  .cq-warm-img-wrap{max-width:175px}
+  .cq-warm-sticker{width:72px;height:72px;font-size:9px;top:-6px;left:-8px;padding:8px}
   .cq-warm-inc{gap:8px}
   .cq-warm-inc li{font-size:13px;text-align:left;gap:10px}
   .cq-warm-ic{flex:0 0 30px;width:30px;height:30px}
@@ -463,11 +475,17 @@
 
 /* Responsive */
 @media(max-width:600px){
-  .cq-q-card{padding:28px 18px}
+  /* v22 - the quiz wrapper extends 120px past the viewport so the
+     theme footer stays below the fold, and the container's bottom
+     padding rebalances the flex centering so the card still sits at
+     the visual middle of the screen. Cards slightly bigger to fill. */
+  .cq-quiz-flow{min-height:calc(100vh + 120px)}
+  .cq-container{padding-bottom:140px}
+  .cq-q-card{padding:34px 20px}
   .cq-opts.cq-g2{grid-template-columns:1fr 1fr}
   .cq-opts.cq-g3{grid-template-columns:1fr 1fr 1fr}
-  .cq-opt{padding:16px 10px}
-  .cq-opt-img-ph{width:60px;height:60px}
+  .cq-opt{padding:20px 12px}
+  .cq-opt-img-ph{width:72px;height:72px}
   .cq-trust{grid-template-columns:repeat(3,1fr);gap:4px;margin-top:20px;padding-top:18px}
   .cq-trust-i{padding:0}
   .cq-trust-ic{width:30px;height:30px;margin-bottom:7px}
@@ -946,17 +964,20 @@ body.cq-hide-cart{overflow:visible !important}
     var s=document.getElementById('cqS'+id);
     var card=s?(s.querySelector('.cq-q-card')||s):null;
     if(!card)return;
-    // v20 - on phones the next card is usually taller than the screen,
-    // so the centering math scrolled past the progress bar and looked
-    // like a weird jump. Mobile always anchors to the progress bar at
-    // the top; desktop keeps vertical centering.
+    // v22 - mobile: a card that FITS the screen is centered like on
+    // desktop; a taller-than-screen card anchors to the progress bar
+    // (centering those was the v20 "weird scroll"). Desktop always
+    // centers, with cqScrollTo's own tall-card fallback.
     var vw=window.innerWidth||document.documentElement.clientWidth;
     if(vw<=600){
-      var bar=document.querySelector('.cq-progress-bar')||card;
-      var y=window.pageYOffset+bar.getBoundingClientRect().top-8;
-      try{window.scrollTo({top:Math.max(y,0),behavior:'smooth'});}
-      catch(e){window.scrollTo(0,Math.max(y,0));}
-      return;
+      var vh=window.innerHeight||document.documentElement.clientHeight;
+      if(card.getBoundingClientRect().height>=vh-140){
+        var bar=document.querySelector('.cq-progress-bar')||card;
+        var y=window.pageYOffset+bar.getBoundingClientRect().top-8;
+        try{window.scrollTo({top:Math.max(y,0),behavior:'smooth'});}
+        catch(e){window.scrollTo(0,Math.max(y,0));}
+        return;
+      }
     }
     cqScrollTo(card);
   }
@@ -969,8 +990,9 @@ body.cq-hide-cart{overflow:visible !important}
     if(hero)hero.style.display='none';
     var f=document.getElementById('cqFlow');
     if(f)f.classList.add('cq-active');
-    try{window.scrollTo({top:0,behavior:'smooth'});}
-    catch(e){window.scrollTo(0,0);}
+    // v22 - land centered on question one (scrolls the theme header
+    // away on mobile so the quiz fills the screen).
+    cqScrollToStep(cur);
   };
 
   window.cqPick=function(el,field){

@@ -1,6 +1,17 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v17
+  Harvey's Coffee — Subscription Quiz v18
   Trade Coffee style click-through
+
+  v18 changes (2026-09-14) - FULL-SCREEN QUIZ TAKEOVER.
+    - Clicking Get Started now HIDES the whole warm-up (press strip +
+      Build Your Plan) and the quiz takes over: .cq-quiz-flow.cq-active
+      is a flex column with justify-content:center over min-height
+      100vh, so each question card sits vertically centered; the page
+      scrolls to the top on the swap. Warm-up and quiz are never both
+      on screen.
+    - The warm-up stays hidden for the rest of the session, including
+      Back to step 1 (the old re-show in go() is removed).
+    - Container bottom padding 80 -> 40 for truer centering.
 
   v17 changes (2026-09-14) - MOBILE ORDER + QUIZ CENTERING.
     - Mobile only: the Build Your Plan card now renders ABOVE the
@@ -271,16 +282,19 @@
   .cq-warm-reassure{margin-top:9px;font-size:14px}
 }
 
-/* ══════ QUIZ FLOW ══════ */
+/* ══════ QUIZ FLOW ══════
+   v18: once revealed, the quiz owns the whole screen (the warm-up is
+   hidden by cqStart) and flex-centers itself vertically, so a short
+   question card sits mid-viewport instead of hanging at the top. */
 .cq-quiz-flow{display:none;background:var(--cq-cream);min-height:100vh}
-.cq-quiz-flow.cq-active{display:block}
+.cq-quiz-flow.cq-active{display:flex;flex-direction:column;justify-content:center}
 
 .cq-progress-bar{max-width:500px;margin:0 auto;padding:32px 24px 0;display:flex;align-items:center;gap:8px}
 .cq-prog-seg{flex:1;height:4px;border-radius:4px;background:var(--cq-border);transition:background 0.4s ease}
 .cq-prog-seg.cq-done{background:var(--cq-amber)}
 .cq-prog-text{font-size:13px;font-weight:600;color:var(--cq-muted);white-space:nowrap;min-width:55px;text-align:right}
 
-.cq-container{max-width:640px;margin:0 auto;padding:0 20px 80px}
+.cq-container{max-width:640px;width:100%;margin:0 auto;padding:0 20px 40px}
 
 .cq-step{display:none;animation:cqSlideIn 0.3s ease both}
 .cq-step.cq-active{display:block}
@@ -898,12 +912,16 @@ body.cq-hide-cart{overflow:visible !important}
     cqScrollTo(s?(s.querySelector('.cq-q-card')||s):null);
   }
 
-  // v12 - warm-up CTA. The quiz starts hidden; the single CTA reveals it
-  // and carries the visitor to question one.
+  // v18 - warm-up CTA. Clicking it swaps the page: the warm-up is
+  // hidden for good, the quiz takes over the full screen (flex-centered
+  // by .cq-quiz-flow.cq-active), and we jump to the top.
   window.cqStart=function(){
+    var hero=document.querySelector('.cq-hero-section');
+    if(hero)hero.style.display='none';
     var f=document.getElementById('cqFlow');
     if(f)f.classList.add('cq-active');
-    cqScrollToStep(cur);
+    try{window.scrollTo({top:0,behavior:'smooth'});}
+    catch(e){window.scrollTo(0,0);}
   };
 
   window.cqPick=function(el,field){
@@ -962,8 +980,8 @@ body.cq-hide-cart{overflow:visible !important}
     void nxt.offsetWidth;
     nxt.classList.add('cq-active');
 
-    var heroWrap=document.querySelector('.cq-hero-section');
-    if(heroWrap){heroWrap.style.display=(String(n)==='1')?'':'none'}
+    // v18: the warm-up never comes back once the quiz has started, so
+    // Back to step 1 keeps the full-screen quiz view.
 
     var order=getStepOrder();
     var pos=order.indexOf(String(n));

@@ -65,7 +65,7 @@ blocks:
     number: 3
     heading: "MYTH: How You Grind Your Coffee Doesn't Matter"
     image: /images/myths/myth-3-grind.jpg
-    alt: "A hand turning the grind-size dial on a burr grinder, with a dish of fresh grounds in front"
+    alt: "Whole coffee beans being poured from a metal scoop into the hopper of a burr grinder"
     lead: "With coffee, size does matter. Grind size, that is."
     body: |
       Every brewer wants a different grind. A French press wants it coarse. Espresso wants it fine. A drip machine sits in the middle.

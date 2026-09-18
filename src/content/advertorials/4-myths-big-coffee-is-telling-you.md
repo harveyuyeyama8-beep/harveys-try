@@ -146,7 +146,7 @@ blocks:
     body: |
       **Every box comes with a tasting card.** It tells you where the coffee is from, what it tastes like, and how it was grown. You'll know more about your coffee than the store does.
 
-      **It's roasted by a person.** I learned to roast from my dad, on a manual roaster, using all five senses. That's still how every batch gets done.
+      **It's roasted by a person.** Every batch is roasted by hand on a manual roaster. I watch it, smell it, and listen to it. No machine on a timer.
 
   - type: prose
     heading: "Why It's A Good Deal"

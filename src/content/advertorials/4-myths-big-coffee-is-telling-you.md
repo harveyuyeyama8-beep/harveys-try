@@ -66,7 +66,7 @@ blocks:
   - type: reason
     number: 3
     heading: "MYTH: How You Grind Your Coffee Doesn't Matter"
-    image: /images/myths/myth-3-grind.jpg
+    image: /images/myths/myth-3-grinder-photo.jpg
     alt: "Whole coffee beans being poured from a metal scoop into the hopper of a burr grinder"
     lead: "With coffee, size does matter. Grind size, that is."
     body: |

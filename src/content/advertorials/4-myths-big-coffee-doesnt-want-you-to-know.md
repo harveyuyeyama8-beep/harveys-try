@@ -40,13 +40,13 @@ blocks:
     alt: "A farm worker's hand holding coffee cherries, some red and ripe, some still green"
     lead: "Wrong. When you pick coffee by the ton, you pick it by machine. A machine can't tell ripe from green."
     body: |
-      I used to think coffee came from a bean. It doesn't. It comes from a fruit called a coffee cherry. The bean is the seed inside.
+      Most people think coffee comes from a bean. It doesn't. It comes from a fruit called a coffee cherry. The bean is the seed inside.
 
       Like any fruit, a coffee cherry tastes best when it is ripe. Big coffee needs a lot of cherries, fast. So the whole branch gets stripped at once. Red, green, and everything in between goes into the same bag.
 
       Then it gets roasted dark to hide the mix. That is what the word "bold" on the bag is for.
 
-      I only buy coffee from the top 1% of farms, where the cherries are still picked by hand. It costs me more. You can taste why.
+      Harvey's Coffee only buys from the top 1% of farms, where the cherries are still picked by hand. It costs more. You can taste why.
 
   - type: reason
     number: 2
@@ -59,13 +59,13 @@ blocks:
 
       Coffee gets roasted at a plant. Then it sits in a warehouse. Then a truck. Then a shelf. Then your cupboard. By the time you open it, most of the smell and the sweet taste left a long time ago.
 
-      I'll be honest with you. I don't print a roast date on my bags either. I don't need to. Nothing gets roasted until you order it. It's roasted, boxed, and shipped. There is no shelf.
+      Harvey's Coffee doesn't print a roast date either. It doesn't need one. Nothing gets roasted until you order it. Then it's roasted, boxed, and shipped. There is no shelf.
 
   - type: reason
     number: 3
     heading: "MYTH: How You Grind Your Coffee Doesn't Matter"
     image: /images/myths/myth-3-grind.jpg
-    alt: "Whole beans being poured from a paper bag into a coffee grinder"
+    alt: "A hand turning the grind-size dial on a burr grinder, with a dish of fresh grounds in front"
     lead: "With coffee, size does matter. Grind size, that is."
     body: |
       Every brewer wants a different grind. A French press wants it coarse. Espresso wants it fine. A drip machine sits in the middle.
@@ -74,14 +74,14 @@ blocks:
 
       Pre-ground coffee at the store is ground one way for everyone. That fits nobody.
 
-      That's why my quiz asks how you brew before I pick your coffee. Whole bean, or ground for your French press, pour over, espresso, drip, Aeropress, or cold brew. Your grind, not the store's.
+      That's why the Harvey's Coffee quiz asks how you brew before your coffee is picked. Whole bean, or ground for your French press, pour over, espresso, drip, Aeropress, or cold brew. Your grind, not the store's.
 
   - type: reason
     number: 4
     heading: "MYTH: The Darker The Roast, The Stronger The Coffee"
     image: /images/myths/myth-4-roast.jpg
     alt: "Two cups of black coffee on a wooden table, seen from above"
-    lead: "I used to buy the darkest bag on the shelf. I thought dark meant strong. I was wrong."
+    lead: "Grandpa drank his coffee black as tar because he thought it was stronger. He was wrong. Nobody has to tell him."
     body: |
       Strength comes from how much coffee you use, not how dark it was roasted. More grounds and less water make a stronger cup. That's the whole trick.
 
@@ -94,7 +94,7 @@ blocks:
     body: |
       Big coffee needs you to believe all four of these. Green cherries, old beans, one grind for everyone, and a dark roast to cover it up. It is cheaper for them that way.
 
-      I'm one roaster in a small town. I can't do it cheaper. So I do it better.
+      Harvey's Coffee is one roaster in a small town. It can't do it cheaper. So it does it better.
 
       Here's the good news.
 
@@ -102,7 +102,7 @@ blocks:
 
       No warehouse. No shelf. No guessing in the coffee aisle.
 
-      That's what I do at Harvey's Coffee. You answer four quick questions about how you brew and what you like. I match you with a single-origin coffee. I roast it after your order comes in. Then it ships.
+      That's Harvey's Coffee. You answer four quick questions about how you brew and what you like. You get matched with a single-origin coffee. It's roasted after your order comes in. Then it ships.
 
       If you're done with Big Coffee, this is where to start.
 
@@ -127,13 +127,13 @@ blocks:
 
   - type: prose
     body: |
-      **The beans are the best I can find.** I buy from the top 1% of farms. Every cherry is picked by hand.
+      **The beans come from the top 1% of farms.** Every cherry is picked by hand.
 
       **It's roasted after you order.** Nothing goes in the roaster until there's a name on the order. It's roasted, boxed, and shipped. It never sees a shelf.
 
       **It's ground for your brewer.** Whole bean, or ground for a French press, pour over, espresso, drip, Aeropress, or cold brew. Your grind, not the store's.
 
-      **It's matched to your taste.** Light and fruity, or dark and chocolatey. Espresso roast and decaf too. The quiz asks. I pick.
+      **It's matched to your taste.** Light and fruity, or dark and chocolatey. Espresso roast and decaf too. Four questions, and your match comes from the answers.
 
   - type: photo
     src: /images/myths/roaster.jpg
@@ -144,12 +144,12 @@ blocks:
     body: |
       **Every box comes with a tasting card.** It tells you where the coffee is from, what it tastes like, and how it was grown. You'll know more about your coffee than the store does.
 
-      **It's roasted by a person.** Every batch is roasted by hand on a manual roaster. I watch it, smell it, and listen to it. No machine on a timer.
+      **It's roasted by a person.** Every batch is roasted by hand on a manual roaster. Watched, smelled, and listened to. No machine on a timer.
 
   - type: prose
     heading: "Why It's A Good Deal"
     body: |
-      I'm not the cheapest bag on the shelf. I never will be. Here is the math anyway.
+      Harvey's Coffee is not the cheapest bag on the shelf. Here is the math anyway.
 
       The 1-bag plan is $20 a shipment. The 2-bag plan is $34, so $17 a bag. Call it under a dollar a cup. A latte at the coffee shop is $6.
 
@@ -160,7 +160,7 @@ blocks:
   - type: benefits
     items:
       - title: "Picked for you"
-        body: "Four questions about how you brew and what you like. I pick your coffee from there."
+        body: "Four questions about how you brew and what you like. Your coffee is matched from there."
       - title: "Roasted to order"
         body: "Nothing gets roasted until you order it. Then it's boxed and shipped."
       - title: "A tasting card in every box"

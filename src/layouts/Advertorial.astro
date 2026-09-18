@@ -14,19 +14,59 @@ import Faq from '../components/Faq.astro';
 import TrustBar from '../components/TrustBar.astro';
 import StickyBar from '../components/StickyBar.astro';
 import Analytics from '../components/Analytics.astro';
+import Reason from '../components/Reason.astro';
+import OfferCard from '../components/OfferCard.astro';
+import Benefits from '../components/Benefits.astro';
 
 const { entry } = Astro.props;
 const d = entry.data;
 
-/* Blocks that sit in the narrow reading column. Photos and the press strip
-   break out of it, which is what gives the page its rhythm. */
-const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq', 'trustbar']);
+/* Two shells share one block loop. `article` is the long-read; `story` is
+   the listicle shell (offer strip, dark masthead with a button, centered
+   headline over a hero image, alternating cream/white bands). Everything
+   story-specific is gated on this flag so the article pages render exactly
+   as before. */
+const isStory = d.format === 'story';
+
+/* Blocks that sit in the narrow reading column. Photos, the press strip,
+   myth rows and the offer card break out of it, which is what gives the
+   page its rhythm. */
+const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq', 'trustbar', 'benefits']);
 
 /* CTA positions are numbered in document order — cta-1, cta-2 … — so the
    `utm_content` and the Analytics Engine rows tell you which one earned
-   the click. */
-let ctaCount = 0;
+   the click. In the story shell the masthead button is cta-1, so the blocks
+   start counting from 2. */
+let ctaCount = isStory ? 1 : 0;
 let photoCount = 0;
+let reasonCount = 0;
+
+const goHref = (position: string) =>
+  `/go?to=${encodeURIComponent(d.cta.destination)}` +
+  `&pos=${encodeURIComponent(position)}` +
+  `&pg=${encodeURIComponent(entry.id)}`;
+
+/* Story shell: the blocks are grouped into full-width bands. A band starts
+   at every block that carries a heading (a myth row, the offer card, a
+   headed prose or benefits block); the blocks after it — photos, unheaded
+   prose, the final CTA — stay in that band. Bands alternate cream / white,
+   starting on cream under the white hero. The article shell is one band. */
+const startsBand = (b: any) =>
+  isStory && (
+    b.type === 'reason' ||
+    b.type === 'offercard' ||
+    ((b.type === 'prose' || b.type === 'benefits') && b.heading)
+  );
+/* In the story shell a trust bar placed FIRST renders inside the hero, under
+   the image, rather than at the top of the first band. */
+const leadTrust = isStory && d.blocks[0]?.type === 'trustbar' ? d.blocks[0] : null;
+const bodyBlocks = leadTrust ? d.blocks.slice(1) : d.blocks;
+
+const bands: any[][] = [[]];
+for (const block of bodyBlocks) {
+  if (startsBand(block) && bands[bands.length - 1].length) bands.push([]);
+  bands[bands.length - 1].push(block);
+}
 
 const dateStr = d.date
   ? new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(d.date)
@@ -57,109 +97,172 @@ const dateStr = d.date
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
     rel="stylesheet"
   />
+  {isStory && d.heroImage && <link rel="preload" as="image" href={d.heroImage} />}
 </head>
 
-<body>
+<body class:list={{ 'story-page': isStory }}>
   <div id="progress"></div>
+
+  {isStory && d.offerStrip && <p class="offer-strip">{d.offerStrip}</p>}
 
   <div class="masthead">
     <div class="wrap-wide">
       <a class="brand" href={site.storeUrl}>Harvey&apos;s Coffee</a>
+      {isStory && (
+        <a class="btn masthead-btn" href={goHref('cta-1')} data-cta="cta-1" rel="noopener">{d.cta.button}</a>
+      )}
     </div>
   </div>
 
-  <header class="article">
-    <div class="wrap">
-      {d.kicker && <p class="kicker">{d.kicker}</p>}
-      <h1>{d.headline}</h1>
-      {d.dek && <p class="dek">{d.dek}</p>}
-
-      <div class="byline">
-        {d.author && <span>By <strong>{d.author}</strong></span>}
-        {d.author && dateStr && <span class="dot"></span>}
-        {dateStr && <span>{dateStr}</span>}
-        {dateStr && d.readingTime && <span class="dot"></span>}
-        {d.readingTime && <span>{d.readingTime}</span>}
+  {isStory ? (
+    <header class="story-hero">
+      <div class="wrap-wide">
+        {d.kicker && <p class="kicker">{d.kicker}</p>}
+        <h1>{d.headline}</h1>
+        {d.dek && <p class="dek">{d.dek}</p>}
+        {d.heroImage && (
+          <img class="hero-img" src={d.heroImage} alt={d.heroAlt} width="1600" height="800" fetchpriority="high" decoding="async" />
+        )}
+        {leadTrust && (
+          <TrustBar label={leadTrust.label} logos={leadTrust.logos} heading={leadTrust.heading} proof={leadTrust.proof} stars={leadTrust.stars} />
+        )}
       </div>
-    </div>
-  </header>
+    </header>
+  ) : (
+    <header class="article">
+      <div class="wrap">
+        {d.kicker && <p class="kicker">{d.kicker}</p>}
+        <h1>{d.headline}</h1>
+        {d.dek && <p class="dek">{d.dek}</p>}
+
+        <div class="byline">
+          {d.author && <span>By <strong>{d.author}</strong></span>}
+          {d.author && dateStr && <span class="dot"></span>}
+          {dateStr && <span>{dateStr}</span>}
+          {dateStr && d.readingTime && <span class="dot"></span>}
+          {d.readingTime && <span>{d.readingTime}</span>}
+        </div>
+      </div>
+    </header>
+  )}
 
   <main>
-    {d.blocks.map((block: any) => {
-      const inner = (() => {
-        switch (block.type) {
-          case 'prose':
-            return (
-              <>
-                {block.heading && <h2>{block.heading}</h2>}
-                <div class={block.lead ? 'prose lead-wrap' : 'prose'} set:html={marked.parse(block.body)} />
-              </>
-            );
+    {bands.map((blocks, bandIndex) => {
+      const rendered = blocks.map((block: any) => {
+        const inner = (() => {
+          switch (block.type) {
+            case 'prose':
+              return (
+                <>
+                  {block.heading && <h2>{block.heading}</h2>}
+                  <div class={block.lead ? 'prose lead-wrap' : 'prose'} set:html={marked.parse(block.body)} />
+                </>
+              );
 
-          case 'pullquote':
-            return <p class="pull">{block.text}</p>;
+            case 'pullquote':
+              return <p class="pull">{block.text}</p>;
 
-          case 'trustbar':
-            return <TrustBar label={block.label} logos={block.logos} heading={block.heading} proof={block.proof} stars={block.stars} />;
+            case 'reason':
+              reasonCount += 1;
+              return (
+                <Reason
+                  number={block.number}
+                  heading={block.heading}
+                  lead={block.lead}
+                  body={block.body}
+                  image={block.image}
+                  alt={block.alt}
+                  flip={reasonCount % 2 === 0}
+                />
+              );
 
-          case 'cta':
-            ctaCount += 1;
-            return (
-              <Cta cta={d.cta} offer={block.offer} position={`cta-${ctaCount}`} page={entry.id} variant={block.variant} />
-            );
+            case 'offercard':
+              ctaCount += 1;
+              return (
+                <OfferCard
+                  image={block.image}
+                  alt={block.alt}
+                  badge={block.badge}
+                  heading={block.heading}
+                  subheading={block.subheading}
+                  body={block.body}
+                  fine={block.fine}
+                  button={d.cta.button}
+                  destination={d.cta.destination}
+                  position={`cta-${ctaCount}`}
+                  page={entry.id}
+                />
+              );
 
-          case 'compare':
-            return (
-              <Compare
-                label={block.label}
-                themHeading={block.themHeading}
-                usHeading={block.usHeading}
-                rows={block.rows}
-              />
-            );
+            case 'benefits':
+              return <Benefits heading={block.heading} items={block.items} />;
 
-          case 'steps':
-            return <Steps items={block.items} />;
+            case 'trustbar':
+              return <TrustBar label={block.label} logos={block.logos} heading={block.heading} proof={block.proof} stars={block.stars} />;
 
-          case 'quizcard':
-            return (
-              <QuizCard
-                heading={block.heading}
-                time={block.time}
-                questions={block.questions}
-                footnote={block.footnote}
-              />
-            );
+            case 'cta':
+              ctaCount += 1;
+              return (
+                <Cta cta={d.cta} offer={block.offer} note={block.note} position={`cta-${ctaCount}`} page={entry.id} variant={block.variant} />
+              );
 
-          case 'reviews':
-            return <Reviews heading={block.heading} items={block.items} />;
+            case 'compare':
+              return (
+                <Compare
+                  label={block.label}
+                  themHeading={block.themHeading}
+                  usHeading={block.usHeading}
+                  rows={block.rows}
+                />
+              );
 
-          case 'faq':
-            return <Faq heading={block.heading} items={block.items} />;
+            case 'steps':
+              return <Steps items={block.items} />;
 
-          case 'photo':
-            photoCount += 1;
-            return (
-              <PhotoSlot
-                src={block.src}
-                alt={block.alt}
-                caption={block.caption}
-                shape={block.shape}
-                width={block.width}
-                note={block.note}
-                index={photoCount}
-              />
-            );
+            case 'quizcard':
+              return (
+                <QuizCard
+                  heading={block.heading}
+                  time={block.time}
+                  questions={block.questions}
+                  footnote={block.footnote}
+                />
+              );
 
-          case 'press':
-            return <PressStrip label={block.label} items={block.items} />;
+            case 'reviews':
+              return <Reviews heading={block.heading} items={block.items} />;
 
-          default:
-            return null;
-        }
-      })();
+            case 'faq':
+              return <Faq heading={block.heading} items={block.items} />;
 
-      return NARROW.has(block.type) ? <div class="wrap">{inner}</div> : inner;
+            case 'photo':
+              photoCount += 1;
+              return (
+                <PhotoSlot
+                  src={block.src}
+                  alt={block.alt}
+                  caption={block.caption}
+                  shape={block.shape}
+                  width={block.width}
+                  note={block.note}
+                  index={photoCount}
+                />
+              );
+
+            case 'press':
+              return <PressStrip label={block.label} items={block.items} />;
+
+            default:
+              return null;
+          }
+        })();
+
+        return NARROW.has(block.type) ? <div class="wrap">{inner}</div> : inner;
+      });
+
+      return isStory
+        ? <section class:list={['band', bandIndex % 2 === 0 ? 'band-cream' : 'band-white']}>{rendered}</section>
+        : rendered;
     })}
   </main>
 

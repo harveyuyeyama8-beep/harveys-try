@@ -6,15 +6,18 @@
  * Every CTA on a page renders from the same `cta` frontmatter object, so
  * they cannot drift apart the way hand-copied blocks do.
  *
- * The one exception is `offer`, which a single placement may override to
- * lead with a different deal. The button, sub-line and destination are NOT
- * overridable: what the click does has to read the same everywhere, or the
- * reader has to re-decide at every CTA.
+ * The exceptions are `offer`, which a single placement may override to lead
+ * with a different deal, and `note`, a closing line under the button. The
+ * button, sub-line and destination are NOT overridable: what the click does
+ * has to read the same everywhere, or the reader has to re-decide at every
+ * CTA.
  *
  * The href points at /go — a Pages Function that logs the click server-side
  * before redirecting. It never contains the destination URL itself, only a
  * named destination resolved at the edge.
  */
+import { marked } from 'marked';
+
 interface Props {
   cta: {
     offer: string;
@@ -29,9 +32,10 @@ interface Props {
   page: string;
   variant?: 'standard' | 'final';
   offer?: string;   // overrides cta.offer for this placement only
+  note?: string;    // closing line under the button, this placement only
 }
 
-const { cta, position, page, variant = 'standard', offer } = Astro.props;
+const { cta, position, page, variant = 'standard', offer, note } = Astro.props;
 const offerLine = offer ?? cta.offer;
 
 const href =
@@ -54,4 +58,6 @@ const href =
       {cta.bullets.map((b) => <li>{b}</li>)}
     </ul>
   )}
+
+  {note && <p class="cta-note" set:html={marked.parseInline(note)} />}
 </div>

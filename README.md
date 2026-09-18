@@ -308,6 +308,24 @@ The filename becomes the URL.
 Every other advertorial is still reachable at `/its-filename`, which is how you
 run a second angle against the same audience.
 
+### Two page shells
+
+`format: article` (the default) is the long-read: byline, cream paper, CTA
+modules in the reading column. `format: story` is the listicle shell used by
+the two "4 myths" pages: a yellow `offerStrip` above a dark masthead whose
+button is **cta-1**, a centered headline over `heroImage`, then full-width
+bands that alternate cream and white — a new band starts at every block with
+a heading. A `trustbar` placed first renders inside the hero. The story shell
+uses three blocks the article doesn't: `reason` (a numbered myth row, image
+sides alternate on their own), `offercard` (product image with a badge and
+the button — counted as a CTA position) and `benefits` (a 2x2 card grid). In
+prose, a markdown `> blockquote` becomes the yellow highlight box.
+
+The two myths pages are the same code, `FIRSTORDER`, framed two ways:
+`4-myths-big-coffee-is-telling-you` says *first bag free* (true only on the
+2-bag plan, and the copy says so) and `4-myths-big-coffee-doesnt-want-you-to-know`
+says *first bag 50% off*. Never put both framings on one page.
+
 ## 10. Adding a new block type
 
 Four files, in this order:

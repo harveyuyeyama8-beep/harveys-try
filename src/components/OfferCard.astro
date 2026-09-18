@@ -1,0 +1,46 @@
+---
+/**
+ * The product offer card. Image with a starburst badge on the left, the
+ * pitch and the button on the right.
+ *
+ * Only the pitch copy lives on the block. The button text and the named
+ * destination come from the page-level `cta`, and the href goes through /go
+ * like every other CTA, so this card is counted and can never send someone
+ * somewhere different.
+ */
+import { marked } from 'marked';
+
+interface Props {
+  image: string;
+  alt?: string;
+  badge?: string;
+  heading: string;
+  subheading?: string;
+  body: string;
+  fine?: string;
+  button: string;
+  destination: string;
+  position: string;
+  page: string;
+}
+const { image, alt = '', badge, heading, subheading, body, fine, button, destination, position, page } = Astro.props;
+
+const href =
+  `/go?to=${encodeURIComponent(destination)}` +
+  `&pos=${encodeURIComponent(position)}` +
+  `&pg=${encodeURIComponent(page)}`;
+---
+
+<div class="offercard">
+  <div class="offercard-media">
+    {badge && <span class="offercard-badge">{badge}</span>}
+    <img src={image} alt={alt} width="800" height="1000" loading="lazy" decoding="async" />
+  </div>
+  <div class="offercard-copy">
+    <h2>{heading}</h2>
+    {subheading && <p class="offercard-sub">{subheading}</p>}
+    <div class="prose" set:html={marked.parse(body)} />
+    <a class="btn" href={href} data-cta={position} rel="noopener">{button}</a>
+    {fine && <p class="offercard-fine">{fine}</p>}
+  </div>
+</div>

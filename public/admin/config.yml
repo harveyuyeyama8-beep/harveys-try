@@ -38,6 +38,11 @@ collections:
       - { label: 'Social share image', name: ogImage, widget: image, required: false, default: /og.jpg }
       - { label: 'Hide from search engines', name: noindex, widget: boolean, default: true, hint: 'Leave on. A paid landing page competing with your store in search hurts you.' }
 
+      - { label: 'Page shell', name: format, widget: select, options: [article, story], default: article, hint: 'article = the long-read with a byline. story = the "4 myths" listicle: offer strip, dark masthead with a button, headline over a hero image, alternating bands.' }
+      - { label: 'Offer strip (story only)', name: offerStrip, widget: string, required: false, hint: 'The line in the yellow strip above the masthead.' }
+      - { label: 'Hero image (story only)', name: heroImage, widget: image, required: false }
+      - { label: 'Hero image alt text', name: heroAlt, widget: string, required: false }
+
       - { label: Kicker, name: kicker, widget: string, required: false }
       - { label: Headline, name: headline, widget: text }
       - { label: Subhead, name: dek, widget: text, required: false }
@@ -116,6 +121,42 @@ collections:
             fields:
               - { label: Variant, name: variant, widget: select, options: [standard, final], default: standard }
               - { label: 'Offer line (override)', name: offer, widget: text, required: false, hint: 'Leave empty to use the page-wide offer. Set it only to lead this one placement with a different deal — the button never changes.' }
+              - { label: 'Closing line', name: note, widget: string, required: false, hint: 'Shown under the button, this placement only. **bold** works.' }
+
+          - label: 'Numbered myth / reason'
+            name: reason
+            widget: object
+            fields:
+              - { label: Number, name: number, widget: number, value_type: int, min: 1 }
+              - { label: Heading, name: heading, widget: string, hint: 'e.g. "MYTH: Store-Bought Coffee Is Fresh". The number is added in front automatically.' }
+              - { label: 'Bold lead line', name: lead, widget: string, required: false }
+              - { label: Body, name: body, widget: markdown }
+              - { label: Image, name: image, widget: image, hint: 'Portrait, about 4:5. Rows alternate image-left, image-right on their own.' }
+              - { label: 'Image alt text', name: alt, widget: string, required: false }
+
+          - label: 'Offer card'
+            name: offercard
+            widget: object
+            fields:
+              - { label: 'Product image', name: image, widget: image }
+              - { label: 'Image alt text', name: alt, widget: string, required: false }
+              - { label: Badge, name: badge, widget: string, required: false, hint: 'The starburst on the image, e.g. "FREE BAG". Two short words at most.' }
+              - { label: Heading, name: heading, widget: string }
+              - { label: 'Bold line under the heading', name: subheading, widget: string, required: false }
+              - { label: Body, name: body, widget: markdown }
+              - { label: 'Small print under the button', name: fine, widget: string, required: false }
+
+          - label: 'Benefit cards'
+            name: benefits
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Cards
+                name: items
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Body, name: body, widget: text }
 
           - label: 'Pull quote'
             name: pullquote

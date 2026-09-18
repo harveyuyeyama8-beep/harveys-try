@@ -1,0 +1,29 @@
+---
+/**
+ * One numbered myth (or reason, or tip): a portrait image beside the copy.
+ * The layout passes `flip` on every other row so the image swaps sides.
+ */
+import { marked } from 'marked';
+
+interface Props {
+  number: number;
+  heading: string;
+  lead?: string;
+  body: string;
+  image: string;
+  alt?: string;
+  flip?: boolean;
+}
+const { number, heading, lead, body, image, alt = '', flip = false } = Astro.props;
+---
+
+<article class:list={['reason', { flip }]} id={`myth-${number}`}>
+  <div class="reason-media">
+    <img src={image} alt={alt} width="800" height="1000" loading="lazy" decoding="async" />
+  </div>
+  <div class="reason-copy">
+    <h2>{number}. {heading}</h2>
+    {lead && <p class="reason-lead">{lead}</p>}
+    <div class="prose" set:html={marked.parse(body)} />
+  </div>
+</article>

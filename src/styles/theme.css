@@ -409,3 +409,141 @@ body.has-sticky{padding-bottom:4.5rem}
   width:auto; max-width:100%; object-fit:contain;
   align-self:flex-start; opacity:.9;
 }
+
+/* ---------- story format ---------- */
+/* The listicle shell used by the "4 myths" advertorials. Every rule is scoped
+   to body.story-page, so the article format above is untouched. Bands
+   alternate cream and white; the brand yellow does the offer strip, the
+   buttons and the highlight boxes; the ink does the masthead. */
+.story-page{background:#fff}
+
+.story-page .offer-strip{
+  margin:0; background:var(--btn); color:var(--ink);
+  font-family:var(--ui); font-size:.75rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; text-align:center;
+  padding:.6rem 1rem; line-height:1.35;
+}
+.story-page .masthead{background:var(--ink); border-bottom:0; padding:.75rem 0}
+.story-page .masthead .brand{color:#fff; font-size:1.3rem}
+.story-page .masthead-btn{
+  width:auto; flex:none; padding:.72rem 1.2rem; font-size:.8125rem;
+  letter-spacing:.07em; border-radius:999px; border-color:var(--btn); box-shadow:none;
+}
+.story-page .masthead-btn:active{transform:none}
+
+.story-page .story-hero{padding:2.4rem 0 2.75rem; text-align:center}
+.story-page .story-hero .kicker{margin-bottom:.9rem}
+.story-page .story-hero h1{
+  font-size:clamp(2rem,5.4vw,3.2rem); line-height:1.08;
+  max-width:22ch; margin:0 auto 1.6rem;
+}
+.story-page .story-hero .dek{max-width:38rem; margin:0 auto 1.6rem}
+.story-page .hero-img{
+  width:100%; max-width:52rem; margin:0 auto;
+  aspect-ratio:2/1; object-fit:cover; border-radius:14px;
+}
+.story-page .story-hero .trustbar{
+  max-width:var(--measure); margin:2.25rem auto 0; padding:0; border:0;
+}
+.story-page .story-hero .tb-logos img{opacity:.8}
+
+.story-page main{padding-bottom:0}
+.story-page .band{padding:3.75rem 0}
+.story-page .band-cream{background:var(--paper)}
+.story-page .band-white{background:#fff}
+.story-page .band h2{font-size:clamp(1.7rem,3.9vw,2.3rem); line-height:1.15; margin:0 0 1.25rem}
+.story-page .band .prose{font-size:1.125rem; line-height:1.65}
+.story-page .band .prose ul{padding-left:1.25rem}
+.story-page .band .prose li{margin-bottom:.65rem}
+.story-page .band > .wrap:last-child > .prose:last-child{margin-bottom:0}
+
+/* the yellow highlight box — a markdown blockquote inside prose */
+.story-page .prose blockquote{
+  margin:1.6rem 0; padding:1.05rem 1.3rem;
+  background:#FFF6C8; border:1px solid #EFD558; border-radius:12px;
+  font-weight:600; color:var(--ink);
+}
+.story-page .prose blockquote p{margin:0}
+.story-page .pull{
+  margin:1.6rem 0; padding:1.05rem 1.3rem; border:1px solid #EFD558;
+  background:#FFF6C8; border-radius:12px; font-size:1.15rem; font-weight:600;
+}
+
+/* myth rows */
+.story-page .reason{
+  width:100%; max-width:var(--wide); margin-inline:auto; padding-inline:1.375rem;
+  display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:2.75rem; align-items:center;
+}
+.story-page .reason.flip .reason-media{order:2}
+.story-page .reason-media img{width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:14px}
+.story-page .reason h2{font-size:clamp(1.5rem,3.3vw,2rem); margin:0 0 .9rem}
+.story-page .reason-lead{font-weight:700; font-size:1.15rem; line-height:1.45; color:var(--ink); margin:0 0 1rem}
+.story-page .reason .prose{font-size:1.0625rem; line-height:1.62; color:var(--ink-2); margin:0}
+
+/* offer card */
+.story-page .offercard{
+  width:calc(100% - 2.75rem); max-width:48rem; margin-inline:auto;
+  background:var(--paper-2); border:2px solid var(--ink); border-radius:14px;
+  box-shadow:var(--shadow); padding:2rem;
+  display:grid; grid-template-columns:minmax(0,4fr) minmax(0,5fr); gap:2rem; align-items:center;
+}
+.story-page .band-cream .offercard{background:#fff}
+.story-page .offercard-media{position:relative; background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--rule)}
+.story-page .offercard-media img{width:100%; aspect-ratio:4/5; object-fit:cover}
+.story-page .offercard-badge{
+  position:absolute; top:.75rem; left:.75rem; z-index:1;
+  width:5.75rem; height:5.75rem; padding:.9rem;
+  display:grid; place-items:center; text-align:center;
+  background:#8B2E12; color:#fff;
+  font-family:var(--ui); font-weight:800; font-size:.9rem; line-height:1.15;
+  letter-spacing:.04em; text-transform:uppercase;
+  clip-path:polygon(50% 0%,61% 12%,76% 6%,80% 21%,95% 25%,90% 40%,100% 50%,90% 60%,95% 75%,80% 79%,76% 94%,61% 88%,50% 100%,39% 88%,24% 94%,20% 79%,5% 75%,10% 60%,0% 50%,10% 40%,5% 25%,20% 21%,24% 6%,39% 12%);
+  transform:rotate(-8deg);
+}
+.story-page .offercard h2{font-size:clamp(1.4rem,3vw,1.8rem); margin:0 0 .6rem}
+.story-page .offercard-sub{font-weight:700; margin:0 0 .75rem; color:var(--ink)}
+.story-page .offercard .prose{font-size:1.0625rem; line-height:1.6; color:var(--ink-2); margin:0 0 1.4rem}
+.story-page .offercard .btn{margin:0 0 .9rem}
+.story-page .offercard-fine{font-family:var(--ui); font-size:.8125rem; line-height:1.45; font-style:italic; color:var(--ink-3); margin:0}
+
+/* benefit cards */
+.story-page .benefits{display:grid; gap:1rem; margin:1.75rem 0}
+@media(min-width:40rem){.story-page .benefits{grid-template-columns:1fr 1fr}}
+.story-page .benefit{background:#fff; border:1px solid var(--rule); border-radius:12px; padding:1.25rem 1.3rem 1.15rem}
+.story-page .band-white .benefit{background:var(--paper)}
+.story-page .benefit h3{font-family:var(--ui); font-size:1.0625rem; font-weight:700; margin:0 0 .45rem; display:flex; align-items:center; gap:.5rem}
+.story-page .benefit svg{width:18px; height:18px; flex:none; color:#8B5A2B}
+.story-page .benefit p{font-family:var(--ui); font-size:.9375rem; line-height:1.55; color:var(--ink-2); margin:0}
+
+/* photos sit in the reading column at 16:9 */
+.story-page figure{max-width:calc(var(--measure) + 2.75rem); margin:1.75rem auto}
+.story-page figure img{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:14px}
+.story-page figcaption{text-align:center}
+
+/* the closing offer box */
+.story-page .cta{margin:2.5rem auto 0}
+.story-page .cta.final{background:#FFF6C8; border:2px solid var(--ink); border-top-width:2px; padding:2.4rem 1.75rem 2.1rem}
+.story-page .cta.final .cta-offer{text-transform:uppercase; font-size:clamp(1.45rem,3.8vw,1.95rem); line-height:1.2; margin-bottom:.8rem}
+.story-page .cta.final .cta-urgency{font-family:var(--body); font-size:1.0625rem; color:var(--ink-2); margin-bottom:1.5rem}
+.story-page .cta.final .btn{max-width:26rem; margin-inline:auto}
+.story-page .cta-sub{font-size:.8125rem}
+.story-page .cta-note{font-family:var(--body); font-size:1.0625rem; line-height:1.55; color:var(--ink-2); margin:1.35rem 0 0}
+.story-page .cta-note strong{display:block; margin-top:.55rem; color:var(--ink)}
+
+@media(max-width:46rem){
+  .story-page .story-hero{padding:1.75rem 0 2.25rem}
+  .story-page .band{padding:2.5rem 0}
+  .story-page .reason{grid-template-columns:1fr; gap:1.35rem}
+  .story-page .reason.flip .reason-media{order:0}
+  .story-page .reason-media img{aspect-ratio:4/3}
+  .story-page .offercard{grid-template-columns:1fr; padding:1.35rem; gap:1.25rem}
+  .story-page .offercard-media img{aspect-ratio:1/1}
+  .story-page .hero-img{aspect-ratio:16/10; border-radius:10px}
+}
+@media(max-width:25rem){
+  .story-page .masthead .wrap-wide{gap:.6rem}
+  .story-page .masthead .brand{font-size:1rem}
+  .story-page .masthead-btn{font-size:.7rem; padding:.65rem .8rem; letter-spacing:.04em}
+  .story-page .offer-strip{font-size:.6875rem}
+}

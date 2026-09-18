@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects.
+#
+# The 50%-off myths page was first written down with an apostrophe in the
+# slug. Ad platforms and some browsers mangle an apostrophe in a path, so the
+# page lives at the plain slug and these send the apostrophe spellings there.
+/4-myths-big-coffee-doesn't-want-you-to-know    /4-myths-big-coffee-doesnt-want-you-to-know  301
+/4-myths-big-coffee-doesn't-want-you-to-know/   /4-myths-big-coffee-doesnt-want-you-to-know  301
+/4-myths-big-coffee-doesn%27t-want-you-to-know  /4-myths-big-coffee-doesnt-want-you-to-know  301
+/4-myths-big-coffee-doesn%27t-want-you-to-know/ /4-myths-big-coffee-doesnt-want-you-to-know  301

@@ -23,7 +23,8 @@ const photo = z.object({
 });
 
 const blocks = z.discriminatedUnion('type', [
-  // Body copy. Markdown, so links, bold and lists all work.
+  // Body copy. Markdown, so links, bold and lists all work. In the `story`
+  // format a `> blockquote` renders as the yellow highlight box.
   z.object({
     type: z.literal('prose'),
     heading: z.string().optional(),
@@ -32,6 +33,43 @@ const blocks = z.discriminatedUnion('type', [
   }),
 
   z.object({ type: z.literal('photo') }).merge(photo),
+
+  // One numbered myth / reason / tip: a portrait image beside the copy.
+  // Rows alternate image-left, image-right in document order.
+  z.object({
+    type: z.literal('reason'),
+    number: z.number().int().positive(),
+    heading: z.string(),
+    lead: z.string().optional(),        // the bold one-liner under the heading
+    body: z.string(),                   // markdown
+    image: z.string(),
+    alt: z.string().default(''),
+  }),
+
+  // The product offer card: image with a badge on the left, pitch and the
+  // button on the right. The button text and destination come from the
+  // page-level `cta`, so it can never say something different from the
+  // other CTAs on the page.
+  z.object({
+    type: z.literal('offercard'),
+    image: z.string(),
+    alt: z.string().default(''),
+    badge: z.string().optional(),       // "FREE BAG" — the starburst on the image
+    heading: z.string(),
+    subheading: z.string().optional(),  // the bold line under the heading
+    body: z.string(),                   // markdown
+    fine: z.string().optional(),        // italic small print under the button
+  }),
+
+  // A 2x2 grid of short benefit cards.
+  z.object({
+    type: z.literal('benefits'),
+    heading: z.string().optional(),
+    items: z.array(z.object({
+      title: z.string(),
+      body: z.string(),
+    })).default([]),
+  }),
 
   // Credibility strip under the header: a logo row, then social proof,
   // then stars. Every field is optional — leave one out and that row
@@ -54,6 +92,8 @@ const blocks = z.discriminatedUnion('type', [
     // and destination still come from the page-level `cta` object, so what
     // the click does never changes — only which offer is being led with.
     offer: z.string().optional(),
+    // A closing line under the button, this placement only. Inline markdown.
+    note: z.string().optional(),
   }),
 
   z.object({
@@ -133,6 +173,18 @@ const advertorials = defineCollection({
     description: z.string().max(200),
     ogImage: z.string().default('/og.jpg'),
     noindex: z.boolean().default(true),
+
+    // --- which shell the blocks render in ---
+    // `article`: the long-read with a byline, cream paper, CTA modules in
+    //            the reading column (how-old-is-your-coffee).
+    // `story`:   the listicle shell — yellow offer strip, dark masthead with
+    //            a button (that button is cta-1), centered headline over a
+    //            hero image, then full-width bands that alternate cream and
+    //            white, one band per headed block.
+    format: z.enum(['article', 'story']).default('article'),
+    offerStrip: z.string().optional(),     // story only: the line in the yellow strip
+    heroImage: z.string().optional(),      // story only: the image under the headline
+    heroAlt: z.string().default(''),
 
     // --- article header ---
     kicker: z.string().optional(),

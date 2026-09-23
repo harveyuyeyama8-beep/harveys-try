@@ -2,7 +2,7 @@
 title: 'These Two California Teens Are Taking On “Big Coffee”'
 draft: false
 primary: false
-description: "Harvey Uyeyama learned to roast coffee from his dad. Now he and his co-founder run a coffee business where every bag is roasted by hand, after you order."
+description: "He runs a roaster built in the early 1900s. She runs the brand. Together, these two teens sell coffee that isn’t roasted until you order it."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -10,7 +10,7 @@ format: news
 section: "Food & Drink"
 kicker: "SMALL BUSINESS"
 headline: 'These Two California Teens Are Taking On “Big Coffee”'
-dek: "Harvey Uyeyama learned to roast coffee from his dad. Now he and his co-founder run a coffee business where every bag is roasted by hand, only after someone orders it."
+dek: "He runs a roaster built in the early 1900s. She runs the brand. Together, these two teens sell coffee that isn’t roasted until you order it."
 date: 2026-09-23
 readingTime: "5 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
@@ -20,8 +20,8 @@ heroCredit: "Paul Kitagaki Jr./The Sacramento Bee"
 legal: "This page is an advertisement published by Harvey’s Coffee. Reviews are from verified customers, published with permission. Subscriptions renew until cancelled; terms and cancellation details are on the checkout page."
 
 cta:
-  offer: "New customers get 50% off their first shipment"
-  urgency: "On the two-bag plan, your first shipment is $17, plus shipping. The quiz adds the discount for you."
+  offer: "Get your first shipment 50% off"
+  urgency: "Harvey roasts your coffee after you order it. On the two-bag plan, your first shipment is $17, plus shipping. The quiz adds the discount for you."
   button: "FIND MY COFFEE"
   sub: "4 questions · about 30 seconds"
   risk: ""
@@ -35,23 +35,19 @@ blocks:
 
   - type: prose
     body: |
-      On his 15th birthday, Harvey Uyeyama got a call from his mom.
+      Harvey Uyeyama is still in high school. His coffee roaster is more than 100 years old.
 
-      His dad was unconscious on the side of the road. He had a heart attack. He died that day.
+      It sits in his backyard. He lights it with a long match. It roasts four bags at a time.
 
-      Harvey walked outside and looked at the old coffee roaster in the backyard.
+      And he won’t roast a single bag until someone orders it.
 
-      “Coffee was like our one bonding thing,” he said.
+      No warehouse. No store shelf. Just a roaster, a box and your front door.
 
-      That roaster was built in the early 1900s. His dad learned to roast on it. And that summer, his dad had started teaching Harvey.
+      His co-founder, Abby Merchant, picks a new coffee every month. She makes the tasting cards that come with it, and she runs the marketing.
 
-      Today, Harvey is a high school senior. He and his co-founder, Abby Merchant, run a coffee business on that same roaster. They call it Harvey’s Coffee.
+      Together, these two teens run Harvey’s Coffee. And they are taking on “Big Coffee.”
 
-      Every bag is roasted by hand. And no bag is roasted until someone orders it.
-
-      That makes them the opposite of “Big Coffee.”
-
-      It started with his dad.
+      It all started with his dad.
 
   - type: prose
     heading: "A late night with Dad"
@@ -68,7 +64,14 @@ blocks:
 
       “Why don’t you just sell coffee?” he said. “We have coffee in the house. I can teach you how to roast coffee. You can bag it up, you can go around the neighborhood selling coffee.”
 
-      That August, on Harvey’s birthday, he was gone.
+  - type: prose
+    heading: "The call"
+    body: |
+      That August, on Harvey’s 15th birthday, he got a call from his mom.
+
+      His dad was unconscious on the side of the road. He had a heart attack. He died that day.
+
+      “I went outside for a second, looked at the coffee roaster, because coffee was like our one bonding thing,” Harvey said.
 
   - type: prose
     heading: "Too good for a funeral"
@@ -96,21 +99,21 @@ blocks:
     cite: "Harvey Uyeyama"
 
   - type: prose
-    heading: "Two teens, one old roaster"
+    heading: "Meet Abby"
     body: |
       Harvey started small. He sold bags of coffee to his neighbors, door to door. He even built his own app to run sales and subscriptions.
 
-      Then Abby joined him as co-founder. She is a teenager, too, and a biology student at UC San Diego. She turned out to be good at marketing.
+      Then Abby Merchant joined him as co-founder. She is a teenager, too, and a biology student at UC San Diego.
 
-      She made a new logo and new packaging. Her logo is based on a giraffe. Harvey’s dad drew it for his old shop’s labels.
+      She runs the marketing. She designed the logo, based on a giraffe Harvey’s dad once drew for his old shop. Now she is designing new packaging.
 
-      Abby signs the papers, too. Harvey is under 18. That made it hard to set up the company and open a bank account.
+      She also chooses a new coffee every month.
 
-      “It makes things 10 times harder,” Harvey said.
+      Then she makes the tasting card that comes with it. It tells you where the coffee is from and what to taste for.
 
-      So Harvey runs the roaster. Abby holds the pen.
+      Harvey runs the roaster. Abby runs the brand.
 
-      Today, the orders come from much farther away. “We have people who are in New Mexico, Iowa, New York, random places all over the country,” Harvey said.
+      Today, their orders come from far away. “We have people who are in New Mexico, Iowa, New York, random places all over the country,” Harvey said.
 
   - type: prose
     heading: "Coffee made for a shelf"
@@ -130,9 +133,7 @@ blocks:
     body: |
       Then the bag waits. In a warehouse. On a truck. In the back of a store. And finally, in your cupboard.
 
-      But even the coffee industry’s own trade group, the National Coffee Association, says coffee starts to lose its freshness almost right after it is roasted.
-
-      Its smell fades fast in the first three weeks.
+      But roasted coffee loses its smell fast in the first three weeks. Even the coffee industry’s own trade group, the National Coffee Association, says coffee starts to lose its freshness almost right after it is roasted.
 
       That is just what happens when the customer is a shelf, not a person.
 
@@ -141,7 +142,7 @@ blocks:
     body: |
       Harvey’s Coffee skips the shelf.
 
-      Nothing gets roasted until you order it. Then Harvey roasts it by hand on his dad’s machine, four bags at a time.
+      Nothing gets roasted until you order it. Then Harvey roasts it by hand on his dad’s machine.
 
       He turns the flames up and down himself. He listens for the “crack,” the sound beans make as they roast.
 
@@ -158,7 +159,7 @@ blocks:
     credit: "Paul Kitagaki Jr./The Sacramento Bee"
 
   - type: prose
-    heading: "Why some customers switched"
+    heading: "In their own words"
     body: |
       Here is what three customers wrote.
 
@@ -194,14 +195,13 @@ blocks:
         label: "about what a cup costs on your first two bags ($17), plus shipping"
       - figure: "$5.54"
         label: "the average cafe latte, spring 2026"
-    note: "About 20 cups per 12-ounce bag. Latte: the average of 7,479 cafe prices checked by the coffee app Joe in spring 2026. Shipping is not included."
 
   - type: prose
     heading: "Fair questions"
     body: |
-      **Is it a trap?**
+      **Am I locked in?**
 
-      No. You can skip, pause, change or cancel any time, from your account. You pick how often it comes: every 2 or 4 weeks.
+      No. Skip a delivery, pause, change your coffee or cancel whenever you want, right from your account. You pick how often it comes: every 2 or 4 weeks.
 
       **What if I don’t like it?**
 

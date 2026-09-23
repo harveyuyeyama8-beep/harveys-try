@@ -17,26 +17,31 @@ import Analytics from '../components/Analytics.astro';
 import Reason from '../components/Reason.astro';
 import OfferCard from '../components/OfferCard.astro';
 import Benefits from '../components/Benefits.astro';
+import Coverage from '../components/Coverage.astro';
+import FactBox from '../components/FactBox.astro';
 
 const { entry } = Astro.props;
 const d = entry.data;
 
-/* Two shells share one block loop. `article` is the long-read; `story` is
+/* Three shells share one block loop. `article` is the long-read; `story` is
    the listicle shell (offer strip, dark masthead with a button, centered
-   headline over a hero image, alternating cream/white bands). Everything
-   story-specific is gated on this flag so the article pages render exactly
+   headline over a hero image, alternating cream/white bands); `news` is the
+   news-feature shell (white page, section-name masthead, serif headline,
+   captioned hero photo, one 600px column, news footer). Everything
+   shell-specific is gated on these flags so the other pages render exactly
    as before. */
 const isStory = d.format === 'story';
+const isNews = d.format === 'news';
 
 /* Blocks that sit in the narrow reading column. Photos, the press strip,
    myth rows and the offer card break out of it, which is what gives the
    page its rhythm. */
-const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq', 'trustbar', 'benefits']);
+const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq', 'trustbar', 'benefits', 'coverage', 'factbox']);
 
 /* CTA positions are numbered in document order — cta-1, cta-2 … — so the
    `utm_content` and the Analytics Engine rows tell you which one earned
    the click. In the story shell the masthead button is cta-1, so the blocks
-   start counting from 2. */
+   start counting from 2. The news shell has no button above the story. */
 let ctaCount = isStory ? 1 : 0;
 let photoCount = 0;
 let reasonCount = 0;
@@ -50,16 +55,18 @@ const goHref = (position: string) =>
    at every block that carries a heading (a myth row, the offer card, a
    headed prose or benefits block); the blocks after it — photos, unheaded
    prose, the final CTA — stay in that band. Bands alternate cream / white,
-   starting on cream under the white hero. The article shell is one band. */
+   starting on cream under the white hero. The article and news shells are
+   one band. */
 const startsBand = (b: any) =>
   isStory && (
     b.type === 'reason' ||
     b.type === 'offercard' ||
     ((b.type === 'prose' || b.type === 'benefits') && b.heading)
   );
-/* In the story shell a trust bar placed FIRST renders inside the hero, under
-   the image, rather than at the top of the first band. */
-const leadTrust = isStory && d.blocks[0]?.type === 'trustbar' ? d.blocks[0] : null;
+/* In the story and news shells a trust bar placed FIRST renders inside the
+   header rather than at the top of the body: under the hero image (story),
+   or under the date line as the "As Seen On" band (news). */
+const leadTrust = (isStory || isNews) && d.blocks[0]?.type === 'trustbar' ? d.blocks[0] : null;
 const bodyBlocks = leadTrust ? d.blocks.slice(1) : d.blocks;
 
 const bands: any[][] = [[]];
@@ -68,9 +75,20 @@ for (const block of bodyBlocks) {
   bands[bands.length - 1].push(block);
 }
 
+/* Dates are stored as midnight UTC, so they are formatted in UTC; a local
+   time zone would show the day before. The news shell uses AP style
+   ("Sept. 23, 2026"), the way a newspaper prints it. */
+const AP_MONTHS = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
 const dateStr = d.date
-  ? new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(d.date)
+  ? isNews
+    ? `${AP_MONTHS[d.date.getUTCMonth()]} ${d.date.getUTCDate()}, ${d.date.getUTCFullYear()}`
+    : new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(d.date)
   : null;
+
+/* The news footer links only to the policies and the support address. The
+   store and quiz links in site.footerLinks would be untracked CTAs. */
+const policyLinks = site.footerLinks.filter((l) => l.href.includes('/policies/'));
+const year = (d.date ?? new Date()).getUTCFullYear();
 ---
 
 <!DOCTYPE html>
@@ -93,28 +111,78 @@ const dateStr = d.date
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
-    rel="stylesheet"
-  />
-  {isStory && d.heroImage && <link rel="preload" as="image" href={d.heroImage} />}
+  {isNews ? (
+    <link
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;700&family=Libre+Franklin:wght@400;500;700;800&family=Gelasio:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+  ) : (
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+  )}
+  {(isStory || isNews) && d.heroImage && <link rel="preload" as="image" href={d.heroImage} />}
 </head>
 
-<body class:list={{ 'story-page': isStory }}>
-  <div id="progress"></div>
+<body class:list={{ 'story-page': isStory, 'news-page': isNews }}>
+  {!isNews && <div id="progress"></div>}
 
   {isStory && d.offerStrip && <p class="offer-strip">{d.offerStrip}</p>}
 
-  <div class="masthead">
-    <div class="wrap-wide">
-      <a class="brand" href={site.storeUrl}>Harvey&apos;s Coffee</a>
-      {isStory && (
-        <a class="btn masthead-btn" href={goHref('cta-1')} data-cta="cta-1" rel="noopener">{d.cta.button}</a>
-      )}
+  {isNews ? (
+    <div class="news-masthead">
+      <p class="nm-section">{d.section ?? ''}</p>
     </div>
-  </div>
+  ) : (
+    <div class="masthead">
+      <div class="wrap-wide">
+        <a class="brand" href={site.storeUrl}>Harvey&apos;s Coffee</a>
+        {isStory && (
+          <a class="btn masthead-btn" href={goHref('cta-1')} data-cta="cta-1" rel="noopener">{d.cta.button}</a>
+        )}
+      </div>
+    </div>
+  )}
 
-  {isStory ? (
+  {isNews ? (
+    <header class="news-head">
+      <div class="wrap">
+        {d.kicker && <p class="kicker">{d.kicker}</p>}
+        <h1>{d.headline}</h1>
+        {d.dek && <p class="dek">{d.dek}</p>}
+      </div>
+
+      {d.heroImage && (
+        <figure class="news-hero">
+          <img src={d.heroImage} alt={d.heroAlt} width="1200" height="800" fetchpriority="high" decoding="async" />
+          {(d.heroCaption || d.heroCredit) && (
+            <figcaption>
+              {d.heroCaption}
+              {d.heroCredit && <span class="credit">{d.heroCredit}</span>}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
+      <div class="wrap">
+        <div class="news-meta">
+          <p class="news-date">
+            {d.label && <span class="news-label">{d.label}</span>}
+            {d.author && <span class="news-by">By {d.author}</span>}
+            {dateStr && <time datetime={d.date!.toISOString().slice(0, 10)}>{dateStr}</time>}
+            {dateStr && d.readingTime && <span aria-hidden="true"> · </span>}
+            {d.readingTime && <span>{d.readingTime}</span>}
+          </p>
+          <button type="button" class="news-share" data-share>Share</button>
+        </div>
+
+        {leadTrust && (
+          <TrustBar label={leadTrust.label} logos={leadTrust.logos} heading={leadTrust.heading} proof={leadTrust.proof} stars={leadTrust.stars} />
+        )}
+      </div>
+    </header>
+  ) : isStory ? (
     <header class="story-hero">
       <div class="wrap-wide">
         {d.kicker && <p class="kicker">{d.kicker}</p>}
@@ -160,7 +228,14 @@ const dateStr = d.date
               );
 
             case 'pullquote':
-              return <p class="pull">{block.text}</p>;
+              return block.cite ? (
+                <figure class="pull-fig">
+                  <blockquote class="pull">&ldquo;{block.text}&rdquo;</blockquote>
+                  <figcaption class="pull-cite">{block.cite}</figcaption>
+                </figure>
+              ) : (
+                <p class="pull">{block.text}</p>
+              );
 
             case 'reason':
               reasonCount += 1;
@@ -235,6 +310,12 @@ const dateStr = d.date
             case 'faq':
               return <Faq heading={block.heading} items={block.items} />;
 
+            case 'coverage':
+              return <Coverage label={block.label} items={block.items} />;
+
+            case 'factbox':
+              return <FactBox heading={block.heading} items={block.items} note={block.note} />;
+
             case 'photo':
               photoCount += 1;
               return (
@@ -242,6 +323,7 @@ const dateStr = d.date
                   src={block.src}
                   alt={block.alt}
                   caption={block.caption}
+                  credit={block.credit}
                   shape={block.shape}
                   width={block.width}
                   note={block.note}
@@ -266,6 +348,19 @@ const dateStr = d.date
     })}
   </main>
 
+  {isNews && (
+    <footer class="news-footer">
+      <p class="nf-disclosure">{site.legal}</p>
+      <div class="nf-inner">
+        <nav aria-label="Policies">
+          {policyLinks.map((l) => <a href={l.href}>{l.text}</a>)}
+          <a href={`mailto:${site.contactEmail}`}>Contact</a>
+        </nav>
+        <p class="nf-copy">&copy; {year} {site.name} · {site.location}</p>
+      </div>
+    </footer>
+  )}
+
   {d.sticky && (
     <StickyBar
       title={d.sticky.title}
@@ -277,6 +372,29 @@ const dateStr = d.date
   )}
 
   <Analytics />
+
+  {isNews && (
+    <script is:inline>
+      /* The Share button: the phone's own share sheet where there is one,
+         otherwise copy the clean page URL (no ad-click parameters). */
+      document.querySelectorAll('[data-share]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var link = document.querySelector('link[rel=canonical]');
+          var url = link ? link.href : location.origin + location.pathname;
+          if (navigator.share) {
+            navigator.share({ title: document.title, url: url }).catch(function () {});
+            return;
+          }
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function () {
+              b.textContent = 'Link copied';
+              setTimeout(function () { b.textContent = 'Share'; }, 2000);
+            }).catch(function () {});
+          }
+        });
+      });
+    </script>
+  )}
 
   <noscript>
     <div class="wrap">

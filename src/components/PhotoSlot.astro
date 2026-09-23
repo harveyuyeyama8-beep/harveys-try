@@ -11,6 +11,7 @@ interface Props {
   width?: 'full' | 'inset';
   note?: string;
   index?: number;
+  credit?: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   width = 'full',
   note,
   index,
+  credit,
 } = Astro.props;
 
 const shapeClass = shape === 'standard' ? '' : ` ${shape}`;
@@ -36,5 +38,7 @@ const shapeClass = shape === 'standard' ? '' : ` ${shape}`;
       {note && <div class="ph-note">{note}</div>}
     </div>
   )}
-  {caption && <figcaption>{caption}</figcaption>}
+  {(caption || credit) && (
+    <figcaption>{caption}{caption && credit && ' '}{credit && <span class="credit">{credit}</span>}</figcaption>
+  )}
 </figure>

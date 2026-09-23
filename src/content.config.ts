@@ -20,6 +20,7 @@ const photo = z.object({
   shape: z.enum(['wide', 'standard', 'tall']).default('standard'),
   width: z.enum(['full', 'inset']).default('full'),
   note: z.string().optional(),       // what to shoot, shown only while src is empty
+  credit: z.string().optional(),     // "Courtesy of …" — sits after the caption, news style
 });
 
 const blocks = z.discriminatedUnion('type', [
@@ -99,6 +100,35 @@ const blocks = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('pullquote'),
     text: z.string(),
+    // Who said it and where: "Harvey Uyeyama, to The Sacramento Bee". Quotes
+    // must be verbatim from the source named here — never paraphrased.
+    cite: z.string().optional(),
+  }),
+
+  // A "More coverage" module, modeled on a newspaper's related-links box:
+  // real articles about the business, each with its real headline, date and
+  // link. Only coverage that actually ran.
+  z.object({
+    type: z.literal('coverage'),
+    label: z.string().default('More coverage'),
+    items: z.array(z.object({
+      outlet: z.string(),
+      logo: z.string().optional(),   // key from src/press.ts
+      headline: z.string(),          // the article's real headline, verbatim
+      date: z.string().optional(),   // "July 1, 2026"
+      url: z.string().url(),
+    })).default([]),
+  }),
+
+  // A small "by the numbers" box: big figures with a label under each.
+  z.object({
+    type: z.literal('factbox'),
+    heading: z.string().optional(),
+    items: z.array(z.object({
+      figure: z.string(),            // "$34"
+      label: z.string(),             // "two 12-ounce bags"
+    })).default([]),
+    note: z.string().optional(),     // the assumption or source behind the math. Inline markdown.
   }),
 
   z.object({
@@ -181,10 +211,23 @@ const advertorials = defineCollection({
     //            a button (that button is cta-1), centered headline over a
     //            hero image, then full-width bands that alternate cream and
     //            white, one band per headed block.
-    format: z.enum(['article', 'story']).default('article'),
+    // `news`:    the news-feature shell — white page, a thin masthead carrying
+    //            only a section name (no brand), red kicker, serif headline,
+    //            the hero photo with a caption, a date line, then one 600px
+    //            column. A trust bar placed first renders as the "As Seen On"
+    //            band under the date line. Ends in a news-style footer that
+    //            carries the ad disclosure (site.legal).
+    format: z.enum(['article', 'story', 'news']).default('article'),
     offerStrip: z.string().optional(),     // story only: the line in the yellow strip
-    heroImage: z.string().optional(),      // story only: the image under the headline
+    heroImage: z.string().optional(),      // story + news: the image under the headline
     heroAlt: z.string().default(''),
+    heroCaption: z.string().optional(),    // news only: the caption under the hero
+    heroCredit: z.string().optional(),     // news only: photo credit after the caption
+    section: z.string().optional(),        // news only: the name in the masthead, e.g. "Food & Drink"
+    // news only: an optional ad label shown beside the date line
+    // ("Advertisement", "Paid Post"). Empty = no label at the top; the footer
+    // disclosure still renders either way.
+    label: z.string().default(''),
 
     // --- article header ---
     kicker: z.string().optional(),

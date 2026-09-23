@@ -21,7 +21,7 @@ const { label, items } = Astro.props;
         const logo = pressLogo(p.logo);
         return (
           <div class="press-card">
-            {logo
+            {logo?.src
               ? <img class="press-logo" src={logo.src} alt={p.outlet} style={`height:${logo.height}px`} loading="lazy" decoding="async" />
               : <div class="press-outlet">{p.outlet}</div>}
             <p class="press-quote">&ldquo;{p.quote}&rdquo;</p>

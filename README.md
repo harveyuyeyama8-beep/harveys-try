@@ -298,8 +298,9 @@ Judge on subscriptions started, using `utm_content` in Shopify, which arrives as
 In `/admin`: **Advertorials** → **New Advertorial**. Fill in the header fields,
 write the CTA once, then build the page by adding blocks in order.
 
-Or in the repo: copy `roasted-to-order.md`, rename it, edit the frontmatter.
-The filename becomes the URL.
+Or in the repo: copy an existing page from `src/content/advertorials/`, rename
+it, edit the frontmatter. The filename becomes the URL. Keep it to 40
+characters or fewer — the tracker truncates `pg` at 40.
 
 - `draft: true` — not built at all
 - `primary: true` — this is what the root URL serves. Set it on exactly one.
@@ -308,7 +309,7 @@ The filename becomes the URL.
 Every other advertorial is still reachable at `/its-filename`, which is how you
 run a second angle against the same audience.
 
-### Two page shells
+### Three page shells
 
 `format: article` (the default) is the long-read: byline, cream paper, CTA
 modules in the reading column. `format: story` is the listicle shell used by
@@ -325,6 +326,24 @@ The two myths pages are the same code, `FIRSTORDER`, framed two ways:
 `4-myths-big-coffee-is-telling-you` says *first bag free* (true only on the
 2-bag plan, and the copy says so) and `4-myths-big-coffee-doesnt-want-you-to-know`
 says *first bag 50% off*. Never put both framings on one page.
+
+`format: news` is the news-feature shell. White page, a thin masthead that
+carries only a `section` name (never the brand, never a real publication), a
+red `kicker`, a serif headline and `dek`, the `heroImage` with `heroCaption`
+(and `heroCredit` if you know it), then an AP-style date line with a Share
+button. A `trustbar` placed first renders as the "As Seen On" band under the
+date line. The body is one 600px column; photos bleed to the edge on a phone.
+CTAs render as flat promo boxes with a black button, and there is no button
+above the story, so the first `cta` block is **cta-1**. The page ends in a news
+footer whose first line is `site.legal` — the ad disclosure. An optional
+`label` ("Advertisement") shows beside the date line; empty by default.
+
+It adds two blocks, usable in any shell: `coverage` (a "More coverage" box of
+real articles — outlet, verbatim headline, date, link) and `factbox` (big
+figures with a label under each, plus a footnote for the assumption). A
+`pullquote` can now carry `cite` ("Harvey Uyeyama, to ABC10"), and a `photo`
+a `credit`. Press outlets without a logo file (`enterprise` and `dirt` in
+`src/press.ts`) render as their name in type until a logo is added.
 
 ## 10. Adding a new block type
 

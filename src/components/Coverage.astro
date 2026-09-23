@@ -1,0 +1,39 @@
+---
+/**
+ * "More coverage": a newspaper-style related-links box listing real articles
+ * about the business. Each row is the outlet (logo, or its name in type),
+ * the article's real headline linking to the article, and its date.
+ *
+ * Only coverage that actually ran, with the headline copied verbatim. Links
+ * open in a new tab so the reader keeps their place in this page.
+ */
+import { pressLogo } from '../press';
+
+interface Props {
+  label: string;
+  items: { outlet: string; logo?: string; headline: string; date?: string; url: string }[];
+}
+const { label, items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <aside class="coverage" aria-label={label}>
+    <p class="coverage-label">{label}</p>
+    <ul>
+      {items.map((c) => {
+        const logo = pressLogo(c.logo);
+        return (
+          <li>
+            <p class="coverage-outlet">
+              {logo?.src
+                ? <img src={logo.src} alt={c.outlet} style={`height:${Math.round((logo.height ?? 20) * 0.7)}px`} loading="lazy" decoding="async" />
+                : <span>{c.outlet}</span>}
+            </p>
+            <a class="coverage-headline" href={c.url} target="_blank" rel="noopener">{c.headline}</a>
+            {c.date && <p class="coverage-date">{c.date}</p>}
+          </li>
+        );
+      })}
+    </ul>
+  </aside>
+)}

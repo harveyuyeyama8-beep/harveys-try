@@ -38,10 +38,14 @@ collections:
       - { label: 'Social share image', name: ogImage, widget: image, required: false, default: /og.jpg }
       - { label: 'Hide from search engines', name: noindex, widget: boolean, default: true, hint: 'Leave on. A paid landing page competing with your store in search hurts you.' }
 
-      - { label: 'Page shell', name: format, widget: select, options: [article, story], default: article, hint: 'article = the long-read with a byline. story = the "4 myths" listicle: offer strip, dark masthead with a button, headline over a hero image, alternating bands.' }
+      - { label: 'Page shell', name: format, widget: select, options: [article, story, news], default: article, hint: 'article = the long-read with a byline. story = the "4 myths" listicle: offer strip, dark masthead with a button, headline over a hero image, alternating bands. news = a news feature: section-name masthead (no brand), red kicker, captioned hero photo, date line, one column, news footer with the ad disclosure.' }
       - { label: 'Offer strip (story only)', name: offerStrip, widget: string, required: false, hint: 'The line in the yellow strip above the masthead.' }
-      - { label: 'Hero image (story only)', name: heroImage, widget: image, required: false }
+      - { label: 'Hero image (story + news)', name: heroImage, widget: image, required: false }
       - { label: 'Hero image alt text', name: heroAlt, widget: string, required: false }
+      - { label: 'Hero caption (news only)', name: heroCaption, widget: string, required: false, hint: 'One plain sentence: who is in the photo and what they are doing.' }
+      - { label: 'Hero photo credit (news only)', name: heroCredit, widget: string, required: false, hint: 'The real photographer, or "Courtesy of …". Leave empty if unknown.' }
+      - { label: 'Masthead section name (news only)', name: section, widget: string, required: false, hint: 'e.g. "Food & Drink". Never a real publication name, never the brand.' }
+      - { label: 'Ad label by the date line (news only)', name: label, widget: string, required: false, default: '', hint: 'e.g. "Advertisement". Empty = no label at the top; the footer disclosure shows either way.' }
 
       - { label: Kicker, name: kicker, widget: string, required: false }
       - { label: Headline, name: headline, widget: text }
@@ -99,6 +103,7 @@ collections:
               - { label: Shape, name: shape, widget: select, options: [wide, standard, tall], default: standard }
               - { label: Width, name: width, widget: select, options: [full, inset], default: full }
               - { label: 'Placeholder note', name: note, widget: string, required: false, hint: 'What to shoot. Shown only while no image is set.' }
+              - { label: 'Photo credit', name: credit, widget: string, required: false, hint: 'Shown after the caption. The real photographer, or "Courtesy of …".' }
 
           - label: 'Trust bar'
             name: trustbar
@@ -109,8 +114,8 @@ collections:
                 name: logos
                 widget: list
                 required: false
-                field: { label: Outlet, name: logo, widget: select, options: [abc10, sacbee, comstocks] }
-                hint: 'Pick from the outlets in src/press.ts.'
+                field: { label: Outlet, name: logo, widget: select, options: [toi, sacbee, abc10, aol, yahoo, comstocks, enterprise, dirt] }
+                hint: 'Pick from the outlets in src/press.ts. Outlets without a logo file show their name in type.'
               - { label: 'Headline', name: heading, widget: string, required: false, hint: 'The bold line under the logos.' }
               - { label: 'Proof line', name: proof, widget: string, required: false, hint: 'The quieter line under the headline. Any figure here needs a source.' }
               - { label: Stars, name: stars, widget: number, default: 0, value_type: int, min: 0, max: 5, hint: '0 hides the stars.' }
@@ -162,7 +167,37 @@ collections:
             name: pullquote
             widget: object
             fields:
-              - { label: Text, name: text, widget: text }
+              - { label: Text, name: text, widget: text, hint: 'No quote marks — they are added when a source is set.' }
+              - { label: 'Said by, and where', name: cite, widget: string, required: false, hint: 'e.g. "Harvey Uyeyama, to The Sacramento Bee". The quote must be verbatim from that source.' }
+
+          - label: 'More coverage'
+            name: coverage
+            widget: object
+            fields:
+              - { label: Label, name: label, widget: string, default: 'More coverage' }
+              - label: Articles
+                name: items
+                widget: list
+                hint: 'Only articles that actually ran. Copy the headline exactly.'
+                fields:
+                  - { label: Outlet, name: outlet, widget: string }
+                  - { label: Logo, name: logo, widget: select, required: false, options: [toi, sacbee, abc10, aol, yahoo, comstocks, enterprise, dirt] }
+                  - { label: 'Headline (verbatim)', name: headline, widget: string }
+                  - { label: Date, name: date, widget: string, required: false, hint: 'e.g. "July 1, 2026"' }
+                  - { label: URL, name: url, widget: string, pattern: ['^https?://\S+$', 'Paste the full link, starting with https://'] }
+
+          - label: 'Fact box'
+            name: factbox
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Figures
+                name: items
+                widget: list
+                fields:
+                  - { label: Figure, name: figure, widget: string, hint: 'e.g. "$34"' }
+                  - { label: Label, name: label, widget: string }
+              - { label: Footnote, name: note, widget: string, required: false, hint: 'What the math assumes, or the source. **bold** works.' }
 
           - label: 'Comparison table'
             name: compare
@@ -212,9 +247,9 @@ collections:
                 widget: list
                 fields:
                   - { label: Outlet, name: outlet, widget: string }
-                  - { label: Logo, name: logo, widget: select, required: false, options: [abc10, sacbee, comstocks], hint: 'Leave empty to show the outlet name as text instead.' }
+                  - { label: Logo, name: logo, widget: select, required: false, options: [toi, sacbee, abc10, aol, yahoo, comstocks, enterprise, dirt], hint: 'Leave empty to show the outlet name as text instead.' }
                   - { label: Quote, name: quote, widget: text, hint: 'Paste the actual sentence from the article. Never paraphrase or invent.' }
-                  - { label: URL, name: url, widget: string }
+                  - { label: URL, name: url, widget: string, pattern: ['^https?://\S+$', 'Paste the full link, starting with https://'] }
                   - { label: 'Link text', name: linkText, widget: string, default: 'Read the article →' }
 
           - label: Reviews

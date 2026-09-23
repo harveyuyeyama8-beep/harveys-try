@@ -1,0 +1,30 @@
+---
+/**
+ * A small "by the numbers" box: a few big figures, each with a plain label
+ * under it, and an optional footnote saying what the math assumes. Any figure
+ * here must be arithmetic on real prices or a number with a named source.
+ */
+import { marked } from 'marked';
+
+interface Props {
+  heading?: string;
+  items: { figure: string; label: string }[];
+  note?: string;
+}
+const { heading, items, note } = Astro.props;
+---
+
+{items.length > 0 && (
+  <aside class="factbox">
+    {heading && <p class="factbox-heading">{heading}</p>}
+    <dl>
+      {items.map((f) => (
+        <div>
+          <dt>{f.figure}</dt>
+          <dd>{f.label}</dd>
+        </div>
+      ))}
+    </dl>
+    {note && <p class="factbox-note" set:html={marked.parseInline(note)} />}
+  </aside>
+)}

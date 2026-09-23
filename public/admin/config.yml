@@ -46,6 +46,7 @@ collections:
       - { label: 'Hero photo credit (news only)', name: heroCredit, widget: string, required: false, hint: 'The real photographer, or "Courtesy of …". Leave empty if unknown.' }
       - { label: 'Masthead section name (news only)', name: section, widget: string, required: false, hint: 'e.g. "Food & Drink". Never a real publication name, never the brand.' }
       - { label: 'Ad label by the date line (news only)', name: label, widget: string, required: false, default: '', hint: 'e.g. "Advertisement". Empty = no label at the top; the footer disclosure shows either way.' }
+      - { label: 'Footer disclosure (news only)', name: legal, widget: text, required: false, hint: 'Replaces the site-wide disclosure line for this page. Leave empty to use the default. It must still say the page is an advertisement.' }
 
       - { label: Kicker, name: kicker, widget: string, required: false }
       - { label: Headline, name: headline, widget: text }

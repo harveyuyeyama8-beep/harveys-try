@@ -350,7 +350,7 @@ const year = (d.date ?? new Date()).getUTCFullYear();
 
   {isNews && (
     <footer class="news-footer">
-      <p class="nf-disclosure">{site.legal}</p>
+      <p class="nf-disclosure">{d.legal || site.legal}</p>
       <div class="nf-inner">
         <nav aria-label="Policies">
           {policyLinks.map((l) => <a href={l.href}>{l.text}</a>)}

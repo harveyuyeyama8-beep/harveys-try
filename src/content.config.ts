@@ -228,6 +228,9 @@ const advertorials = defineCollection({
     // ("Advertisement", "Paid Post"). Empty = no label at the top; the footer
     // disclosure still renders either way.
     label: z.string().default(''),
+    // news only: replaces site.legal as the footer disclosure line, for a page
+    // whose content doesn't match the shared wording. Empty = site.legal.
+    legal: z.string().optional(),
 
     // --- article header ---
     kicker: z.string().optional(),

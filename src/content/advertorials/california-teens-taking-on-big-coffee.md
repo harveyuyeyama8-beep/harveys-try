@@ -2,7 +2,7 @@
 title: 'These Two Viral Teens Are Taking On “Big Coffee”'
 draft: false
 primary: false
-description: "Most teenagers aren’t thinking about supply chains, roast profiles, or how long a bag of coffee has been sitting in a warehouse. These two are."
+description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100 years. These two are."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -11,12 +11,12 @@ section: "Food & Drink"
 kicker: "BREAKING NEWS"
 headline: 'These Two Viral Teens Are Taking On “Big Coffee”'
 date: 2026-09-23
-readingTime: "5 min read"
+readingTime: "6 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
 heroAlt: "Harvey Uyeyama holds a steel bin of roasted coffee beans. Abby Merchant holds a bag of Harvey’s Coffee. An old cast-iron roaster sits beside them on a patio."
 heroCaption: "Harvey Uyeyama and his co-founder, Abby Merchant, with their roaster."
 heroCredit: "Paul Kitagaki Jr./The Sacramento Bee"
-legal: "This page is an advertisement published by Harvey’s Coffee. Reviews are from verified customers, published with permission. Subscriptions renew until cancelled; terms and cancellation details are on the checkout page."
+legal: ""
 
 cta:
   offer: "Find the coffee you’d actually like"
@@ -34,63 +34,67 @@ blocks:
 
   - type: prose
     body: |
-      Most teenagers aren’t thinking about supply chains, roast profiles, or how long a bag of coffee has been sitting in a warehouse.
+      Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100 years.
 
-      But Harvey Uyeyama and Abby Merchant are.
+      But the two California teenagers behind Harvey’s Coffee are.
 
-      The two California teenagers behind Harvey’s Coffee have turned what began as a tiny neighborhood coffee business into a growing operation that the business says has now served more than 2,000 customers.
+      And they may have found the one thing the giants can’t copy.
 
-      And strangely enough, it all started with a coffee roaster in Harvey’s backyard.
+      It isn’t a secret blend. It isn’t a celebrity endorsement or a fancy new machine. It’s a handful of decisions so simple you’ll wonder why nobody else makes them. Once you know what they are, you may never look at the bag of coffee in your cupboard the same way again.
+
+      What began as a tiny neighborhood coffee business has grown into an operation that the business says has now served more than 2,000 customers. Some of them say their old favorites can’t even compare.
+
+      So what are two teenagers doing that billion-dollar coffee brands aren’t?
+
+      Strangely enough, it all started with a coffee roaster in a backyard.
 
   - type: photo
     src: /images/roaster.jpg
     alt: "Green coffee beans inside the two round drums of an old cast-iron roaster."
-    caption: "Green coffee beans in the two drums of Harvey’s roaster."
+    caption: "Green coffee beans in the two drums of the roaster that started the business."
     credit: "Paul Kitagaki Jr./The Sacramento Bee"
 
   - type: prose
     body: |
-      From the age of 12, Harvey watched his father, John, roast green coffee beans on a drum roaster. John had previously owned a coffee business himself, and roasting eventually became something he continued at home for the family.
+      From the age of 5, this teenager watched his father, John, roast green coffee beans on a drum roaster. John had previously owned a coffee business himself, and roasting eventually became something he continued at home for the family.
 
-      One night, while the two were talking about business ideas, Harvey decided he wanted to try selling the coffee.
+      One night, while the two were talking about business ideas, the young roaster decided he wanted to try selling the coffee.
 
       His father gave him simple advice:
 
       **Go knock on some doors.**
 
-      So Harvey did.
+      So he did.
 
       It took dozens of rejections before people started buying. Eventually, he built a small group of about 16 local customers who kept coming back.
 
-      Then Harvey built a website.
-
-      He began organizing repeat orders and eventually turned the business into a subscription service, allowing customers to receive coffee regularly instead of remembering to reorder every time they ran out.
+      The young entrepreneur began organizing repeat orders and eventually turned the business into a subscription service, allowing customers to receive coffee regularly instead of remembering to reorder every time they ran out.
 
   - type: prose
     heading: "The accident"
     body: |
       Suddenly, everything changed.
 
-      On Harvey’s fifteenth birthday, his father died.
+      On his fifteenth birthday, his father died.
 
-      For a while, Harvey considered shutting the business down entirely. Coffee had been something the two of them shared, and continuing without him felt different.
+      For a while, the teen considered shutting the business down entirely. Coffee had been something the two of them shared, and continuing without him felt different.
 
       But customers were still waiting for their coffee.
 
-      So Harvey kept roasting.
+      So this teenager kept roasting.
 
   - type: prose
     heading: "Then Abby entered the picture"
     body: |
-      A few months later, Harvey met Abby Merchant, who would eventually become both his girlfriend and business partner.
+      A few months later, he met Abby Merchant, who would eventually become both his girlfriend and business partner.
 
       What had been a small neighborhood operation began looking more like a real brand.
 
-      Abby redesigned the logo and customer experience. Together, they rebuilt the website, worked on the branding, and started thinking seriously about how Harvey’s Coffee could grow beyond a handful of local subscribers.
+      Together, they rebuilt the website, worked on the branding, and started thinking seriously about how Harvey’s Coffee could grow beyond a handful of local subscribers.
 
       The business expanded.
 
-      But as it grew, Harvey and Abby ran into a much bigger problem:
+      But as it grew, the two teens ran into a much bigger problem:
 
       How does a tiny coffee business run by two teenagers compete with brands that have been around for decades?
 
@@ -101,13 +105,13 @@ blocks:
       Beat them at the things being big makes difficult.
 
   - type: prose
-    heading: "The problem with coffee at massive scale"
+    heading: "The problem they found with coffee at scale"
     body: |
-      Large coffee companies have to produce an enormous amount of coffee, package it, warehouse it, distribute it across the country in order to keep grocery-store shelves stocked.
+      Large coffee companies have to produce an enormous amount of coffee, package it, warehouse it, and distribute it across the country in order to keep grocery-store shelves stocked.
 
       That convenience is part of why grocery-store coffee is so popular.
 
-      But Harvey and Abby saw an opportunity in the time between roasting and drinking.
+      But the two teens saw an opportunity in the time between when coffee is roasted and when customers actually drink it.
 
   - type: photo
     src: /images/burlap-sacks.jpg
@@ -116,25 +120,57 @@ blocks:
 
   - type: prose
     body: |
+      With years of roasting experience behind them, these savvy teens understood something most coffee drinkers never stop to think about.
+
+      One of them had been standing next to a roaster since he was five years old. They had spent more hours listening for the crack of roasting beans than most adults spend in coffee shops. They knew what a coffee tasted like the day it was roasted, a week later, and a month later.
+
+      And they knew the difference wasn’t subtle.
+
       Coffee is an agricultural product, and its aroma and flavor change after roasting. The longer roasted coffee sits, the less vibrant many of those flavors can become.
 
       A bag sold through a traditional retail system can take months to pass through roasting facilities, warehouses, distribution centers and store shelves before it ever reaches someone’s kitchen.
 
+      By the time it’s brewed, much of what made that coffee special may already be gone.
+
+  - type: prose
+    heading: "Their solution: roast it after you order it"
+    body: |
       Harvey’s Coffee decided to build its business around doing essentially the opposite.
 
       The coffee isn’t roasted until somebody orders it.
 
       There’s no need to roast thousands of bags in advance and hope they eventually sell.
 
-      Instead, Harvey still roasts in relatively small batches (approximately 12 bags an hour) on the same machine that started the business.
+      Instead, these young entrepreneurs still roast in relatively small batches (approximately 12 bags an hour) on the same machine that started the business.
 
-      The business also focuses on a new single-origin specialty coffee every month in order to allow their customers to discover coffee from all over the world.
+      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced, specialty-grade coffee.
 
-      Their subscribers receive coffees from 12 different origins throughout the year, along with a card with origin facts and tasting notes about what they’re drinking and the flavors they may notice in the cup.
+      But roasting to order is only half of what they do differently.
 
-      In other words, Harvey and Abby aren’t trying to make another grocery-store coffee.
+  - type: prose
+    heading: "A new coffee, from a new country, every month"
+    body: |
+      This is where Harvey’s Coffee gets really different.
+
+      Walk down a grocery-store coffee aisle and most bags are blends: beans from several places mixed together so the bag tastes exactly the same every time, all year long.
+
+      That consistency is convenient. But it also flattens out the thing that makes coffee interesting.
+
+      Coffee is shaped by where it’s grown. The country, the region, the altitude, the soil and the way the beans are processed after harvest all show up in the cup. Depending on where it comes from, a single-origin coffee can taste bright and fruity, rich and chocolatey, or sweet and floral. Plenty of people are surprised the first time a black coffee, with nothing added, tastes like berries or caramel.
+
+      Most coffee drinkers never get to experience that, because they’ve been drinking the same blend for years.
+
+      So instead of one blend forever, Harvey’s Coffee features a different ethically sourced, single-origin coffee every month.
+
+      Subscribers taste their way through coffees from 12 different origins over the course of a year. Every bag arrives with a card covering where the coffee was grown, facts about its origin and tasting notes for the flavors to look for in the cup.
+
+      It turns a morning routine into something closer to a tasting tour of the world, one month at a time.
+
+      In other words, the two teens aren’t trying to make another grocery-store coffee.
 
       They’re trying to make grocery-store coffee unnecessary.
+
+  - type: cta
 
   - type: reviews
     heading: "In their own words"
@@ -149,25 +185,23 @@ blocks:
         quote: "I read about Harvey’s coffee and wanted to support a young entrepreneur—I was delighted to find he also has an amazing product. The coffee beans are delicious (I tried a Colombian and a Rwandan bean) and perfectly roasted to my liking. Quick delivery to my door, will order again."
         who: "Adrienne S."
 
-  - type: cta
-
   - type: prose
     heading: "“But isn’t specialty coffee expensive?”"
     body: |
       Harvey’s Coffee isn’t trying to compete with the cheapest bag of coffee on a supermarket shelf.
 
-      The idea is that customers are paying for a different product entirely: specialty-grade coffee, smaller-batch roasting, different origins throughout the year and coffee roasted after the order comes in.
+      The idea is that customers are paying for a different product entirely: ethically sourced, specialty-grade coffee, smaller-batch roasting, different origins throughout the year and coffee roasted after the order comes in.
 
       For someone whose only priority is buying the least expensive caffeine possible, that may not matter much.
 
-      But for someone already buying café drinks, upgrading grinders, experimenting with brewing methods or wondering why their home coffee never tastes particularly good, Harvey and Abby argue that upgrading the coffee itself may make more sense than buying another piece of equipment.
+      But for someone already buying café drinks, upgrading grinders, experimenting with brewing methods or wondering why their home coffee never tastes particularly good, the two founders argue that upgrading the coffee itself may make more sense than buying another piece of equipment.
 
   - type: prose
     heading: "“And I have to subscribe?”"
     body: |
       Coffee is one of those products people repeatedly run out of.
 
-      The subscription originally grew out of Harvey noticing that the same customers were buying from him over and over again anyway.
+      The subscription originally grew out of this teenager noticing that the same customers were buying from him over and over again anyway.
 
       Rather than making them remember to place another order every few weeks, Harvey’s Coffee built the recurring model around how often customers actually drink coffee.
 
@@ -184,13 +218,13 @@ blocks:
     body: |
       The equipment has changed surprisingly little.
 
-      Harvey’s drum roaster can produce roughly 12 bags an hour, which is microscopic compared with an industrial coffee facility.
+      The teens’ drum roaster can produce roughly 12 bags an hour, which is microscopic compared with an industrial coffee facility.
 
       But that limitation has effectively become part of the pitch.
 
       Instead of asking, “How much coffee can we produce?”
 
-      Harvey and Abby are asking:
+      These two teenagers are asking:
 
       “How good can we make each bag?”
 

@@ -783,7 +783,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
   padding:1.25rem 1.25rem 1.1rem;
 }
 .news-page .cta-offer{
-  font-family:var(--n-head); font-weight:700; font-size:1.3125rem; line-height:1.25;
+  font-family:var(--n-head); font-weight:700; font-size:clamp(2rem,7vw,2.5rem); line-height:1.1;
   letter-spacing:0; margin:0 0 .4rem; color:var(--n-ink); text-wrap:pretty;
 }
 .news-page .cta-urgency{font-family:var(--n-text); font-size:1rem; line-height:1.45; color:var(--n-body); margin:0 0 1rem}
@@ -797,7 +797,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .cta-sub{font-family:var(--n-ui); font-size:.75rem; color:var(--n-meta); text-align:center; margin:.6rem 0 0}
 .news-page .cta-note{font-family:var(--n-text); font-size:1rem; line-height:1.5; color:var(--n-body); margin:1rem 0 0}
 .news-page .cta.final{background:#fff; border:2px solid var(--n-ink); border-top-width:2px; padding:1.5rem 1.25rem 1.25rem}
-.news-page .cta.final .cta-offer{font-size:1.5rem}
+.news-page .cta.final .cta-offer{font-size:clamp(2.25rem,8vw,2.75rem)}
 
 /* sticky bar, if a page turns it on */
 .news-page #stickybar{background:rgba(255,255,255,.97); border-top:1px solid var(--n-rule)}

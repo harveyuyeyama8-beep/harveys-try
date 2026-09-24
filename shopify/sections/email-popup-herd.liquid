@@ -1,0 +1,585 @@
+<!-- Email Popup - Join the Herd -->
+<div id="herd-popup-overlay" class="herd-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="herd-popup-title">
+  <div class="herd-popup">
+    <button class="herd-popup-close" aria-label="Close popup">&times;</button>
+
+    <div class="herd-popup-content">
+      <!-- Left: Image -->
+      <div class="herd-popup-image">
+        {% if section.settings.popup_image != blank %}
+          <img
+            src="{{ section.settings.popup_image | image_url: width: 600 }}"
+            alt="Harvey's Coffee"
+            width="340"
+            height="380"
+            loading="lazy"
+          >
+        {% else %}
+          <div class="herd-popup-image-placeholder">
+            <span>Add your image</span>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right: Form -->
+      <div class="herd-popup-form-wrapper">
+        <span class="herd-popup-eyebrow">{{ section.settings.eyebrow_text }}</span>
+        <h2 class="herd-popup-title" id="herd-popup-title">{{ section.settings.title_text }}</h2>
+        <p class="herd-popup-subtitle">{{ section.settings.subtitle_text }}</p>
+
+        <form class="herd-popup-form" id="herd-email-form" novalidate>
+          <input
+            type="email"
+            name="email"
+            id="herd-email-input"
+            placeholder="{{ section.settings.placeholder_text }}"
+            required
+            autocomplete="email"
+            class="herd-popup-input"
+          >
+          <button type="submit" class="herd-popup-button" id="herd-submit-btn">
+            {{ section.settings.button_text }}
+          </button>
+        </form>
+
+        <p class="herd-popup-disclaimer" id="herd-disclaimer">{{ section.settings.disclaimer_text }}</p>
+        <p class="herd-popup-error" id="herd-error" role="alert" hidden></p>
+        <p class="herd-popup-success" id="herd-success" hidden>{{ section.settings.success_text | default: "You're in! Your discount will automatically be applied at checkout." }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .herd-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .herd-popup-overlay.active {
+    display: flex;
+  }
+
+  .herd-popup {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 12px;
+    max-width: 760px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: popupSlideIn 0.3s ease-out;
+  }
+
+  @keyframes popupSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .herd-popup {
+      animation: none;
+    }
+  }
+
+  .herd-popup-close {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.2s;
+  }
+
+  .herd-popup-close:hover {
+    background-color: #f0f0f0;
+  }
+
+  .herd-popup-close:focus-visible,
+  .herd-popup-button:focus-visible,
+  .herd-popup-input:focus-visible {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+  }
+
+  .herd-popup-content {
+    display: flex;
+  }
+
+  .herd-popup-image {
+    flex: 0 0 45%;
+    min-height: 380px;
+    background-color: #f5f0e8;
+  }
+
+  .herd-popup-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .herd-popup-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B7355;
+    font-size: 14px;
+  }
+
+  .herd-popup-form-wrapper {
+    flex: 1;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .herd-popup-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+
+  .herd-popup-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 12px;
+    line-height: 1.2;
+  }
+
+  .herd-popup-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  .herd-popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .herd-popup-input {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .herd-popup-input:focus {
+    border-color: #F7D100;
+  }
+
+  .herd-popup-input::placeholder {
+    color: #999;
+  }
+
+  .herd-popup-button {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    background-color: #F7D100;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .herd-popup-button:hover {
+    background-color: #e5c000;
+    transform: translateY(-1px);
+  }
+
+  .herd-popup-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .herd-popup-disclaimer {
+    font-size: 12px;
+    color: #888;
+    margin: 16px 0 0;
+    text-align: center;
+  }
+
+  .herd-popup-error {
+    font-size: 14px;
+    color: #b91c1c;
+    font-weight: 600;
+    margin: 12px 0 0;
+    text-align: center;
+  }
+
+  .herd-popup-success {
+    font-size: 16px;
+    color: #16a34a;
+    font-weight: 600;
+    margin: 16px 0 0;
+    text-align: center;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media screen and (max-width: 640px) {
+    .herd-popup {
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .herd-popup-content {
+      flex-direction: column;
+    }
+
+    .herd-popup-image {
+      flex: 0 0 auto;
+      min-height: 220px;
+      max-height: 240px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .herd-popup-image img {
+      object-fit: contain;
+      width: 80%;
+      height: auto;
+      max-height: 220px;
+    }
+
+    .herd-popup-form-wrapper {
+      padding: 24px 20px;
+    }
+
+    .herd-popup-title {
+      font-size: 24px;
+    }
+
+    .herd-popup-subtitle {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .herd-popup-input {
+      padding: 14px 16px;
+      font-size: 15px;
+    }
+
+    .herd-popup-button {
+      padding: 14px 20px;
+      font-size: 16px;
+    }
+
+    .herd-popup-close {
+      top: 8px;
+      left: 8px;
+      width: 32px;
+      height: 32px;
+      font-size: 20px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const popup = document.getElementById('herd-popup-overlay');
+    if (!popup) return;
+
+    const closeBtn = popup.querySelector('.herd-popup-close');
+    const form = document.getElementById('herd-email-form');
+    const emailInput = document.getElementById('herd-email-input');
+    const submitBtn = document.getElementById('herd-submit-btn');
+    const disclaimer = document.getElementById('herd-disclaimer');
+    const successMsg = document.getElementById('herd-success');
+    const errorMsg = document.getElementById('herd-error');
+
+    const POPUP_COOKIE = 'herd_popup_shown';
+    const POPUP_DELAY = {{ section.settings.popup_delay | default: 3 }} * 1000;
+
+    // Public site ID (safe to expose). Never put a private key here.
+    const KLAVIYO_COMPANY_ID = '{{ section.settings.klaviyo_company_id | default: "R5cUQN" }}';
+    const KLAVIYO_LIST_ID = '{{ section.settings.klaviyo_list_id | default: "SCsBfZ" }}';
+    const KLAVIYO_REVISION = '2026-07-15';
+
+    // Discount applied to the shopper's session on signup, so it is
+    // already on the cart when they reach checkout.
+    const DISCOUNT_CODE = '{{ section.settings.discount_code | default: "FIRSTORDER" }}';
+
+    const BUTTON_LABEL = submitBtn.textContent.trim();
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+    }
+
+    function showPopup() {
+      popup.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      emailInput.focus();
+    }
+
+    // Dismissing sets only the short cookie, so a visitor who bounced
+    // gets another chance sooner than one who actually signed up.
+    function hidePopup() {
+      popup.classList.remove('active');
+      document.body.style.overflow = '';
+      if (!getCookie(POPUP_COOKIE)) {
+        setCookie(POPUP_COOKIE, 'dismissed', {{ section.settings.cookie_days | default: 7 }});
+      }
+    }
+
+    if (!getCookie(POPUP_COOKIE)) {
+      setTimeout(showPopup, POPUP_DELAY);
+    }
+
+    closeBtn.addEventListener('click', hidePopup);
+
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) hidePopup();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && popup.classList.contains('active')) hidePopup();
+    });
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.hidden = false;
+    }
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      errorMsg.hidden = true;
+
+      if (!email || !emailInput.checkValidity()) {
+        showError('Enter a valid email address.');
+        emailInput.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing up...';
+
+      try {
+        const response = await fetch(
+          `https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`,
+          {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/vnd.api+json',
+              'revision': KLAVIYO_REVISION
+            },
+            body: JSON.stringify({
+              data: {
+                type: 'subscription',
+                attributes: {
+                  profile: {
+                    data: {
+                      type: 'profile',
+                      attributes: {
+                        email: email,
+                        subscriptions: {
+                          email: { marketing: { consent: 'SUBSCRIBED' } }
+                        }
+                      }
+                    }
+                  }
+                },
+                relationships: {
+                  list: { data: { type: 'list', id: KLAVIYO_LIST_ID } }
+                }
+              }
+            })
+          }
+        );
+
+        if (!response.ok) {
+          const detail = await response.text();
+          throw new Error(`Klaviyo ${response.status}: ${detail}`);
+        }
+
+        // Put the discount on the shopper's session so it shows up
+        // automatically at checkout. Best effort: a failure here must
+        // not turn a successful signup into an error.
+        if (DISCOUNT_CODE) {
+          try {
+            await fetch('/discount/' + encodeURIComponent(DISCOUNT_CODE), { credentials: 'same-origin' });
+          } catch (discountErr) {
+            console.warn('Could not apply discount code:', discountErr);
+          }
+        }
+
+        // 202 means accepted, not stored — confirm real profiles land in Klaviyo.
+        form.hidden = true;
+        disclaimer.hidden = true;
+        successMsg.hidden = false;
+        setCookie(POPUP_COOKIE, 'subscribed', 365);
+        setTimeout(hidePopup, 3000);
+
+      } catch (err) {
+        console.error('Klaviyo signup failed:', err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = BUTTON_LABEL;
+        showError('That didn\'t go through. Try again in a moment.');
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Herd Email Popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_image",
+      "label": "Popup image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "JOIN THE HERD"
+    },
+    {
+      "type": "text",
+      "id": "title_text",
+      "label": "Title",
+      "default": "Your first bag free"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle_text",
+      "label": "Subtitle",
+      "default": "Sign up to get your free bag of freshly roasted coffee"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Claim free bag"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer_text",
+      "label": "Disclaimer text",
+      "default": "No spam, ever. Unsubscribe anytime."
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "info": "Must match the offer above, or people will think they got the wrong thing.",
+      "default": "You're in! Your discount will automatically be applied at checkout."
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Discount code applied on signup",
+      "info": "Applied to the shopper's cart when they sign up, so it's on automatically at checkout. Leave empty to turn off.",
+      "default": "FIRSTORDER"
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_company_id",
+      "label": "Public API key (site ID)",
+      "info": "Klaviyo > Settings > API keys. Public key only — never a private key.",
+      "default": "R5cUQN"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "List ID",
+      "info": "Must be a list, not a segment. Found in the list's URL.",
+      "default": "SCsBfZ"
+    },
+    {
+      "type": "header",
+      "content": "Popup Behavior"
+    },
+    {
+      "type": "range",
+      "id": "popup_delay",
+      "label": "Delay before showing (seconds)",
+      "min": 1,
+      "max": 30,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "cookie_days",
+      "label": "Days before showing again",
+      "min": 1,
+      "max": 30,
+      "default": 7
+    }
+  ],
+  "presets": [
+    {
+      "name": "Herd Email Popup"
+    }
+  ]
+}
+{% endschema %}

@@ -20,7 +20,7 @@ legal: ""
 
 cta:
   offer: "Find the coffee you’d actually like"
-  urgency: "The quiz asks how you brew and what you like. New customers get 50% off their first shipment, and the quiz adds the discount for you."
+  urgency: "The quiz asks how you brew and what you like. New customers get 50% off their first shipment."
   button: "TAKE THE QUIZ"
   sub: "4 questions · about 30 seconds"
   risk: ""
@@ -133,7 +133,7 @@ blocks:
       By the time it’s brewed, much of what made that coffee special may already be gone.
 
   - type: prose
-    heading: "Their solution: roast it after you order it"
+    heading: "Their solution..."
     body: |
       Harvey’s Coffee decided to build its business around doing essentially the opposite.
 
@@ -143,7 +143,7 @@ blocks:
 
       Instead, these young entrepreneurs still roast in relatively small batches (approximately 12 bags an hour) on the same machine that started the business.
 
-      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced, specialty-grade coffee.
+      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced, specialty-grade coffee from the top 1% of coffee.
 
       But roasting to order is only half of what they do differently.
 
@@ -190,7 +190,7 @@ blocks:
     body: |
       Harvey’s Coffee isn’t trying to compete with the cheapest bag of coffee on a supermarket shelf.
 
-      The idea is that customers are paying for a different product entirely: ethically sourced, specialty-grade coffee, smaller-batch roasting, different origins throughout the year and coffee roasted after the order comes in.
+      The idea is that customers are paying for a different product entirely: ethically sourced, specialty-grade coffee from the top 1% of coffee, smaller-batch roasting, different origins throughout the year and coffee roasted after the order comes in.
 
       For someone whose only priority is buying the least expensive caffeine possible, that may not matter much.
 

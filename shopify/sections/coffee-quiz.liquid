@@ -11,6 +11,17 @@
       moved from step 4 to under the step 5 checkout button.
     - Progress bar gains a 6th segment (Ground path = 6 steps).
 
+  v26 changes (2026-09-24) - INSTANT CHECKOUT.
+    - The cart is built in the BACKGROUND the moment step 5 opens
+      (clear if needed + add with selling plan, via the pristine
+      iframe fetch), and the discount cookie is set in the background
+      too. Continue to Checkout then just navigates to
+      /checkout?discount=CODE - no cart calls, no /discount redirect
+      hop on the click. If the background build is still running the
+      click waits for it; if it failed, the click falls back to the
+      old full flow. Changing an answer and coming back rebuilds.
+    - Step slide animation 0.3s -> 0.18s.
+
   v24 changes (2026-09-14) - ATLAS-STYLE SALE BURST.
     - Sticker rebuilt as a scalloped yellow seal (clip-path) with two
       lines: big bold SALE (32px desktop / 26px mobile) over a smaller
@@ -374,11 +385,11 @@
 
 .cq-container{max-width:640px;width:100%;margin:0 auto;padding:0 20px 40px}
 
-.cq-step{display:none;animation:cqSlideIn 0.3s ease both}
+.cq-step{display:none;animation:cqSlideIn 0.18s ease both}
 .cq-step.cq-active{display:block}
 @keyframes cqSlideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 @keyframes cqSlideBack{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
-.cq-step.cq-back{animation:cqSlideBack 0.3s ease both}
+.cq-step.cq-back{animation:cqSlideBack 0.18s ease both}
 
 .cq-q-card{background:var(--cq-white);border-radius:16px;box-shadow:var(--cq-shadow-hover);padding:40px 32px;margin-top:24px}
 .cq-q-title{font-family:var(--cq-font-display);font-size:27px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;text-align:center;margin-bottom:6px}
@@ -1190,7 +1201,7 @@ body.cq-hide-cart{overflow:visible !important}
     var lbl=document.getElementById('cqPTxt');
     lbl.textContent='Step '+(pos+1)+' of '+order.length;
 
-    if(String(n)==='5')cqFillReview();
+    if(String(n)==='5'){cqFillReview();cqPrebuild();}
 
     cqScrollToStep(n);
     enableBtn(n);
@@ -1318,6 +1329,7 @@ body.cq-hide-cart{overflow:visible !important}
   window.addEventListener('pageshow',function(){
     cqGuardStop();
     cqRestoreBtn(document.getElementById('cqN5'));
+    cqPre=null;
     cqPrime();
   });
 
@@ -1343,64 +1355,41 @@ body.cq-hide-cart{overflow:visible !important}
     return function(u,o){return window.fetch(u,o)};
   }
 
-  window.cqCheckout=function(){
-    var btn=document.getElementById('cqN5');
-    if(btn&&(btn.dataset.busy==='1'||!btn.classList.contains('cq-go')))return;
-
+  // ── v26: instant checkout ──────────────────────────────────────────────
+  // cqPrebuild() runs when step 5 opens: it builds the cart for the
+  // current answers in the background and sets the discount cookie, so
+  // the Continue to Checkout click only has to navigate.
+  var cqPre=null, cqDiscPrimed=false;
+  function cqSel(){
     var productKey=S.quantity||'single_bag';
     var productMap=CFG.variants[productKey];
     var roastMap=productMap?productMap[S.roast]:null;
-    var vid=roastMap?roastMap[S.brew]:null;
-    var spid=CFG.sellingPlans[productKey]?CFG.sellingPlans[productKey][S.frequency]:null;
-
-    if(!vid){
-      alert('Could not find variant for:\nRoast: '+S.roast+'\nBrew: '+S.brew+'\n\nPlease check the variant mapping in coffee-quiz.liquid');
-      return;
-    }
-
-    // Never fall through to a one-time purchase. If the plan is missing the
-    // customer would be charged subscription pricing with nothing recurring.
-    if(!spid){
-      alert('Subscription plans are temporarily unavailable. Please contact us at harveyuyeyama@gmail.com and we will set this up for you.');
-      return;
-    }
-
-    if(btn){
-      btn.dataset.busy='1';btn.style.pointerEvents='none';btn.classList.add('cq-busy');
-      // Instant feedback while the cart calls run; cqRestoreBtn puts the
-      // original label back on error or on Back-from-checkout.
-      btn.dataset.orig=btn.innerHTML;
-      btn.innerHTML='One moment…';
-    }
-
-    // Guard goes up BEFORE any cart call is made.
-    cqGuardStart();
-
+    return {
+      vid:roastMap?roastMap[S.brew]:null,
+      spid:CFG.sellingPlans[productKey]?CFG.sellingPlans[productKey][S.frequency]:null
+    };
+  }
+  function cqCheckoutUrl(){
+    return CFG.discountCode?'/checkout?discount='+encodeURIComponent(CFG.discountCode):'/checkout';
+  }
+  // Clear (unless the primer saw an empty cart), add with the selling
+  // plan, and confirm the plan attached. Same semantics as before.
+  function cqBuildCart(vid,spid){
     var xfetch=cqCleanFetch();
     var origin=window.location.origin;
-
     function cqAdd(){
       return xfetch(origin+'/cart/add.js',{
         method:'POST',
         credentials:'same-origin',
         headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body:JSON.stringify({
-          items:[{
-            id:Number(vid),
-            quantity:1,
-            selling_plan:Number(spid)
-          }]
-        })
+        body:JSON.stringify({items:[{id:Number(vid),quantity:1,selling_plan:Number(spid)}]})
       });
     }
-
-    // v15 - skip the clear round trip when the primer saw an empty cart.
-    // Unknown (null) or non-empty -> clear first, same as before. The
-    // cached count is consumed here: a failed attempt leaves an item in
-    // the cart, so any retry must clear.
+    // The cached count is consumed here: once we add, the cart is no
+    // longer empty, so any rebuild must clear.
     var cqSkipClear=(cqCartCount===0);
     cqCartCount=null;
-    (cqSkipClear
+    return (cqSkipClear
       ? cqAdd()
       : xfetch(origin+'/cart/clear.js',{
           method:'POST',
@@ -1415,21 +1404,74 @@ body.cq-hide-cart{overflow:visible !important}
       });
     })
     .then(function(d){
-      // Confirm the plan actually attached before sending them to checkout.
       var item=d&&d.items&&d.items[0];
       if(item&&!item.selling_plan_allocation){
         throw new Error('Subscription plan did not attach. Please contact us.');
       }
-      // Guard stays up — the page is about to navigate away.
-      window.location.href = CFG.discountCode
-        ? '/discount/'+encodeURIComponent(CFG.discountCode)+'?redirect=%2Fcheckout'
-        : '/checkout';
-    })
-    .catch(function(e){
-      cqGuardStop();
-      alert('Could not start checkout: '+(e&&e.message?e.message:'unknown error'));
-      cqRestoreBtn(btn);
+      return d;
     });
+  }
+  function cqPrimeDiscount(){
+    if(cqDiscPrimed||!CFG.discountCode)return;
+    cqDiscPrimed=true;
+    try{
+      cqCleanFetch()(window.location.origin+'/discount/'+encodeURIComponent(CFG.discountCode)+'?redirect=%2Fcart.js',{credentials:'same-origin'})
+        .catch(function(){cqDiscPrimed=false});
+    }catch(e){cqDiscPrimed=false}
+  }
+  function cqPrebuild(){
+    cqPrimeDiscount();
+    var sel=cqSel();
+    if(!sel.vid||!sel.spid)return;
+    var key=sel.vid+':'+sel.spid;
+    if(cqPre&&cqPre.key===key)return;
+    var entry={key:key,p:null};
+    // Chain after any build already in flight so two builds never race.
+    var prev=cqPre&&cqPre.p?cqPre.p.catch(function(){}):Promise.resolve();
+    entry.p=prev.then(function(){return cqBuildCart(sel.vid,sel.spid)});
+    entry.p.catch(function(){ if(cqPre===entry) cqPre=null; });
+    cqPre=entry;
+  }
+
+  window.cqCheckout=function(){
+    var btn=document.getElementById('cqN5');
+    if(btn&&(btn.dataset.busy==='1'||!btn.classList.contains('cq-go')))return;
+
+    var sel=cqSel();
+    if(!sel.vid){
+      alert('Could not find variant for:\nRoast: '+S.roast+'\nBrew: '+S.brew+'\n\nPlease check the variant mapping in coffee-quiz.liquid');
+      return;
+    }
+    // Never fall through to a one-time purchase. If the plan is missing the
+    // customer would be charged subscription pricing with nothing recurring.
+    if(!sel.spid){
+      alert('Subscription plans are temporarily unavailable. Please contact us at harveyuyeyama@gmail.com and we will set this up for you.');
+      return;
+    }
+
+    if(btn){
+      btn.dataset.busy='1';btn.style.pointerEvents='none';btn.classList.add('cq-busy');
+      btn.dataset.orig=btn.innerHTML;
+      btn.innerHTML='One moment…';
+    }
+    cqGuardStart();
+
+    var key=sel.vid+':'+sel.spid;
+    var ready=(cqPre&&cqPre.key===key)
+      ? cqPre.p.catch(function(){ cqPre=null; return cqBuildCart(sel.vid,sel.spid); })
+      : cqBuildCart(sel.vid,sel.spid);
+
+    ready
+      .then(function(){
+        // Guard stays up — the page is about to navigate away.
+        window.location.href=cqCheckoutUrl();
+      })
+      .catch(function(e){
+        cqPre=null;
+        cqGuardStop();
+        alert('Could not start checkout: '+(e&&e.message?e.message:'unknown error'));
+        cqRestoreBtn(btn);
+      });
   };
 })();
 </script>

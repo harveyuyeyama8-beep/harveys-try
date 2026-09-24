@@ -650,11 +650,31 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page main{padding:1.5rem 0 0}
 .news-page a{color:var(--n-link); text-decoration-thickness:1px; text-underline-offset:.12em}
 
-/* masthead: the section name only, centered, on a hairline */
-.news-page .news-masthead{background:#fff; border-bottom:1px solid #E2E2E2; padding:.7rem 1.25rem .6rem; text-align:center}
+/* masthead: a newspaper nameplate — edition line, blackletter name, then
+   the section on a double rule. With no `publication`, only the section. */
+.news-page .news-masthead{background:#fff; padding:.55rem 1.25rem 0; text-align:center}
+.news-page .nm-top{
+  display:flex; justify-content:space-between; gap:1rem;
+  max-width:60rem; margin:0 auto; padding-bottom:.45rem;
+  font-family:var(--n-ui); font-size:.6875rem; font-weight:500; color:var(--n-ink);
+  letter-spacing:.02em;
+}
+.news-page .nm-name{
+  margin:0; font-family:"UnifrakturMaguntia", "Old English Text MT", "Times New Roman", serif;
+  font-weight:400; color:var(--n-ink); font-size:clamp(2.25rem,10vw,4.25rem); line-height:1;
+  padding:.1rem 0 .55rem;
+}
+.news-page .nm-sections{
+  max-width:60rem; margin:0 auto; padding:.45rem 0 .4rem;
+  border-top:1px solid var(--n-ink); border-bottom:3px double var(--n-ink);
+}
 .news-page .nm-section{
-  margin:0; font-family:var(--n-head); font-weight:700; color:var(--n-ink);
-  font-size:1.375rem; line-height:1.2; letter-spacing:-.005em;
+  margin:0; font-family:var(--n-ui); font-weight:700; color:var(--n-ink);
+  font-size:.75rem; line-height:1.2; letter-spacing:.14em; text-transform:uppercase;
+}
+.news-page .news-masthead:not(:has(.nm-name)) .nm-sections{border:0}
+.news-page .news-masthead:not(:has(.nm-name)) .nm-section{
+  font-family:var(--n-head); font-size:1.375rem; letter-spacing:-.005em; text-transform:none;
 }
 
 /* header: kicker, headline, dek, hero, date line */
@@ -835,7 +855,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 /* 740px and up: a newspaper steps its type up here */
 @media(min-width:46.25rem){
   .news-page .news-head{padding-top:3rem}
-  .news-page .nm-section{font-size:1.75rem}
+  .news-page .news-masthead:not(:has(.nm-name)) .nm-section{font-size:1.75rem}
   .news-page h1{font-size:2.5rem; line-height:1.15}
   .news-page .dek{font-size:1.4375rem; line-height:1.3; margin-bottom:1.5rem}
   .news-page .prose{font-size:1.25rem; line-height:1.5}

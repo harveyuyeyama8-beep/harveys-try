@@ -85,6 +85,11 @@ const dateStr = d.date
     : new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(d.date)
   : null;
 
+/* The newspaper's edition date above the nameplate: "Wednesday, September 23, 2026". */
+const dateLong = d.date
+  ? new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(d.date)
+  : '';
+
 /* The news footer links only to the policies and the support address. The
    store and quiz links in site.footerLinks would be untracked CTAs. */
 const policyLinks = site.footerLinks.filter((l) => l.href.includes('/policies/'));
@@ -113,7 +118,7 @@ const year = (d.date ?? new Date()).getUTCFullYear();
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   {isNews ? (
     <link
-      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;700&family=Libre+Franklin:wght@400;500;700;800&family=Gelasio:ital,wght@0,400;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;700&family=Libre+Franklin:wght@400;500;700;800&family=Gelasio:ital,wght@0,400;0,700;1,400&family=UnifrakturMaguntia&display=swap"
       rel="stylesheet"
     />
   ) : (
@@ -132,7 +137,20 @@ const year = (d.date ?? new Date()).getUTCFullYear();
 
   {isNews ? (
     <div class="news-masthead">
-      <p class="nm-section">{d.section ?? ''}</p>
+      {d.publication && (
+        <>
+          <div class="nm-top">
+            <span class="nm-edition">{dateLong}</span>
+            <span class="nm-edition nm-right">Today’s Paper</span>
+          </div>
+          <p class="nm-name">{d.publication}</p>
+        </>
+      )}
+      {d.section && (
+        <nav class="nm-sections" aria-label="Section">
+          <span class="nm-section">{d.section}</span>
+        </nav>
+      )}
     </div>
   ) : (
     <div class="masthead">

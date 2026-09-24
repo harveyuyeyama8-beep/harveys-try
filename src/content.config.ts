@@ -223,6 +223,7 @@ const advertorials = defineCollection({
     heroAlt: z.string().default(''),
     heroCaption: z.string().optional(),    // news only: the caption under the hero
     heroCredit: z.string().optional(),     // news only: photo credit after the caption
+    publication: z.string().optional(),    // news only: the nameplate across the top, e.g. "Newstand Daily"
     section: z.string().optional(),        // news only: the name in the masthead, e.g. "Food & Drink"
     // news only: an optional ad label shown beside the date line
     // ("Advertisement", "Paid Post"). Empty = no label at the top; the footer

@@ -7,6 +7,7 @@ ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
 format: news
+publication: "Newstand Daily"
 section: "Food & Drink"
 kicker: "BREAKING NEWS"
 headline: 'These Two Viral Teens Are Taking On “Big Coffee”'

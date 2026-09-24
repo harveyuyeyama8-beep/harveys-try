@@ -1,0 +1,160 @@
+{
+  "fixture-roasting.example/pages/why-fresh-matters": {
+    "url": "https://fixture-roasting.example/pages/why-fresh-matters",
+    "finalUrl": "https://fixture-roasting.example/pages/why-fresh-matters",
+    "title": "Why fresh matters",
+    "h1": "How Old Is the Coffee in Your Cupboard?",
+    "headings": [
+      "How Old Is the Coffee in Your Cupboard?",
+      "The roast date nobody prints",
+      "What happens after 14 days",
+      "Try it fresh"
+    ],
+    "ctas": [
+      "Get 40% off"
+    ],
+    "words": 35,
+    "signals": {
+      "numberedHeadings": 0,
+      "byline": true,
+      "advertorialLabel": true,
+      "addToCart": false,
+      "price": false,
+      "quiz": false,
+      "reviews": false
+    },
+    "text": "By Jane Example. Most grocery coffee is roasted months before it reaches the shelf. Here is what happens to flavour after roasting, and why a roast date matters. Readers get 40% off their first bag.",
+    "thin": false
+  },
+  "fixture-roasting.example/products/house-blend": {
+    "url": "https://fixture-roasting.example/products/house-blend",
+    "finalUrl": "https://fixture-roasting.example/products/house-blend",
+    "title": "House Blend",
+    "h1": "House Blend",
+    "headings": [
+      "House Blend",
+      "Tasting notes",
+      "Reviews"
+    ],
+    "ctas": [
+      "Add to cart"
+    ],
+    "words": 11,
+    "signals": {
+      "numberedHeadings": 0,
+      "byline": false,
+      "advertorialLabel": false,
+      "addToCart": true,
+      "price": true,
+      "quiz": false,
+      "reviews": true
+    },
+    "text": "House Blend. $18.00. Smooth and chocolatey. Add to cart. 120 reviews.",
+    "thin": false
+  },
+  "sample-bean-club.example/quiz": {
+    "url": "https://sample-bean-club.example/quiz",
+    "finalUrl": "https://sample-bean-club.example/quiz",
+    "title": "Coffee quiz",
+    "h1": "Find your coffee",
+    "headings": [
+      "Find your coffee",
+      "Question 1 of 5"
+    ],
+    "ctas": [
+      "Start quiz"
+    ],
+    "words": 14,
+    "signals": {
+      "numberedHeadings": 0,
+      "byline": false,
+      "advertorialLabel": false,
+      "addToCart": false,
+      "price": false,
+      "quiz": true,
+      "reviews": false
+    },
+    "text": "Question 1 of 5. How do you brew? Take the quiz to get matched.",
+    "thin": false
+  },
+  "sample-bean-club.example/articles/5-reasons": {
+    "url": "https://sample-bean-club.example/articles/5-reasons",
+    "finalUrl": "https://sample-bean-club.example/articles/5-reasons",
+    "title": "5 reasons",
+    "h1": "5 Reasons Coffee Lovers Are Switching",
+    "headings": [
+      "1. Fresher beans",
+      "2. Matched to your taste",
+      "3. Cheaper than cafés",
+      "4. Skip anytime",
+      "5. Small roasters"
+    ],
+    "ctas": [
+      "Take the quiz",
+      "Claim 30% off"
+    ],
+    "words": 28,
+    "signals": {
+      "numberedHeadings": 5,
+      "byline": false,
+      "advertorialLabel": false,
+      "addToCart": false,
+      "price": false,
+      "quiz": true,
+      "reviews": false
+    },
+    "text": "Five reasons people are switching to a roaster subscription. 1. Fresher beans. 2. Matched to your taste. 3. Cheaper than cafes. 4. Skip anytime. 5. Support small roasters.",
+    "thin": false
+  },
+  "example-mushroom.example/pages/story": {
+    "url": "https://example-mushroom.example/pages/story",
+    "finalUrl": "https://example-mushroom.example/pages/story",
+    "title": "Our story",
+    "h1": "Why I Quit Regular Coffee",
+    "headings": [
+      "Why I Quit Regular Coffee",
+      "The 2pm crash",
+      "What changed",
+      "Try it"
+    ],
+    "ctas": [
+      "Try it now"
+    ],
+    "words": 20,
+    "signals": {
+      "numberedHeadings": 0,
+      "byline": true,
+      "advertorialLabel": false,
+      "addToCart": false,
+      "price": true,
+      "quiz": false,
+      "reviews": true
+    },
+    "text": "I was crashing every afternoon. Here is the switch that changed my mornings. Try it now with a bundle discount.",
+    "thin": false
+  },
+  "placeholder-coffee.example/collections/all": {
+    "url": "https://placeholder-coffee.example/collections/all",
+    "finalUrl": "https://placeholder-coffee.example/collections/all",
+    "title": "Shop all",
+    "h1": "Shop all coffee",
+    "headings": [
+      "Shop all coffee"
+    ],
+    "ctas": [
+      "Add to cart"
+    ],
+    "words": 7,
+    "signals": {
+      "numberedHeadings": 0,
+      "byline": false,
+      "advertorialLabel": false,
+      "addToCart": true,
+      "price": true,
+      "quiz": false,
+      "reviews": false
+    },
+    "text": "Shop all coffee. $14.99. Add to cart.",
+    "thin": false
+  }
+}

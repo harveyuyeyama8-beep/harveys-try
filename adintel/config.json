@@ -1,0 +1,178 @@
+{
+  "brand": {
+    "name": "Harvey's Coffee",
+    "url": "https://harveyscoffee.shop",
+    "landing": "https://try.harveyscoffee.shop",
+    "advertorialsDir": "../src/content/advertorials",
+    "category": "specialty coffee subscription — single-origin whole bean and ground coffee, roasted to order and shipped across the US",
+    "icp": "US adults who make coffee at home most days and would pay a little more for coffee that tastes noticeably better",
+    "facts": [
+      "Single-origin coffee, roasted to order in Davis, California",
+      "Started by two California teenagers, Harvey Uyeyama and his co-founder Abby Merchant",
+      "Harvey learned to roast by watching his father John on a drum roaster from the age of five",
+      "Began with word of mouth and door knocking; the first 16 subscribers came that way before it became a subscription",
+      "The business says it has served more than 2,000 customers",
+      "Covered by The Sacramento Bee, ABC10, The Times of India, AOL, Yahoo News and Comstock's",
+      "A 4-question, roughly 30-second quiz matches each customer to a coffee by brew method and taste",
+      "New customers get 50% off their first shipment (code FIRSTORDER)",
+      "On the 2-bag plan the first bag is effectively free"
+    ],
+    "offer": "50% off your first bag",
+    "cta": "Take the quiz",
+    "avoid": [
+      "health or medical claims",
+      "claims about competitors that cannot be proven",
+      "invented reviews, ratings, numbers or press",
+      "fake scarcity or fake deadlines",
+      "'cancel anytime' unless cancellation is genuinely one click"
+    ]
+  },
+
+  "competitors": {
+    "seeds": [
+      { "name": "Trade Coffee" },
+      { "name": "Atlas Coffee Club" },
+      { "name": "Bean Box" },
+      { "name": "Driftaway Coffee" },
+      { "name": "Blue Bottle Coffee" },
+      { "name": "Counter Culture Coffee" },
+      { "name": "Onyx Coffee Lab" },
+      { "name": "Cometeer" },
+      { "name": "Bottomless" },
+      { "name": "Death Wish Coffee" },
+      { "name": "Black Rifle Coffee Company" },
+      { "name": "Lifeboost Coffee" },
+      { "name": "Purity Coffee" },
+      { "name": "Volcanica Coffee" },
+      { "name": "Javy Coffee" },
+      { "name": "RYZE Superfoods" }
+    ]
+  },
+
+  "discover": {
+    "keywords": [
+      "coffee subscription",
+      "fresh roasted coffee",
+      "roasted to order",
+      "single origin coffee",
+      "specialty coffee beans",
+      "whole bean coffee",
+      "coffee delivered",
+      "coffee club",
+      "coffee quiz",
+      "low acid coffee",
+      "mold free coffee",
+      "best coffee beans"
+    ],
+    "keywordMatch": "keyword_exact_phrase",
+    "adsPerKeyword": 200,
+    "adsPerSeedSearch": 60,
+    "minAdsToConsider": 3,
+    "relevanceThreshold": 0.6,
+    "alwaysKeepSeeds": false,
+    "maxCompetitors": 25
+  },
+
+  "harvest": {
+    "source": "apify",
+    "countries": ["US"],
+    "status": "ALL",
+    "maxAdsPerBrand": 300,
+    "scrapeLandingPages": true,
+    "maxLandingPages": 150,
+    "transcribeVideos": false,
+    "transcribeModel": "gpt-4o-mini-transcribe",
+    "apify": {
+      "actor": "curious_coder/facebook-ads-library-scraper",
+      "inputStyle": "curious_coder",
+      "extraInput": {}
+    }
+  },
+
+  "meta": {
+    "apiVersion": "v25.0",
+    "countries": ["DE", "FR", "IT", "ES", "NL", "IE", "GB"]
+  },
+
+  "decompose": {
+    "vision": true
+  },
+
+  "models": {
+    "extract": "claude-haiku-4-5",
+    "persona": "claude-haiku-4-5",
+    "strategist": "claude-opus-5",
+    "jev": "jev-latest"
+  },
+
+  "pricing": {
+    "anthropic": {
+      "claude-haiku-4-5": { "input": 1, "output": 5, "cacheRead": 0.1, "cacheWrite": 1.25 },
+      "claude-sonnet-5": { "input": 2, "output": 10, "cacheRead": 0.2, "cacheWrite": 2.5 },
+      "claude-opus-5": { "input": 5, "output": 25, "cacheRead": 0.5, "cacheWrite": 6.25 },
+      "claude-opus-4-8": { "input": 5, "output": 25, "cacheRead": 0.5, "cacheWrite": 6.25 }
+    },
+    "jevPerCallUsd": 0.00035
+  },
+
+  "budget": { "maxUsd": 40 },
+
+  "concurrency": { "claude": 6, "jev": 16, "http": 4 },
+
+  "jev": {
+    "maxQuestionsPerCall": 12,
+    "confidenceShrink": true
+  },
+
+  "proof": {
+    "weights": { "longevity": 0.5, "scale": 0.3, "live": 0.2 },
+    "longevityCapDays": 90,
+    "variantsCap": 20,
+    "winnerMinDays": 30,
+    "winnerMinVariants": 5,
+    "brandRelativeMix": 0.35
+  },
+
+  "rubricWeights": {
+    "hook": { "scroll_stop": 3, "curiosity": 2, "specificity": 1.5, "clarity": 1.5, "emotion": 1.5, "relevance": 2, "credibility": 1, "novelty": 1.5 },
+    "body": { "readability": 1, "benefit_density": 1.5, "proof": 1.5, "objection_handling": 1, "offer_clarity": 1.5, "voice": 1 },
+    "headline": { "clarity": 1, "benefit": 1.5, "curiosity": 1 },
+    "cta": { "action_clarity": 1, "low_friction": 1.5, "value_framing": 1.5, "congruence": 1 },
+    "advertorial": { "narrative_pull": 2, "native_feel": 1, "proof_density": 1.5, "objection_handling": 1.5, "offer_reveal": 1.5 }
+  },
+
+  "personas": {
+    "file": "personas.json",
+    "engine": "agents+jev",
+    "topK": 60,
+    "hooksPerAgentCall": 15
+  },
+
+  "final": {
+    "weights": { "proof": 0.4, "jev": 0.35, "persona": 0.25 }
+  },
+
+  "rank": {
+    "minPatternSize": 3,
+    "gapMinLift": 1.15,
+    "gapMaxShare": 0.1
+  },
+
+  "remix": {
+    "count": 30,
+    "jevMix": { "hook": 0.6, "body": 0.25, "headline": 0.15 },
+    "policyPenalty": 0.5,
+    "context": { "hooks": 40, "bodies": 12, "ctas": 12, "advertorials": 8, "patterns": 25 },
+    "utm": { "utm_source": "facebook", "utm_medium": "paid_social", "utm_campaign": "adintel", "utm_content": "{id}" }
+  },
+
+  "calibrate": {
+    "minAds": 8,
+    "minImpressions": 1000,
+    "minPurchasesForCvr": 20,
+    "fullTrustAt": 60,
+    "maxStep": 0.8
+  },
+
+  "report": { "rows": 100, "heatmapHooks": 30 }
+}

@@ -776,7 +776,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .review .who{font-family:var(--n-ui); font-size:.8125rem; font-weight:500; color:var(--n-meta)}
 .news-page h3 + .reviews{margin-top:.5rem}
 
-/* the call to action: a publication promo box, flat black button */
+/* the call to action: a publication promo box, flat amber button */
 .news-page .cta{
   margin:2rem 0; max-width:none; text-align:left;
   background:var(--n-panel); border:1px solid var(--n-rule); border-radius:0; box-shadow:none;
@@ -788,11 +788,11 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 }
 .news-page .cta-urgency{font-family:var(--n-text); font-size:1rem; line-height:1.45; color:var(--n-body); margin:0 0 1rem}
 .news-page .btn{
-  background:var(--n-ink); color:#fff; border:0; border-radius:3px; box-shadow:none;
+  background:#FFB000; color:var(--n-ink); border:0; border-radius:3px; box-shadow:none;
   font-family:var(--n-ui); font-weight:700; font-size:.9375rem; letter-spacing:.06em;
   padding:1rem 1.25rem; text-align:center; text-decoration:none;
 }
-.news-page .btn:hover{background:#333}
+.news-page .btn:hover{background:#F29E00}
 .news-page .btn:active{transform:none; box-shadow:none}
 .news-page .cta-sub{font-family:var(--n-ui); font-size:.75rem; color:var(--n-meta); text-align:center; margin:.6rem 0 0}
 .news-page .cta-note{font-family:var(--n-text); font-size:1rem; line-height:1.5; color:var(--n-body); margin:1rem 0 0}

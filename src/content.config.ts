@@ -226,10 +226,11 @@ const advertorials = defineCollection({
     section: z.string().optional(),        // news only: the name in the masthead, e.g. "Food & Drink"
     // news only: an optional ad label shown beside the date line
     // ("Advertisement", "Paid Post"). Empty = no label at the top; the footer
-    // disclosure still renders either way.
+    // disclosure is controlled separately by `legal`.
     label: z.string().default(''),
     // news only: replaces site.legal as the footer disclosure line, for a page
-    // whose content doesn't match the shared wording. Empty = site.legal.
+    // whose content doesn't match the shared wording. Omitted = site.legal;
+    // an empty string ("") = no disclosure line at all.
     legal: z.string().optional(),
 
     // --- article header ---

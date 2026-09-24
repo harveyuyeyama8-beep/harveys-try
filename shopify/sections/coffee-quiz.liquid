@@ -7,7 +7,8 @@
       the answers (roast, grind, bags, delivery), price per shipment
       (old struck / new) and savings line, then Continue to Checkout.
     - Frequency (step 4) now ends in Next; checkout moved to step 5
-      (button id cqN4 -> cqN5, same styling as before).
+      (button id cqN4 -> cqN5, same styling as before). Trust badges
+      moved from step 4 to under the step 5 checkout button.
     - Progress bar gains a 6th segment (Ground path = 6 steps).
 
   v24 changes (2026-09-14) - ATLAS-STYLE SALE BURST.
@@ -932,11 +933,6 @@ body.cq-hide-cart{overflow:visible !important}
               <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
             </div>
           </div>
-          <div class="cq-trust">
-            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="cq-trust-t">{{ section.settings.trust1_title | default: 'Satisfaction Guaranteed' }}</div></div>
-            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg></div><div class="cq-trust-t">{{ section.settings.trust2_title | default: 'Skip or Cancel Anytime' }}</div></div>
-            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="cq-trust-t">{{ section.settings.trust3_title | default: 'Roasted in Davis, CA' }}</div></div>
-          </div>
           <div class="cq-nav">
             <button class="cq-back" onclick="cqBack(4)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
             <button class="cq-next" id="cqN4" onclick="cqNext(4)">Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -969,6 +965,11 @@ body.cq-hide-cart{overflow:visible !important}
           <div class="cq-nav">
             <button class="cq-back" onclick="cqBack(5)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
             <button class="cq-next cq-go" id="cqN5" onclick="cqCheckout()">{{ section.settings.checkout_text | default: 'Continue to Checkout' }} <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+          <div class="cq-trust">
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="cq-trust-t">{{ section.settings.trust1_title | default: 'Satisfaction Guaranteed' }}</div></div>
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg></div><div class="cq-trust-t">{{ section.settings.trust2_title | default: 'Skip or Cancel Anytime' }}</div></div>
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="cq-trust-t">{{ section.settings.trust3_title | default: 'Roasted in Davis, CA' }}</div></div>
           </div>
         </div>
       </div>

@@ -19,8 +19,8 @@ heroCredit: "Paul Kitagaki Jr./The Sacramento Bee"
 legal: ""
 
 cta:
-  offer: "Find the coffee you’d actually like"
-  urgency: "The quiz asks how you brew and what you like. New customers get 50% off their first shipment, and the quiz adds the discount for you."
+  offer: "Get 50% off your first bag"
+  urgency: "The quiz asks how you brew and what you like. New customers get 50% off their first shipment."
   button: "TAKE THE QUIZ"
   sub: "4 questions · about 30 seconds"
   risk: ""
@@ -38,9 +38,7 @@ blocks:
 
       But the two California teenagers behind Harvey’s Coffee are.
 
-      And they may have found the one thing the giants can’t copy.
-
-      It isn’t a secret blend. It isn’t a celebrity endorsement or a fancy new machine. It’s a handful of decisions so simple you’ll wonder why nobody else makes them. Once you know what they are, you may never look at the bag of coffee in your cupboard the same way again.
+      And they may have found the one thing the large corporations can’t copy.
 
       What began as a tiny neighborhood coffee business has grown into an operation that the business says has now served more than 2,000 customers. Some of them say their old favorites can’t even compare.
 
@@ -56,19 +54,9 @@ blocks:
 
   - type: prose
     body: |
-      From the age of 5, this teenager watched his father, John, roast green coffee beans on a drum roaster. John had previously owned a coffee business himself, and roasting eventually became something he continued at home for the family.
+      From the age of 5, Harvey Uyeyama watched his father, John, roast green coffee beans on a drum roaster. John had previously owned a coffee business himself, and roasting eventually became something he continued at home for the family.
 
-      One night, while the two were talking about business ideas, the young roaster decided he wanted to try selling the coffee.
-
-      His father gave him simple advice:
-
-      **Go knock on some doors.**
-
-      So he did.
-
-      It took dozens of rejections before people started buying. Eventually, he built a small group of about 16 local customers who kept coming back.
-
-      The young entrepreneur began organizing repeat orders and eventually turned the business into a subscription service, allowing customers to receive coffee regularly instead of remembering to reorder every time they ran out.
+      One night the two were discussing business ideas, and they decided to start a local coffee roasting business. At first, Harvey relied on word of mouth and door knocking to obtain his first 16 subscribers where he then had the brilliant idea to turn the business into a subscription service.
 
   - type: prose
     heading: "The accident"
@@ -81,7 +69,7 @@ blocks:
 
       But customers were still waiting for their coffee.
 
-      So this teenager kept roasting.
+      So Harvey Uyeyama kept roasting.
 
   - type: prose
     heading: "Then Abby entered the picture"
@@ -133,7 +121,7 @@ blocks:
       By the time it’s brewed, much of what made that coffee special may already be gone.
 
   - type: prose
-    heading: "Their solution: roast it after you order it"
+    heading: "Their solution..."
     body: |
       Harvey’s Coffee decided to build its business around doing essentially the opposite.
 
@@ -143,14 +131,14 @@ blocks:
 
       Instead, these young entrepreneurs still roast in relatively small batches (approximately 12 bags an hour) on the same machine that started the business.
 
-      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced, specialty-grade coffee.
+      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced, specialty-grade coffee from the top 1% of coffee.
 
       But roasting to order is only half of what they do differently.
 
   - type: prose
     heading: "A new coffee, from a new country, every month"
     body: |
-      This is where Harvey’s Coffee gets really different.
+      This is what Harvey’s Coffee does differently...
 
       Walk down a grocery-store coffee aisle and most bags are blends: beans from several places mixed together so the bag tastes exactly the same every time, all year long.
 
@@ -190,7 +178,7 @@ blocks:
     body: |
       Harvey’s Coffee isn’t trying to compete with the cheapest bag of coffee on a supermarket shelf.
 
-      The idea is that customers are paying for a different product entirely: ethically sourced, specialty-grade coffee, smaller-batch roasting, different origins throughout the year and coffee roasted after the order comes in.
+      The idea is that customers are paying for a different product entirely: ethically sourced, specialty-grade coffee from the top 1% of coffee, smaller-batch roasting, different origins throughout the year and coffee roasted after the order comes in.
 
       For someone whose only priority is buying the least expensive caffeine possible, that may not matter much.
 
@@ -201,7 +189,7 @@ blocks:
     body: |
       Coffee is one of those products people repeatedly run out of.
 
-      The subscription originally grew out of this teenager noticing that the same customers were buying from him over and over again anyway.
+      The subscription originally grew out of Harvey Uyeyama noticing that the same customers were buying from him over and over again anyway.
 
       Rather than making them remember to place another order every few weeks, Harvey’s Coffee built the recurring model around how often customers actually drink coffee.
 

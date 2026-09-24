@@ -1,8 +1,8 @@
 ---
-title: 'These Two Viral Teens Are Taking On “Big Coffee”'
+title: "Newstand Daily | Food & Drink"
 draft: false
 primary: false
-description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100 years. These two are."
+description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100s of years. These two are."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -34,7 +34,7 @@ blocks:
 
   - type: prose
     body: |
-      Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100 years.
+      Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100s of years.
 
       But the two California teenagers behind Harvey’s Coffee are.
 
@@ -54,7 +54,7 @@ blocks:
 
   - type: prose
     body: |
-      From the age of 5, Harvey Uyeyama watched his father, John, roast green coffee beans on a drum roaster. John had previously owned a coffee business himself, and roasting eventually became something he continued at home for the family.
+      From the age of five, Harvey Uyeyama watched his father, John, roast green coffee beans on a drum roaster. John had previously owned a coffee business himself, and roasting eventually became something he continued at home for the family.
 
       One night the two were discussing business ideas, and they decided to start a local coffee roasting business. At first, Harvey relied on word of mouth and door knocking to obtain his first 16 subscribers where he then had the brilliant idea to turn the business into a subscription service.
 
@@ -183,6 +183,19 @@ blocks:
       For someone whose only priority is buying the least expensive caffeine possible, that may not matter much.
 
       But for someone already buying café drinks, upgrading grinders, experimenting with brewing methods or wondering why their home coffee never tastes particularly good, the two founders argue that upgrading the coffee itself may make more sense than buying another piece of equipment.
+
+  - type: factbox
+    heading: "The math"
+    items:
+      - figure: "$34"
+        label: "two 12-ounce bags, about 40 cups"
+      - figure: "85¢"
+        label: "about what a cup costs, plus shipping"
+      - figure: "43¢"
+        label: "about what a cup costs on your first two bags ($17), plus shipping"
+      - figure: "$5.54"
+        label: "the average cafe latte, spring 2026"
+    note: "About 20 cups per 12-ounce bag. Latte: the average of 7,479 cafe prices checked by the coffee app Joe in spring 2026. Shipping is not included."
 
   - type: prose
     heading: "“And I have to subscribe?”"

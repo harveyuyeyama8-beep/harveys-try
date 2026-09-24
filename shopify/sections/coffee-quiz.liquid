@@ -1,29 +1,14 @@
 {% comment %}
-  Harvey's Coffee — Subscription Quiz v26
+  Harvey's Coffee — Subscription Quiz v25
   Trade Coffee style click-through
 
-  v25 changes (2026-09-24) - STEP 5 ORDER REVIEW + DEAL TIMER.
+  v25 changes (2026-09-24) - STEP 5 ORDER SUMMARY.
     - New final step (cqS5): Atlas-style Order Summary built live from
       the answers (roast, grind, bags, delivery), price per shipment
-      (old struck / new), savings line, then a "holding your deal"
-      countdown and Continue to Checkout.
+      (old struck / new) and savings line, then Continue to Checkout.
     - Frequency (step 4) now ends in Next; checkout moved to step 5
-      (button id cqN4 -> cqN5, trust badges moved under it).
-    - Countdown: dark espresso card, amber ring that drains over 10:00,
-      glowing flip-tile digits, pulsing live dot. The end time is kept
-      in sessionStorage so Back/forward doesn't reset it; at 0 it
-      re-holds for another round. Length is a Customizer setting.
+      (button id cqN4 -> cqN5, same styling as before).
     - Progress bar gains a 6th segment (Ground path = 6 steps).
-
-  v26 changes (2026-09-24) - STEP 5 RESTYLE (mobile first).
-    - Timer rebuilt Atlas-style on white: stopwatch with a draining
-      amber arc and "Saving your deal for..." inside, then two black
-      Minutes / Seconds tiles. Digits slide on change; red under 1:00.
-    - Buttons: glossy amber gradient pill with a dark arrow chip; the
-      checkout button gets a slow shine sweep. Back is a soft pill.
-    - Trust badges rebuilt Atlas-style: green check, bold green title,
-      italic line under it (new settings trust1_sub..trust3_sub).
-      Stacked rows on mobile, three columns on desktop.
 
   v24 changes (2026-09-14) - ATLAS-STYLE SALE BURST.
     - Sticker rebuilt as a scalloped yellow seal (clip-path) with two
@@ -589,9 +574,15 @@
   .cq-bag-grid .cq-pr-save{font-size:12px}
   .cq-ribbon{font-size:9px;padding:4px 12px}
 
+  #cqS5 .cq-nav{flex-direction:column-reverse;align-items:stretch;gap:6px;margin-top:24px}
+  #cqS5 .cq-back{justify-content:center;padding:10px}
+  #cqN5{width:100%;margin:0;white-space:nowrap;padding:20px 22px;font-size:19px;letter-spacing:0.6px;gap:12px;border-radius:14px;box-shadow:0 6px 18px rgba(212,146,11,0.35),inset 0 -3px 0 rgba(0,0,0,0.12)}
+  #cqN5 svg{width:22px;height:22px;stroke-width:2.75;flex-shrink:0}
+  #cqN5:active{transform:translateY(1px);box-shadow:0 3px 10px rgba(212,146,11,0.3),inset 0 -1px 0 rgba(0,0,0,0.12)}
 }
 @media(max-width:360px){
   .cq-trust-t{font-size:11px}
+  #cqN5{font-size:17px;letter-spacing:0.3px;padding:18px 14px}
 }
 
 @media(max-width:360px){
@@ -599,8 +590,8 @@
   .cq-trust-t{font-size:10px;letter-spacing:0}
 }
 
-/* ══════ v25 - STEP 5: ORDER REVIEW ══════ */
-.cq-rev{background:#FFF8EE;border:1px solid var(--cq-border);border-radius:14px;padding:26px 24px 22px;text-align:center}
+/* ══════ v25 - STEP 5: ORDER SUMMARY ══════ */
+.cq-rev{background:#FFF8EE;border:1px solid var(--cq-border);border-radius:14px;padding:26px 24px 22px;text-align:center;margin-bottom:4px}
 .cq-rev-row{margin-bottom:14px}
 .cq-rev-lbl{font-size:13px;font-style:italic;color:var(--cq-muted);line-height:1.3}
 .cq-rev-val{font-size:18px;font-weight:700;line-height:1.35}
@@ -611,84 +602,10 @@
 .cq-rev-new{font-family:var(--cq-font-display);font-size:40px;font-weight:900;color:var(--cq-espresso);line-height:1.1}
 .cq-rev-msg{font-size:15px;font-weight:700;font-style:italic;color:var(--cq-red);margin-top:8px}
 .cq-rev-then{font-size:13px;color:var(--cq-muted);margin-top:4px}
-
-/* ══════ v26 - DEAL TIMER (Atlas-style, on white) ══════ */
-.cq-hold{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px auto 24px}
-.cq-watch{position:relative;flex:0 0 92px;width:92px;height:100px;margin-right:4px}
-.cq-watch svg{width:100%;height:100%;overflow:visible}
-.cq-watch-body{fill:#fff;stroke:var(--cq-espresso);stroke-width:4}
-.cq-watch-part{fill:var(--cq-espresso)}
-.cq-watch-tick{stroke:var(--cq-espresso);stroke-width:2;stroke-linecap:round}
-.cq-watch-arc{fill:none;stroke:var(--cq-amber);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke 0.3s}
-.cq-watch-txt{font-family:var(--cq-font-body);font-size:8.6px;font-weight:800;letter-spacing:0.2px;fill:var(--cq-espresso);text-transform:uppercase}
-.cq-watch{animation:cqWobble 2s ease-in-out infinite;transform-origin:50% 60%}
-@keyframes cqWobble{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-6deg)}94%{transform:rotate(5deg)}97%{transform:rotate(-2deg)}}
-.cq-unit{display:flex;flex-direction:column;align-items:center;gap:8px}
-.cq-tile{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;width:96px;height:84px;border-radius:14px;
-  background:linear-gradient(180deg,#2E2622 0%,#1A1411 100%);color:#fff;
-  font-family:var(--cq-font-body);font-size:52px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:1px;
-  box-shadow:0 10px 22px rgba(26,20,17,0.28),inset 0 1px 0 rgba(255,255,255,0.10)}
-.cq-tile::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,0.06)}
-.cq-dg{display:inline-block;min-width:0.62em;text-align:center}
-.cq-dg.cq-tick{animation:cqDrop 0.38s cubic-bezier(0.2,0.8,0.3,1)}
-@keyframes cqDrop{0%{transform:translateY(-55%);opacity:0}100%{transform:translateY(0);opacity:1}}
-.cq-unit-l{font-size:17px;font-weight:500;color:var(--cq-espresso)}
-.cq-hold.cq-low .cq-tile{color:#FF6B5B}
-.cq-hold.cq-low .cq-watch-arc{stroke:var(--cq-red)}
-@media (prefers-reduced-motion:reduce){.cq-watch,.cq-dg.cq-tick{animation:none}}
-
-/* ══════ v26 - BUTTONS ══════ */
-.cq-next{position:relative;overflow:hidden;gap:12px;padding:14px 16px 14px 34px;font-weight:800;letter-spacing:1px;color:var(--cq-espresso);
-  background:linear-gradient(180deg,#FFD968 0%,#F7BE22 55%,#E9A70C 100%);border-radius:999px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.65),inset 0 -3px 0 rgba(120,70,0,0.18),0 8px 20px rgba(212,146,11,0.32)}
-.cq-next svg{width:32px;height:32px;padding:8px;box-sizing:border-box;border-radius:50%;background:var(--cq-espresso);stroke:#FFD968;stroke-width:3;flex-shrink:0;transition:transform 0.25s ease}
-.cq-next.cq-go:hover{background:linear-gradient(180deg,#FFE07E 0%,#F9C636 55%,#EDAE17 100%);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.65),inset 0 -3px 0 rgba(120,70,0,0.18),0 12px 26px rgba(212,146,11,0.4)}
-.cq-next.cq-go:hover svg{transform:translateX(3px)}
-.cq-next.cq-go:active{transform:translateY(1px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(120,70,0,0.18),0 4px 10px rgba(212,146,11,0.3)}
-#cqN5{width:100%;margin:0;justify-content:space-between;padding:10px 10px 10px 30px;min-height:66px;font-size:19px}
-#cqN5 svg{width:46px;height:46px;padding:13px}
-#cqN5::after{content:'';position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,0.55),transparent);transform:skewX(-20deg);animation:cqShine 3.2s ease-in-out infinite;pointer-events:none}
-@keyframes cqShine{0%,55%{left:-60%}85%,100%{left:130%}}
-.cq-back{border-radius:999px;padding:11px 20px;transition:background 0.2s,color 0.2s}
-.cq-back:hover{background:#F3EADC;color:var(--cq-espresso)}
-#cqS5 .cq-nav{flex-direction:column-reverse;align-items:stretch;gap:8px;margin-top:0}
-#cqS5 .cq-back{align-self:center;justify-content:center}
-@media (prefers-reduced-motion:reduce){#cqN5::after{animation:none;display:none}}
-
-/* ══════ v26 - TRUST (Atlas-style) ══════ */
-#cqS5 .cq-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px;padding-top:24px;border-top:1px solid var(--cq-border)}
-#cqS5 .cq-trust-i{display:flex;align-items:flex-start;gap:10px;text-align:left;padding:0}
-#cqS5 .cq-trust-ic{flex:0 0 28px;width:28px;height:28px;margin:1px 0 0;background:var(--cq-sage);border-radius:50%;box-shadow:0 3px 8px rgba(61,90,62,0.28)}
-#cqS5 .cq-trust-ic svg{width:15px;height:15px;stroke:#fff;stroke-width:3;fill:none}
-#cqS5 .cq-trust-t{font-size:13px;font-weight:800;letter-spacing:0.5px;line-height:1.25;color:var(--cq-sage);text-transform:uppercase}
-#cqS5 .cq-trust-s{font-size:14px;font-style:italic;color:#56705A;line-height:1.35;margin-top:3px}
-
 @media(max-width:600px){
-  #cqS5 .cq-q-card{padding:28px 16px 22px;margin-top:12px}
-  #cqS5 .cq-q-title{font-size:25px}
-  #cqS5 .cq-q-sub{font-size:15px;margin-bottom:18px}
-  .cq-hold{gap:10px;margin:22px auto 20px}
-  .cq-watch{flex-basis:76px;width:76px;height:84px;margin-right:2px}
-  .cq-tile{width:84px;height:76px;font-size:46px;border-radius:12px}
-  .cq-unit{gap:6px}
-  .cq-unit-l{font-size:15px}
-  .cq-next{padding:12px 12px 12px 26px}
-  .cq-next svg{width:30px;height:30px;padding:8px}
-  #cqN5{min-height:62px;font-size:16.5px;letter-spacing:0.4px;gap:8px;padding:8px 8px 8px 22px;border-radius:999px;white-space:nowrap}
-  #cqN5 svg{width:44px;height:44px;padding:12px}
-  #cqS5 .cq-trust{grid-template-columns:1fr;gap:0;margin-top:22px;padding:6px 16px;border:1px solid var(--cq-border);border-radius:14px;background:#FBF8F2}
-  #cqS5 .cq-trust-i{align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--cq-border)}
-  #cqS5 .cq-trust-i:last-child{border-bottom:none}
-  #cqS5 .cq-trust-ic{flex-basis:32px;width:32px;height:32px;margin:0}
-  #cqS5 .cq-trust-ic svg{width:16px;height:16px}
-  #cqS5 .cq-trust-t{font-size:14px}
-  #cqS5 .cq-trust-s{font-size:15px}
-}
-@media(max-width:360px){
-  .cq-watch{flex-basis:64px;width:64px;height:72px}
-  .cq-tile{width:74px;height:68px;font-size:40px}
-  #cqN5{font-size:15px;letter-spacing:0.2px;padding-left:16px}
-  #cqN5 svg{width:40px;height:40px;padding:11px}
+  .cq-rev{padding:20px 14px 18px}
+  .cq-rev-val{font-size:17px}
+  .cq-rev-new{font-size:34px}
 }
 
 /* ══════ HIDE DAWN'S CART UI ON THIS PAGE ══════
@@ -1015,6 +932,11 @@ body.cq-hide-cart{overflow:visible !important}
               <div class="cq-dot-wrap"><div class="cq-dot"></div></div>
             </div>
           </div>
+          <div class="cq-trust">
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="cq-trust-t">{{ section.settings.trust1_title | default: 'Satisfaction Guaranteed' }}</div></div>
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg></div><div class="cq-trust-t">{{ section.settings.trust2_title | default: 'Skip or Cancel Anytime' }}</div></div>
+            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="cq-trust-t">{{ section.settings.trust3_title | default: 'Roasted in Davis, CA' }}</div></div>
+          </div>
           <div class="cq-nav">
             <button class="cq-back" onclick="cqBack(4)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
             <button class="cq-next" id="cqN4" onclick="cqNext(4)">Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -1022,7 +944,7 @@ body.cq-hide-cart{overflow:visible !important}
         </div>
       </div>
 
-      <!-- ══════ STEP 5: ORDER REVIEW + DEAL TIMER (v25) ══════
+      <!-- ══════ STEP 5: ORDER SUMMARY (v25) ══════
            Filled by cqFillReview() from the answers. Prices come from the
            Q3 settings, rendered here as data attributes. -->
       <div class="cq-step" id="cqS5">
@@ -1044,43 +966,9 @@ body.cq-hide-cart{overflow:visible !important}
             <div class="cq-rev-then" id="cqRvThen"></div>
           </div>
 
-          <div class="cq-hold" id="cqHold" data-mins="{{ section.settings.timer_minutes | default: 10 }}" role="timer" aria-label="{{ section.settings.timer_title | default: 'Saving your deal for' | escape }}">
-            <div class="cq-watch" aria-hidden="true">
-              <svg viewBox="0 0 92 100">
-                <rect class="cq-watch-part" x="38" y="2" width="16" height="7" rx="2"/>
-                <rect class="cq-watch-part" x="43" y="8" width="6" height="8"/>
-                <rect class="cq-watch-part" x="72" y="17" width="10" height="6" rx="2" transform="rotate(45 77 20)"/>
-                <circle class="cq-watch-body" cx="46" cy="56" r="40"/>
-                <g>
-                  <line class="cq-watch-tick" x1="46" y1="21" x2="46" y2="26"/><line class="cq-watch-tick" x1="46" y1="86" x2="46" y2="91"/>
-                  <line class="cq-watch-tick" x1="11" y1="56" x2="16" y2="56"/><line class="cq-watch-tick" x1="76" y1="56" x2="81" y2="56"/>
-                </g>
-                <circle class="cq-watch-arc" id="cqRingFg" cx="46" cy="56" r="35" stroke-dasharray="219.91" stroke-dashoffset="0" transform="rotate(-90 46 56)"/>
-                <g transform="rotate(-14 46 56)">
-                  <text class="cq-watch-txt" x="46" y="49" text-anchor="middle">{{ section.settings.timer_line1 | default: 'Saving' }}</text>
-                  <text class="cq-watch-txt" x="46" y="60" text-anchor="middle">{{ section.settings.timer_line2 | default: 'Your Deal' }}</text>
-                  <text class="cq-watch-txt" x="46" y="71" text-anchor="middle">{{ section.settings.timer_line3 | default: 'For...' }}</text>
-                </g>
-              </svg>
-            </div>
-            <div class="cq-unit">
-              <div class="cq-tile"><span class="cq-dg" id="cqT0">1</span><span class="cq-dg" id="cqT1">0</span></div>
-              <div class="cq-unit-l">Minutes</div>
-            </div>
-            <div class="cq-unit">
-              <div class="cq-tile"><span class="cq-dg" id="cqT2">0</span><span class="cq-dg" id="cqT3">0</span></div>
-              <div class="cq-unit-l">Seconds</div>
-            </div>
-          </div>
-
           <div class="cq-nav">
             <button class="cq-back" onclick="cqBack(5)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back</button>
             <button class="cq-next cq-go" id="cqN5" onclick="cqCheckout()">{{ section.settings.checkout_text | default: 'Continue to Checkout' }} <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          </div>
-          <div class="cq-trust">
-            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div><div class="cq-trust-t">{{ section.settings.trust1_title | default: 'Satisfaction Guaranteed' }}</div><div class="cq-trust-s">{{ section.settings.trust1_sub | default: 'Love the coffee or your money back' }}</div></div></div>
-            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div><div class="cq-trust-t">{{ section.settings.trust2_title | default: 'Skip or Cancel Anytime' }}</div><div class="cq-trust-s">{{ section.settings.trust2_sub | default: 'Pause, skip, or cancel in a couple taps' }}</div></div></div>
-            <div class="cq-trust-i"><div class="cq-trust-ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div><div class="cq-trust-t">{{ section.settings.trust3_title | default: 'Roasted in Davis, CA' }}</div><div class="cq-trust-s">{{ section.settings.trust3_sub | default: 'Small batches, shipped fresh' }}</div></div></div>
           </div>
         </div>
       </div>
@@ -1301,13 +1189,13 @@ body.cq-hide-cart{overflow:visible !important}
     var lbl=document.getElementById('cqPTxt');
     lbl.textContent='Step '+(pos+1)+' of '+order.length;
 
-    if(String(n)==='5'){cqFillReview();cqTimerStart();}
+    if(String(n)==='5')cqFillReview();
 
     cqScrollToStep(n);
     enableBtn(n);
   }
 
-  // ── v25: Step 5 order review ───────────────────────────────────────────
+  // ── v25: Step 5 order summary ──────────────────────────────────────────
   function cqSelName(sel){
     var el=document.querySelector(sel+' .cq-on .cq-opt-name');
     return el?el.textContent.trim():'';
@@ -1318,11 +1206,10 @@ body.cq-hide-cart{overflow:visible !important}
     var rev=document.getElementById('cqRev');if(!rev)return;
     var q=S.quantity||'two_bags';
     function set(id,t){var e=document.getElementById(id);if(e)e.textContent=t}
-    set('cqRvRoast',cqSelName('#cqS2')||'');
+    set('cqRvRoast',cqSelName('#cqS2'));
     set('cqRvGrind',S.brewType==='whole_bean'?'Whole Bean':('Ground for '+(cqSelName('#cqS1b')||'Your Brewer')));
-    var bags=q==='single_bag'?'1 Bag':q==='three_bags'?'3 Bags':q==='two_bags'?'2 Bags':(cqSelName('#cqS3')||'');
-    var wk=S.frequency==='2_weeks'?'2':'4';
-    set('cqRvDelivery',bags+', Every '+wk+' Weeks');
+    var bags=q==='single_bag'?'1 Bag':q==='three_bags'?'3 Bags':q==='two_bags'?'2 Bags':cqSelName('#cqS3');
+    set('cqRvDelivery',bags+', Every '+(S.frequency==='2_weeks'?'2':'4')+' Weeks');
     var o=cqNum(rev.getAttribute('data-'+q+'-old')), n=cqNum(rev.getAttribute('data-'+q+'-new'));
     set('cqRvOld',o!=null?cqMoney(o):'');
     set('cqRvNew',n!=null?cqMoney(n):'');
@@ -1331,50 +1218,6 @@ body.cq-hide-cart{overflow:visible !important}
     if(o&&n!=null&&o>n){msg=(off?off+': ':'')+"You're saving "+cqMoney(o-n)+' ('+Math.round((1-n/o)*100)+'%) on your first box';}
     set('cqRvMsg',msg);
     set('cqRvThen',rev.getAttribute('data-'+q+'-then')||'');
-  }
-
-  // ── v25: deal timer ────────────────────────────────────────────────────
-  // End time lives in sessionStorage so Back/forward or a reload inside
-  // the session doesn't restart it. At zero it re-holds a fresh window.
-  var cqTimerIv=null, cqLastDigits='';
-  function cqTimerEnd(total){
-    var k='cqDealEnd', now=Date.now(), end=null;
-    try{end=parseInt(sessionStorage.getItem(k),10)}catch(e){}
-    if(!end||isNaN(end)||end<=now||end-now>total){
-      end=now+total;
-      try{sessionStorage.setItem(k,String(end))}catch(e){}
-    }
-    return end;
-  }
-  function cqTimerStart(){
-    var hold=document.getElementById('cqHold');if(!hold)return;
-    var mins=parseFloat(hold.getAttribute('data-mins'))||10;
-    var total=Math.round(mins*60000);
-    var end=cqTimerEnd(total);
-    var ring=document.getElementById('cqRingFg');
-    var C=219.91;
-    function tick(){
-      var left=end-Date.now();
-      if(left<=0){try{sessionStorage.removeItem('cqDealEnd')}catch(e){} end=cqTimerEnd(total);left=end-Date.now();}
-      var sec=Math.ceil(left/1000);
-      var m=Math.floor(sec/60), s=sec%60;
-      if(m>99)m=99;
-      var d=(m<10?'0':'')+m+(s<10?'0':'')+s;
-      for(var i=0;i<4;i++){
-        var t=document.getElementById('cqT'+i);
-        if(t&&cqLastDigits.charAt(i)!==d.charAt(i)){
-          t.textContent=d.charAt(i);
-          if(cqLastDigits){t.classList.remove('cq-tick');void t.offsetWidth;t.classList.add('cq-tick');}
-        }
-      }
-      cqLastDigits=d;
-      if(ring)ring.style.strokeDashoffset=String(C*(1-left/total));
-      hold.classList.toggle('cq-low',left<60000);
-    }
-    if(cqTimerIv)clearInterval(cqTimerIv);
-    cqLastDigits='';
-    tick();
-    cqTimerIv=setInterval(tick,250);
   }
 
   window.cqToggleMore=function(){
@@ -1660,22 +1503,15 @@ body.cq-hide-cart{overflow:visible !important}
     {"type":"header","content":"Q4 - Frequency"},
     {"type":"text","id":"q4_title","label":"Title","default":"Delivery Frequency"},
     {"type":"text","id":"q4_sub","label":"Subtitle","default":"Pause, skip, or change your delivery frequency any time"},
-    {"type":"header","content":"Step 5 - Order Review"},
+    {"type":"header","content":"Step 5 - Order Summary"},
     {"type":"text","id":"review_title","label":"Title","default":"Order Summary"},
     {"type":"text","id":"review_sub","label":"Subtitle","default":"Review your plan before checkout"},
-    {"type":"text","id":"timer_line1","label":"Stopwatch line 1","default":"Saving"},
-    {"type":"text","id":"timer_line2","label":"Stopwatch line 2","default":"Your Deal"},
-    {"type":"text","id":"timer_line3","label":"Stopwatch line 3","default":"For..."},
-    {"type":"range","id":"timer_minutes","label":"Timer length (minutes)","min":3,"max":30,"step":1,"default":10},
     {"type":"header","content":"Checkout"},
     {"type":"text","id":"checkout_text","label":"Button text","default":"Continue to Checkout"},
     {"type":"header","content":"Trust Badges"},
     {"type":"text","id":"trust1_title","label":"Badge 1","default":"Satisfaction Guaranteed"},
-    {"type":"text","id":"trust1_sub","label":"Badge 1 line","default":"Love the coffee or your money back"},
     {"type":"text","id":"trust2_title","label":"Badge 2","default":"Skip or Cancel Anytime"},
-    {"type":"text","id":"trust2_sub","label":"Badge 2 line","default":"Pause, skip, or cancel in a couple taps"},
-    {"type":"text","id":"trust3_title","label":"Badge 3","default":"Roasted in Davis, CA"},
-    {"type":"text","id":"trust3_sub","label":"Badge 3 line","default":"Small batches, shipped fresh"}
+    {"type":"text","id":"trust3_title","label":"Badge 3","default":"Roasted in Davis, CA"}
   ],
   "blocks":[
     {

@@ -14,7 +14,7 @@ date: 2026-09-23
 readingTime: "5 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
 heroAlt: "Harvey Uyeyama holds a steel bin of roasted coffee beans. Abby Merchant holds a bag of Harvey’s Coffee. An old cast-iron roaster sits beside them on a patio."
-heroCaption: "Harvey Uyeyama and his co-founder, Abby Merchant, with the roaster his dad learned on."
+heroCaption: "Harvey Uyeyama and his co-founder, Abby Merchant, with their roaster."
 heroCredit: "Paul Kitagaki Jr./The Sacramento Bee"
 legal: "This page is an advertisement published by Harvey’s Coffee. Reviews are from verified customers, published with permission. Subscriptions renew until cancelled; terms and cancellation details are on the checkout page."
 
@@ -45,7 +45,7 @@ blocks:
   - type: photo
     src: /images/roaster.jpg
     alt: "Green coffee beans inside the two round drums of an old cast-iron roaster."
-    caption: "Green coffee beans in the two drums of the roaster Harvey’s dad learned on."
+    caption: "Green coffee beans in the two drums of Harvey’s roaster."
     credit: "Paul Kitagaki Jr./The Sacramento Bee"
 
   - type: prose

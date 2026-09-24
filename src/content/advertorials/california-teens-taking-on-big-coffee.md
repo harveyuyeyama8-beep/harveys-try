@@ -2,7 +2,7 @@
 title: 'These Two Viral Teens Are Taking On “Big Coffee”'
 draft: false
 primary: false
-description: "Most teenagers aren’t thinking about supply chains, roast profiles, or how long a bag of coffee has been sitting in a warehouse. These two are."
+description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100 years. These two are."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -34,7 +34,7 @@ blocks:
 
   - type: prose
     body: |
-      Most teenagers aren’t thinking about supply chains, roast profiles, or how long a bag of coffee has been sitting in a warehouse.
+      Most teenagers aren’t thinking about competing with companies that have been selling coffee for 100 years.
 
       But Harvey Uyeyama and Abby Merchant are.
 

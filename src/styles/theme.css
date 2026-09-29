@@ -611,7 +611,9 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
    button, hard shadows, the drop cap, the progress bar, the brand in the
    masthead. White page, near-black serif type, gray hairlines, one 600px
    column, captions under every photo. Sizes follow a newspaper's mobile
-   article template: 20px gutters, 31px headline, 18px body. */
+   article template: 20px gutters, 31px headline. Body copy runs 20px
+   (22px on desktop), a notch above a newspaper's 18px, because most readers
+   of these pages are older. */
 .news-page{
   --n-ink:#121212;
   --n-body:#363636;
@@ -643,7 +645,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
   background:#fff;
   color:var(--n-body);
   font-family:var(--n-text);
-  font-size:1.125rem;
+  font-size:1.25rem;
   line-height:1.45;
 }
 .news-page .wrap{max-width:calc(var(--n-col) + 2.5rem); padding-inline:1.25rem}
@@ -680,7 +682,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 /* header: kicker, headline, dek, hero, date line */
 .news-page .news-head{padding-top:1.5rem}
 .news-page .kicker{
-  font-family:var(--n-ui); font-size:.8125rem; line-height:1.4; font-weight:700;
+  font-family:var(--n-ui); font-size:.875rem; line-height:1.4; font-weight:700;
   letter-spacing:.06em; text-transform:uppercase; color:var(--n-red); margin:0 0 .45rem;
 }
 .news-page h1{
@@ -690,7 +692,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 }
 .news-page .dek{
   font-family:var(--n-head); font-weight:300; color:var(--n-body);
-  font-size:1.25rem; line-height:1.25; margin:0 0 1.25rem; text-wrap:pretty;
+  font-size:1.375rem; line-height:1.25; margin:0 0 1.25rem; text-wrap:pretty;
 }
 .news-page .news-hero{margin:0 auto; padding:0; max-width:none}
 .news-page .news-hero img{
@@ -701,7 +703,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
   display:flex; align-items:center; justify-content:space-between; gap:1rem;
   padding:1.1rem 0 1rem;
 }
-.news-page .news-date{margin:0; font-family:var(--n-ui); font-size:.8125rem; line-height:1.4; font-weight:500; color:var(--n-body)}
+.news-page .news-date{margin:0; font-family:var(--n-ui); font-size:.9375rem; line-height:1.4; font-weight:500; color:var(--n-body)}
 .news-page .news-label{
   display:inline-block; margin-right:.6rem; padding:.15rem .4rem; border:1px solid var(--n-rule);
   font-size:.6875rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#444;
@@ -736,7 +738,7 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .news-head .tb-word--sans{font-size:1.75rem}
 
 /* body copy */
-.news-page .prose{font-size:1.125rem; line-height:1.625; color:var(--n-body); margin-bottom:.875rem}
+.news-page .prose{font-size:1.25rem; line-height:1.6; color:var(--n-body); margin-bottom:.875rem}
 /* :where() keeps these at element specificity, so the class rules on shared
    blocks (.pull, .tb-heading, .coverage-date, .factbox-note …) still win. */
 :where(.news-page) p{margin:0 0 .875rem}
@@ -750,9 +752,9 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .lead-wrap > p:first-child::first-letter{float:none; font:inherit; padding:0; color:inherit}
 .news-page h2{
   font-family:var(--n-head); font-weight:700; color:var(--n-ink);
-  font-size:1.375rem; line-height:1.27; letter-spacing:0; margin:2rem 0 .625rem; text-wrap:pretty;
+  font-size:1.5rem; line-height:1.25; letter-spacing:0; margin:2rem 0 .625rem; text-wrap:pretty;
 }
-:where(.news-page) h3{font-family:var(--n-head); font-weight:700; font-size:1.1875rem; margin:1.75rem 0 .5rem}
+:where(.news-page) h3{font-family:var(--n-head); font-weight:700; font-size:1.3125rem; margin:1.75rem 0 .5rem}
 
 /* photos: full-bleed on a phone, the 600px column above that */
 .news-page figure{margin:1.5rem auto 1.75rem; padding:0; max-width:none}
@@ -761,19 +763,19 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
    can't fill a whole phone screen */
 .news-page main figure:not(.pull-fig) img{aspect-ratio:3/2; object-fit:cover}
 .news-page figcaption{
-  font-family:var(--n-text); font-size:.875rem; line-height:1.3; color:var(--n-meta);
+  font-family:var(--n-text); font-size:.9375rem; line-height:1.35; color:var(--n-meta);
   margin:.6rem 1.25rem 0;
 }
-.news-page figcaption .credit{font-family:var(--n-ui); font-size:.75rem}
+.news-page figcaption .credit{font-family:var(--n-ui); font-size:.8125rem}
 
 /* attributed pull quote */
 .news-page figure.pull-fig{margin:1.75rem 0; max-width:none}
 .news-page .pull{
   padding:.1rem 0 .1rem 1.1rem; border-left:3px solid var(--n-ink);
   font-family:var(--n-text); font-style:italic; font-weight:400;
-  font-size:1.25rem; line-height:1.4; letter-spacing:0; color:var(--n-ink);
+  font-size:1.375rem; line-height:1.4; letter-spacing:0; color:var(--n-ink);
 }
-.news-page .pull-cite{margin:.6rem 0 0 1.3rem; font-family:var(--n-ui); font-size:.8125rem; font-weight:500; color:var(--n-meta)}
+.news-page .pull-cite{margin:.6rem 0 0 1.3rem; font-family:var(--n-ui); font-size:.875rem; font-weight:500; color:var(--n-meta)}
 .news-page figure.pull-fig figcaption{margin-inline:0}
 .news-page figure.pull-fig figcaption.pull-cite{margin:.6rem 0 0 1.3rem}
 
@@ -781,19 +783,19 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .coverage{margin:2rem 0; border-top:1px solid var(--n-ink); border-bottom:1px solid var(--n-rule)}
 .news-page .coverage-label{font-size:.8125rem; letter-spacing:.06em}
 .news-page .coverage-outlet{font-size:.6875rem; letter-spacing:.08em; color:var(--n-2)}
-.news-page .coverage-headline{font-family:var(--n-head); font-weight:700; font-size:1.0625rem; line-height:1.3; color:var(--n-ink)}
+.news-page .coverage-headline{font-family:var(--n-head); font-weight:700; font-size:1.1875rem; line-height:1.3; color:var(--n-ink)}
 .news-page .factbox{margin:1.75rem 0; background:var(--n-panel); border-top:3px solid var(--n-ink); padding:1.1rem 1.1rem 1rem}
 .news-page .factbox dl{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1.1rem 1rem}
 .news-page .factbox dt{font-family:var(--n-head); font-size:2rem}
-.news-page .factbox dd{font-size:.8125rem; color:var(--n-2)}
+.news-page .factbox dd{font-size:.9375rem; color:var(--n-2)}
 
 /* customer words: quotes on a hairline, not ad cards */
 .news-page .reviews{grid-template-columns:1fr; gap:0; margin:1.25rem 0 1.75rem}
 .news-page .review{background:none; border:0; border-radius:0; border-top:1px solid var(--n-rule); padding:1rem 0}
 .news-page .review:first-child{border-top:0; padding-top:.25rem}
 .news-page .stars{font-size:.8rem; letter-spacing:.14em; margin-bottom:.35rem}
-.news-page .review p{font-family:var(--n-text); font-size:1.0625rem; line-height:1.5; color:var(--n-ink); margin:0 0 .45rem}
-.news-page .review .who{font-family:var(--n-ui); font-size:.8125rem; font-weight:500; color:var(--n-meta)}
+.news-page .review p{font-family:var(--n-text); font-size:1.1875rem; line-height:1.5; color:var(--n-ink); margin:0 0 .45rem}
+.news-page .review .who{font-family:var(--n-ui); font-size:.9375rem; font-weight:500; color:var(--n-meta)}
 .news-page h3 + .reviews{margin-top:.5rem}
 
 /* the call to action: a publication promo box, flat amber button */
@@ -806,16 +808,16 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
   font-family:var(--n-head); font-weight:700; font-size:clamp(2rem,7vw,2.5rem); line-height:1.1;
   letter-spacing:0; margin:0 0 .4rem; color:var(--n-ink); text-wrap:pretty;
 }
-.news-page .cta-urgency{font-family:var(--n-text); font-size:1rem; line-height:1.45; color:var(--n-body); margin:0 0 1rem}
+.news-page .cta-urgency{font-family:var(--n-text); font-size:1.125rem; line-height:1.45; color:var(--n-body); margin:0 0 1rem}
 .news-page .btn{
   background:#FFB000; color:var(--n-ink); border:0; border-radius:3px; box-shadow:none;
-  font-family:var(--n-ui); font-weight:700; font-size:.9375rem; letter-spacing:.06em;
+  font-family:var(--n-ui); font-weight:700; font-size:1.0625rem; letter-spacing:.06em;
   padding:1rem 1.25rem; text-align:center; text-decoration:none;
 }
 .news-page .btn:hover{background:#F29E00}
 .news-page .btn:active{transform:none; box-shadow:none}
-.news-page .cta-sub{font-family:var(--n-ui); font-size:.75rem; color:var(--n-meta); text-align:center; margin:.6rem 0 0}
-.news-page .cta-note{font-family:var(--n-text); font-size:1rem; line-height:1.5; color:var(--n-body); margin:1rem 0 0}
+.news-page .cta-sub{font-family:var(--n-ui); font-size:.875rem; color:var(--n-meta); text-align:center; margin:.6rem 0 0}
+.news-page .cta-note{font-family:var(--n-text); font-size:1.125rem; line-height:1.5; color:var(--n-body); margin:1rem 0 0}
 .news-page .cta.final{background:#fff; border:2px solid var(--n-ink); border-top-width:2px; padding:1.5rem 1.25rem 1.25rem}
 .news-page .cta.final .cta-offer{font-size:clamp(2.25rem,8vw,2.75rem)}
 
@@ -826,11 +828,11 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 /* footer: the disclosure line, then policies and copyright */
 .news-page .news-footer{
   background:#fff; color:#666; padding:0; margin-top:3rem;
-  font-family:var(--n-ui); font-size:.75rem; line-height:1.6; text-align:center;
+  font-family:var(--n-ui); font-size:.875rem; line-height:1.6; text-align:center;
 }
 .news-page .nf-disclosure{
   margin:0; padding:.9rem 1.25rem; background:#F7F7F7; border-top:1px solid var(--n-rule);
-  font-size:.8125rem; line-height:1.5; color:#444;
+  font-size:.9375rem; line-height:1.5; color:#444;
 }
 .news-page .nf-inner{padding:1.25rem 1.25rem 2rem; border-top:1px solid var(--n-rule)}
 .news-page .news-footer nav{display:flex; flex-wrap:wrap; justify-content:center; gap:.4rem 1.1rem; margin:0 0 .6rem}
@@ -857,11 +859,11 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
   .news-page .news-head{padding-top:3rem}
   .news-page .news-masthead:not(:has(.nm-name)) .nm-section{font-size:1.75rem}
   .news-page h1{font-size:2.5rem; line-height:1.15}
-  .news-page .dek{font-size:1.4375rem; line-height:1.3; margin-bottom:1.5rem}
-  .news-page .prose{font-size:1.25rem; line-height:1.5}
+  .news-page .dek{font-size:1.5625rem; line-height:1.3; margin-bottom:1.5rem}
+  .news-page .prose{font-size:1.375rem; line-height:1.55}
   .news-page .news-meta{padding-top:1.25rem}
-  .news-page .news-date{font-size:.875rem}
-  .news-page figcaption{font-size:.9375rem}
-  .news-page h2{font-size:1.625rem; line-height:1.23}
-  .news-page .pull{font-size:1.375rem}
+  .news-page .news-date{font-size:1rem}
+  .news-page figcaption{font-size:1.0625rem}
+  .news-page h2{font-size:1.75rem; line-height:1.23}
+  .news-page .pull{font-size:1.5rem}
 }

@@ -31,7 +31,7 @@ cta:
 blocks:
   - type: trustbar
     label: "As Seen On"
-    logos: [toi, sacbee, abc10, aol, yahoo, comstocks, enterprise]
+    logos: [toi, sacbee, abc10, aol, yahoo, comstocks]
 
   - type: prose
     body: |

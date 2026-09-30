@@ -105,6 +105,13 @@ const blocks = z.discriminatedUnion('type', [
     cite: z.string().optional(),
   }),
 
+  // A small centered "Keep reading" line with a bobbing down arrow, to pull
+  // the reader past the first screen.
+  z.object({
+    type: z.literal('nudge'),
+    text: z.string().default('Keep reading'),
+  }),
+
   // A "More coverage" module, modeled on a newspaper's related-links box:
   // real articles about the business, each with its real headline, date and
   // link. Only coverage that actually ran.

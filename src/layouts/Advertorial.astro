@@ -19,6 +19,7 @@ import OfferCard from '../components/OfferCard.astro';
 import Benefits from '../components/Benefits.astro';
 import Coverage from '../components/Coverage.astro';
 import FactBox from '../components/FactBox.astro';
+import Nudge from '../components/Nudge.astro';
 
 const { entry } = Astro.props;
 const d = entry.data;
@@ -36,7 +37,7 @@ const isNews = d.format === 'news';
 /* Blocks that sit in the narrow reading column. Photos, the press strip,
    myth rows and the offer card break out of it, which is what gives the
    page its rhythm. */
-const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq', 'trustbar', 'benefits', 'coverage', 'factbox']);
+const NARROW = new Set(['prose', 'pullquote', 'compare', 'steps', 'quizcard', 'cta', 'reviews', 'faq', 'trustbar', 'benefits', 'coverage', 'factbox', 'nudge']);
 
 /* CTA positions are numbered in document order — cta-1, cta-2 … — so the
    `utm_content` and the Analytics Engine rows tell you which one earned
@@ -333,6 +334,9 @@ const year = (d.date ?? new Date()).getUTCFullYear();
 
             case 'factbox':
               return <FactBox heading={block.heading} items={block.items} note={block.note} />;
+
+            case 'nudge':
+              return <Nudge text={block.text} />;
 
             case 'photo':
               photoCount += 1;

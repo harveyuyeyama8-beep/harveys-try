@@ -171,6 +171,12 @@ collections:
               - { label: Text, name: text, widget: text, hint: 'No quote marks — they are added when a source is set.' }
               - { label: 'Said by, and where', name: cite, widget: string, required: false, hint: 'e.g. "Harvey Uyeyama, to The Sacramento Bee". The quote must be verbatim from that source.' }
 
+          - label: 'Keep reading arrow'
+            name: nudge
+            widget: object
+            fields:
+              - { label: Text, name: text, widget: string, default: 'Keep reading' }
+
           - label: 'More coverage'
             name: coverage
             widget: object

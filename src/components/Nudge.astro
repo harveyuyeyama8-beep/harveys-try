@@ -1,0 +1,19 @@
+---
+/**
+ * "Keep reading" with a down arrow. Sits after the opening screen of a long
+ * story so the reader knows the good part is below the fold. The arrow bobs
+ * gently; the global reduced-motion rule in theme.css stops it for readers
+ * who have asked for that.
+ */
+interface Props {
+  text?: string;
+}
+const { text = 'Keep reading' } = Astro.props;
+---
+
+<div class="nudge" aria-hidden="true">
+  <span>{text}</span>
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 4v16M5 13l7 7 7-7" />
+  </svg>
+</div>

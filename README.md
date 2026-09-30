@@ -338,9 +338,11 @@ above the story, so the first `cta` block is **cta-1**. The page ends in a news
 footer whose first line is `site.legal` — the ad disclosure. An optional
 `label` ("Advertisement") shows beside the date line; empty by default.
 
-It adds two blocks, usable in any shell: `coverage` (a "More coverage" box of
-real articles — outlet, verbatim headline, date, link) and `factbox` (big
-figures with a label under each, plus a footnote for the assumption). A
+It adds three blocks, usable in any shell: `coverage` (a "More coverage" box of
+real articles — outlet, verbatim headline, date, link), `factbox` (big
+figures with a label under each, plus a footnote for the assumption) and
+`nudge` (a centered "Keep reading" line with a bobbing down arrow, for the
+end of the first screen). A
 `pullquote` can now carry `cite` ("Harvey Uyeyama, to ABC10"), and a `photo`
 a `credit`. Press outlets without a logo file (`enterprise` and `dirt` in
 `src/press.ts`) render as their name in type until a logo is added.

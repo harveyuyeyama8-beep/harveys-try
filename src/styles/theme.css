@@ -581,6 +581,15 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .pull-cite{font-family:var(--ui); font-size:.8125rem; line-height:1.45; color:var(--ink-3); margin:.7rem 0 0 1.35rem}
 .pull-cite::before{content:"— "}
 
+/* "Keep reading" with a bobbing arrow. */
+.nudge{
+  margin:1.75rem 0; text-align:center;
+  font-family:var(--ui); font-size:.8125rem; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+}
+.nudge svg{display:block; margin:.4rem auto 0; animation:nudge-bob 1.6s ease-in-out infinite}
+@keyframes nudge-bob{0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)}}
+
 /* "More coverage": real articles about the business. */
 .coverage{margin:2.5rem 0; padding:1.25rem 0 .25rem; border-block:1px solid var(--rule)}
 .coverage-label{
@@ -778,6 +787,9 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .pull-cite{margin:.6rem 0 0 1.3rem; font-family:var(--n-ui); font-size:.875rem; font-weight:500; color:var(--n-meta)}
 .news-page figure.pull-fig figcaption{margin-inline:0}
 .news-page figure.pull-fig figcaption.pull-cite{margin:.6rem 0 0 1.3rem}
+
+.news-page .nudge{margin:2rem 0 1.5rem; font-size:.9375rem; color:var(--n-ink)}
+.news-page .nudge svg{width:26px; height:26px}
 
 /* coverage + fact box */
 .news-page .coverage{margin:2rem 0; border-top:1px solid var(--n-ink); border-bottom:1px solid var(--n-rule)}

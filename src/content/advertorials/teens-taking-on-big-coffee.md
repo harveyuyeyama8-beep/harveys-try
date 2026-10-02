@@ -2,7 +2,7 @@
 title: "Newsstand Daily | Food & Drink"
 draft: false
 primary: false
-description: "His dad taught him to roast coffee on a machine older than both of them. Two months later, his dad was gone, and he had to keep roasting on his own while still learning how."
+description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for more than a hundred years. But these two California teenagers are."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -11,7 +11,6 @@ publication: "Newsstand Daily"
 section: "Food & Drink"
 kicker: "BREAKING NEWS"
 headline: 'These Two Teens Are Taking On “Big Coffee”'
-dek: "His dad taught him to roast coffee on a machine older than both of them. Two months later, his dad was gone, and he had to keep roasting on his own while still learning how."
 date: 2026-09-30
 readingTime: "7 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
@@ -22,9 +21,8 @@ legal: ""
 
 cta:
   offer: "Get 50% off your first shipment"
-  urgency: "Answer 4 quick questions about how you make your coffee. You choose your roast and your grind. Harvey and Abby pick the coffee. The discount is added before you pay."
-  button: "FIND MY COFFEE"
-  sub: "4 questions · about 30 seconds"
+  urgency: "You choose your roast and your grind. Harvey and Abby pick the coffee. The discount is added before you pay."
+  button: "CHECK STOCK AND SUBSCRIBE TODAY"
   risk: ""
   bullets: []
   destination: quiz
@@ -38,7 +36,7 @@ blocks:
     body: |
       Most teenagers aren’t thinking about competing with companies that have been selling coffee for more than a hundred years.
 
-      But two teenagers in California are.
+      But these two California teenagers are.
 
       And they may have found the one thing the large corporations can’t copy.
 
@@ -74,7 +72,7 @@ blocks:
 
       “It was probably 11 p.m. and I believe we roasted coffee until about 1 a.m.,” Harvey said.
 
-      Afterward, they had coffee in the kitchen. Harvey was talking about business ideas. His dad had a better one.
+      Afterward, they had coffee in the kitchen. Harvey was talking about business ideas. That’s when Harvey and his dad came up with a better one.
 
       “Why don’t you just sell coffee?” his dad said. “We have coffee in the house. I can teach you how to roast coffee. You can bag it up, you can go around the neighborhood selling coffee.”
 
@@ -84,10 +82,8 @@ blocks:
 
       “It was hard at first to get people to give up the same coffee they had been drinking for so many years,” Harvey said. “But once I got my first customer, they never went back.”
 
-      “Chase G. gave me a shot on day one and has been my biggest supporter ever since,” he said. “That was more than two years ago.”
-
   - type: prose
-    heading: "His fifteenth birthday"
+    heading: "Then tragedy struck"
     body: |
       Two months later, in August 2024, Harvey turned 15.
 
@@ -95,7 +91,7 @@ blocks:
 
       “I received a call from my mom that my dad was unconscious, on the side of the road,” Harvey said.
 
-      His dad had a heart attack. He died that day.
+      His dad had a heart attack and died that day.
 
       Harvey walked outside.
 
@@ -129,15 +125,13 @@ blocks:
   - type: prose
     heading: "Then Abby entered the picture"
     body: |
-      Over a year later, Harvey met Abby Merchant. Abby is a UC San Diego student who is studying biology. But getting involved with Harvey’s business made her discover some of her true passions.
+      Over a year later, Harvey met Abby Merchant, his now girlfriend. Abby is a UC San Diego student who is studying biology. But getting involved with Harvey’s business made her discover some of her true passions.
 
       Abby redesigned the logo. She based it on a giraffe that Harvey’s dad had drawn years ago for the labels at his old coffee shop. This label is now on every bag they ship.
 
       “My dad drew that giraffe before I was born,” Harvey said. “Now it goes out on every bag. He’s still on the label.”
 
       Together, they rebuilt the website, worked on the branding, and started thinking seriously about how Harvey’s Coffee could grow beyond a handful of local subscribers.
-
-      Abby picks the coffee now, too. Every month she chooses a new one, and she designs the tasting card that comes in the box.
 
       The business expanded.
 
@@ -152,7 +146,7 @@ blocks:
       Beat them at the things being big makes difficult.
 
   - type: prose
-    heading: "The problem they found with coffee at scale"
+    heading: "The problem they found"
     body: |
       Large coffee companies have to produce an enormous amount of coffee, package it, warehouse it, and distribute it across the country in order to keep grocery-store shelves stocked.
 
@@ -190,13 +184,13 @@ blocks:
 
       There’s no need to roast thousands of bags in advance and hope they eventually sell.
 
-      Instead, Harvey still roasts in small batches, about 12 bags an hour, on the same machine that started the business. It was built in the early 1900s. He lights it with a long match. He turns the flames up and down by hand and listens for the beans to crack.
+      Instead, Harvey still roasts in small batches, about 12 bags an hour, on the same machine that started the business.
 
       “Our roaster is manual, you need to have a human sitting in front of it,” Harvey said.
 
       Then he writes the customer’s name on the bag. By hand.
 
-      “I know whose bag it is before it goes in the roaster,” Harvey said. “That changes how you roast it.”
+      “I know whose bag it is before it goes in the roaster,” Harvey said.
 
       And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced and specialty-grade, from the top 1% of coffee farms in countries that are in season.
 
@@ -325,10 +319,11 @@ blocks:
 
       “I think he’d be really happy that I’m keeping this going,” Harvey said.
 
-      If you want to try it, there is a short quiz. Four questions. You choose your roast and your grind. Harvey and Abby pick the coffee.
+      If you want to try it, there is a short quiz. You choose your roast and your grind. Harvey and Abby pick the coffee.
 
       **Take the Harvey’s Coffee tasting quiz and see what your morning coffee should taste like.**
 
   - type: cta
     variant: final
+    offer: "For our readers: Your first shipment is 50% off."
 ---

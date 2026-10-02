@@ -262,7 +262,7 @@ blocks:
 
       **And yes, there is decaf.**
 
-      Maybe you’ve been told to cut back on caffeine. That doesn’t mean good coffee is over for you. Harvey’s decaf is roasted the same way as everything else: after you order it and by hand. It is decaffeinated with the Swiss Water process.
+      Maybe you’ve been told to cut back on caffeine. That doesn’t mean good coffee is over for you. Harvey’s decaf is roasted the same way as everything else: after you order it and by hand.
 
   - type: factbox
     heading: "The math"

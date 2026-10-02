@@ -2,7 +2,7 @@
 title: "Newsstand Daily | Food & Drink"
 draft: false
 primary: false
-description: "His dad taught him to roast coffee on a machine older than both of them. Two months later, his dad was gone. He kept roasting."
+description: "His dad taught him to roast coffee on a machine older than both of them. Two months later, his dad was gone, and he had to keep roasting on his own while still learning how."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -11,7 +11,7 @@ publication: "Newsstand Daily"
 section: "Food & Drink"
 kicker: "BREAKING NEWS"
 headline: 'These Two Teens Are Taking On “Big Coffee”'
-dek: "His dad taught him to roast coffee on a machine older than both of them. Two months later, his dad was gone. He kept roasting."
+dek: "His dad taught him to roast coffee on a machine older than both of them. Two months later, his dad was gone, and he had to keep roasting on his own while still learning how."
 date: 2026-09-30
 readingTime: "7 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
@@ -22,7 +22,7 @@ legal: ""
 
 cta:
   offer: "Get 50% off your first shipment"
-  urgency: "Answer 4 quick questions about how you make your coffee. Harvey picks the roast and the grind for you, and the discount is added before you pay."
+  urgency: "Answer 4 quick questions about how you make your coffee. You choose your roast and your grind. Harvey and Abby pick the coffee. The discount is added before you pay."
   button: "FIND MY COFFEE"
   sub: "4 questions · about 30 seconds"
   risk: ""
@@ -62,11 +62,11 @@ blocks:
     body: |
       From the age of five, Harvey Uyeyama watched his father, John, roast green coffee beans on a drum roaster in the backyard.
 
-      John had owned a coffee shop years before. When it closed, he kept the roaster. He kept roasting at home, too, for the family.
+      John had owned a coffee shop years before. When it closed, he kept the roaster. He kept roasting at home, too, for a family of five avid coffee drinkers.
 
       “We would never go to the store for coffee,” Harvey said.
 
-      His dad gave bags to friends. He traded coffee for baked goods.
+      His dad was very generous with coffee and always roasted bags for friends and guests.
 
       “My dad had always been roasting coffee pretty much since the first time that I can remember,” Harvey said.
 
@@ -82,7 +82,9 @@ blocks:
 
       “It probably took a hundred nos before my first yes,” he said.
 
-      The nos turned into yeses. He signed up his first 16 neighbors. Then he built a website and turned the business into a subscription, so his customers got coffee regularly instead of remembering to reorder every time they ran out.
+      “It was hard at first to get people to give up the same coffee they had been drinking for so many years,” Harvey said. “But once I got my first customer, they never went back.”
+
+      “Chase G. gave me a shot on day one and has been my biggest supporter ever since,” he said. “That was more than two years ago.”
 
   - type: prose
     heading: "His fifteenth birthday"
@@ -110,9 +112,7 @@ blocks:
 
       He lit his dad’s roaster anyway. That night, he roasted about 50 bags.
 
-      He burned a lot of batches.
-
-      “I can’t tell you how many batches of coffee I burned,” he said. “There’s a reason those two fire extinguishers are there.”
+      “I can’t tell you how many batches of coffee I burned,” he said.
 
       At the funeral, people kept coming up to him. But not to say what he expected.
 
@@ -126,26 +126,18 @@ blocks:
 
       “This is part of his legacy, and this could be part of my legacy,” he said. “It’s not something that needs to be thrown away.”
 
-  - type: pullquote
-    text: "This is too good coffee for a funeral."
-    cite: "What people kept telling Harvey Uyeyama at his father’s funeral"
-
   - type: prose
     heading: "Then Abby entered the picture"
     body: |
-      A few months later, Harvey met Abby Merchant. Abby is 18 and studies biology at UC San Diego.
+      Over a year later, Harvey met Abby Merchant. Abby is a UC San Diego student who is studying biology. But getting involved with Harvey’s business made her discover some of her true passions.
 
-      “I run the business now with my co-founder and girlfriend Abby Merchant,” Harvey said.
-
-      What had been a small neighborhood operation began looking more like a real brand.
-
-      Abby redesigned the logo. She based it on a giraffe that Harvey’s dad had drawn years ago for the labels at his old coffee shop. It is on every bag they ship.
+      Abby redesigned the logo. She based it on a giraffe that Harvey’s dad had drawn years ago for the labels at his old coffee shop. This label is now on every bag they ship.
 
       “My dad drew that giraffe before I was born,” Harvey said. “Now it goes out on every bag. He’s still on the label.”
 
       Together, they rebuilt the website, worked on the branding, and started thinking seriously about how Harvey’s Coffee could grow beyond a handful of local subscribers.
 
-      Abby picks the coffee now, too. Every month she chooses a new one, and she writes the tasting card that comes in the box.
+      Abby picks the coffee now, too. Every month she chooses a new one, and she designs the tasting card that comes in the box.
 
       The business expanded.
 
@@ -200,13 +192,13 @@ blocks:
 
       Instead, Harvey still roasts in small batches, about 12 bags an hour, on the same machine that started the business. It was built in the early 1900s. He lights it with a long match. He turns the flames up and down by hand and listens for the beans to crack.
 
-      “We want a roaster that’s manual, you need to have a human sitting in front of it,” Harvey said.
+      “Our roaster is manual, you need to have a human sitting in front of it,” Harvey said.
 
       Then he writes the customer’s name on the bag. By hand.
 
       “I know whose bag it is before it goes in the roaster,” Harvey said. “That changes how you roast it.”
 
-      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced and specialty-grade, from the top 1% of coffee farms.
+      And what goes into that roaster matters just as much. Every coffee Harvey’s Coffee roasts is ethically sourced and specialty-grade, from the top 1% of coffee farms in countries that are in season.
 
       But roasting to order is only half of what they do differently.
 
@@ -221,7 +213,7 @@ blocks:
 
       Most coffee drinkers never get to taste that.
 
-      So instead of one blend forever, Harvey’s Coffee features a different ethically sourced, single-origin coffee every month. Abby picks it.
+      So instead of one blend forever, Harvey’s Coffee features a different ethically sourced, single-origin coffee every month.
 
       Subscribers taste their way through coffees from 12 different origins over the course of a year. Every bag arrives with a card covering where the coffee was grown, facts about its origin and tasting notes for the flavors to look for in the cup.
 
@@ -256,13 +248,13 @@ blocks:
     body: |
       It costs more than the big can at the store. Harvey doesn’t hide that.
 
+      **But new customers get their first shipment for 50% off.**
+
       A box comes every 2 weeks or every 4 weeks. You pick.
 
       One bag is $20. Two bags are $34. Three bags are $49. Each bag is 12 ounces, which is about 20 cups.
 
       On the two-bag plan, that works out to about 85 cents a cup. One bag alone is about a dollar a cup.
-
-      New customers get their first shipment for half price. One bag is $10. Two bags are $17.
 
       And you are not locked in. You can skip a shipment, pause, change your roast, or cancel any time from your account.
 
@@ -270,9 +262,7 @@ blocks:
 
       **And yes, there is decaf.**
 
-      Maybe you’ve been told to cut back on caffeine. That doesn’t mean good coffee is over for you. Harvey’s decaf is roasted the same way as everything else: after you order it, by hand, on his dad’s machine.
-
-      “Half the people I love drink decaf,” Harvey said. “I wasn’t going to give them the worst bag on the shelf.”
+      Maybe you’ve been told to cut back on caffeine. That doesn’t mean good coffee is over for you. Harvey’s decaf is roasted the same way as everything else: after you order it and by hand. It is decaffeinated with the Swiss Water process.
 
   - type: factbox
     heading: "The math"
@@ -299,7 +289,7 @@ blocks:
 
       Knowing roughly how much coffee customers need allows a small roaster to roast around real demand instead of producing huge quantities in advance.
 
-      That’s what makes the “roasted after you order” model possible.
+      It is also why subscribers pay less per bag than people who buy single bags on the Harvey’s Coffee website.
 
   - type: cta
 
@@ -331,11 +321,11 @@ blocks:
 
       “It feels like my way of giving back and honoring him,” Harvey said.
 
-      He still roasts every bag on his dad’s machine. He still lights it with a long match. He still writes your name on the bag.
+      He still roasts every bag on his dad’s machine. He still writes your name on the bag.
 
       “I think he’d be really happy that I’m keeping this going,” Harvey said.
 
-      If you are not sure which roast you would like, there is a short quiz. Four questions. It picks the roast and the grind for you.
+      If you want to try it, there is a short quiz. Four questions. You choose your roast and your grind. Harvey and Abby pick the coffee.
 
       **Take the Harvey’s Coffee tasting quiz and see what your morning coffee should taste like.**
 

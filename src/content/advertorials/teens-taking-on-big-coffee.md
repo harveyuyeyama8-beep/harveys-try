@@ -21,7 +21,7 @@ legal: ""
 
 cta:
   offer: "Get 50% off your first shipment"
-  urgency: "You choose your roast and your grind. Harvey and Abby pick the coffee. The discount is added before you pay."
+  urgency: "You choose your roast and your grind. Harvey and Abby pick the coffee."
   button: "CHECK STOCK AND SUBSCRIBE TODAY"
   risk: ""
   bullets: []

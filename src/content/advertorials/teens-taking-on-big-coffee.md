@@ -2,7 +2,7 @@
 title: "Newsstand Daily | Food & Drink"
 draft: false
 primary: false
-description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for more than a hundred years. But these two California teenagers are."
+description: "The first time a neighbor said yes, Harvey Uyeyama was 14 years old, holding a bag of coffee roasted in his family’s backyard."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -11,7 +11,7 @@ publication: "Newsstand Daily"
 section: "Food & Drink"
 kicker: "BREAKING NEWS"
 headline: 'These Two Teens Are Taking On “Big Coffee”'
-date: 2026-09-30
+date: 2026-10-05
 readingTime: "7 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
 heroAlt: "Harvey Uyeyama holds a steel bin of roasted coffee beans. Abby Merchant holds a bag of Harvey’s Coffee. An old cast-iron roaster sits beside them on a patio."
@@ -20,9 +20,9 @@ heroCredit: "Paul Kitagaki Jr./The Sacramento Bee"
 legal: ""
 
 cta:
-  offer: "Get 50% off your first shipment"
-  urgency: "You choose your roast and your grind. Harvey and Abby pick the coffee."
-  button: "CHECK STOCK AND SUBSCRIBE TODAY"
+  offer: "Get 50% off your first bag"
+  urgency: "The quiz asks how you brew and what you like. New customers get 50% off their first shipment."
+  button: "TAKE THE QUIZ"
   risk: ""
   bullets: []
   destination: quiz
@@ -34,17 +34,15 @@ blocks:
 
   - type: prose
     body: |
-      Most teenagers aren’t thinking about competing with companies that have been selling coffee for more than a hundred years.
+      The first time a neighbor said yes, Harvey Uyeyama was 14 years old, holding a bag of coffee roasted in his family’s backyard.
 
-      But these two California teenagers are.
+      Two years later, that bag has grown into a business that has served more than 2,000 customers. Some of them say their old favorites can’t even compare.
 
-      And they may have found the one thing the large corporations can’t copy.
-
-      What began as a boy knocking on doors with bags of coffee has grown into a business that has now served more than 2,000 customers. Some of them say their old favorites can’t even compare.
+      And the two teenagers running it may have found the one thing the large corporations can’t copy.
 
       So what are two teenagers doing that billion-dollar coffee brands aren’t?
 
-      Strangely enough, it all started with a coffee roaster in a backyard.
+      It starts, like most of this story, with Harvey’s dad.
 
   - type: nudge
     text: "Keep reading"
@@ -60,21 +58,21 @@ blocks:
     body: |
       From the age of five, Harvey Uyeyama watched his father, John, roast green coffee beans on a drum roaster in the backyard.
 
-      John had owned a coffee shop years before. When it closed, he kept the roaster. He kept roasting at home, too, for a family of five avid coffee drinkers.
+      John had owned a coffee shop in Lafayette, California, in the 1990s. When it closed, the roaster came home with him, and he kept roasting for a family of five avid coffee drinkers.
 
       “We would never go to the store for coffee,” Harvey said.
 
       His dad was very generous with coffee and always roasted bags for friends and guests.
 
-      “My dad had always been roasting coffee pretty much since the first time that I can remember,” Harvey said.
+      “My dad had been roasting coffee for as long as I can remember,” Harvey said.
 
       One night in June 2024, his dad asked him to come outside and roast with him.
 
       “It was probably 11 p.m. and I believe we roasted coffee until about 1 a.m.,” Harvey said.
 
-      Afterward, they had coffee in the kitchen. Harvey was talking about business ideas. That’s when Harvey and his dad came up with a better one.
+      Afterward, they had coffee in the kitchen. Harvey was talking about business ideas. That’s when Harvey and his dad came up with the idea.
 
-      “Why don’t you just sell coffee?” his dad said. “We have coffee in the house. I can teach you how to roast coffee. You can bag it up, you can go around the neighborhood selling coffee.”
+      “Why don’t you just sell coffee?” his dad said. “We can order green coffee. I can teach you how to roast coffee. You can bag it up, you can go around the neighborhood selling coffee.”
 
       So Harvey did.
 
@@ -93,14 +91,14 @@ blocks:
 
       His dad had a heart attack and died that day.
 
-      Harvey walked outside.
+      Harvey made his way to the backyard.
 
-      “I went outside for a second, looked at the coffee roaster, because coffee was like our one bonding thing,” he said.
+      “I went outside for a second, looked at the coffee roaster, because coffee was our one bonding thing,” he said.
 
       For a while, Harvey thought about shutting the business down. Coffee had been the thing the two of them shared. Doing it without him felt wrong.
 
   - type: prose
-    heading: "Too good coffee for a funeral"
+    heading: "“This coffee is too good for a funeral”"
     body: |
       Weeks later, the church needed coffee for the funeral.
 
@@ -114,7 +112,7 @@ blocks:
 
       “I probably heard more like, ‘You did a great job roasting that coffee’ than ‘Sorry for your loss,’” Harvey said.
 
-      They kept saying the same thing. This is too good coffee for a funeral.
+      They kept saying the same thing: “This coffee is too good for a funeral.”
 
       “And I was like, huh, maybe that’s a sign,” he said.
 
@@ -125,11 +123,11 @@ blocks:
   - type: prose
     heading: "Then Abby entered the picture"
     body: |
-      Over a year later, Harvey met Abby Merchant, his now girlfriend. Abby is a UC San Diego student who is studying biology. But getting involved with Harvey’s business made her discover some of her true passions.
+      Over a year later, Harvey met Abby Merchant, his now girlfriend. Abby is a UC San Diego student who is studying biology. But getting involved with Harvey’s Coffee made her discover her passion for business.
 
-      Abby redesigned the logo. She based it on a giraffe that Harvey’s dad had drawn years ago for the labels at his old coffee shop. This label is now on every bag they ship.
+      Abby redesigned the logo. She based it on a giraffe that Harvey’s dad had drawn years ago for the labels at his old coffee shop.
 
-      “My dad drew that giraffe before I was born,” Harvey said. “Now it goes out on every bag. He’s still on the label.”
+      “My dad drew that giraffe before I was born,” Harvey said. “He’s still on the logo.”
 
       Together, they rebuilt the website, worked on the branding, and started thinking seriously about how Harvey’s Coffee could grow beyond a handful of local subscribers.
 
@@ -199,7 +197,7 @@ blocks:
   - type: prose
     heading: "A new coffee, from a new country, every month"
     body: |
-      Walk down a grocery-store coffee aisle and many bags are blends: beans from several places mixed together so the bag tastes exactly the same every time, all year long.
+      Many bags in a grocery-store coffee aisle are blends: beans from several places mixed together so the bag tastes exactly the same every time, all year long.
 
       That consistency is convenient. But it also flattens out the thing that makes coffee interesting.
 
@@ -211,7 +209,7 @@ blocks:
 
       Subscribers taste their way through coffees from 12 different origins over the course of a year. Every bag arrives with a card covering where the coffee was grown, facts about its origin and tasting notes for the flavors to look for in the cup.
 
-      The roast you pick stays the same. Light to medium, medium to dark, espresso roast, or decaf. Only the farm changes.
+      The roast a subscriber picks stays the same. Light to medium, medium to dark, espresso roast, or decaf. Only the farm changes.
 
       It turns a morning routine into something closer to a tasting tour of the world, one month at a time.
 
@@ -242,21 +240,19 @@ blocks:
     body: |
       It costs more than the big can at the store. Harvey doesn’t hide that.
 
-      **But new customers get their first shipment for 50% off.**
+      New customers get their first shipment for 50% off.
 
-      A box comes every 2 weeks or every 4 weeks. You pick.
+      A box comes every 2 weeks or every 4 weeks. Subscribers pick.
 
       One bag is $20. Two bags are $34. Three bags are $49. Each bag is 12 ounces, which is about 20 cups.
 
       On the two-bag plan, that works out to about 85 cents a cup. One bag alone is about a dollar a cup.
 
-      And you are not locked in. You can skip a shipment, pause, change your roast, or cancel any time from your account.
+      Subscribers are not locked in. They can skip a shipment, pause, change the roast or cancel at any time.
 
-      You don’t need a grinder or any new gadget, either. Tell the quiz what you brew with, and the coffee comes ground for it. A drip machine, a French press, a pour-over, an espresso maker, an AeroPress or cold brew. Or whole bean, if you like to grind it yourself.
+      No grinder or new gadget is needed, either. Customers say what they brew with, and the coffee comes ground for it. A drip machine, a French press, a pour-over, an espresso maker, an AeroPress or cold brew. Or whole bean, for people who like to grind it themselves.
 
-      **And yes, there is decaf.**
-
-      Maybe you’ve been told to cut back on caffeine. That doesn’t mean good coffee is over for you. Harvey’s decaf is roasted the same way as everything else: after you order it and by hand.
+      There is decaf, too, for anyone who has been told to cut back on caffeine. It is roasted the same way as everything else: after it is ordered, and by hand.
 
   - type: factbox
     heading: "The math"
@@ -319,11 +315,8 @@ blocks:
 
       “I think he’d be really happy that I’m keeping this going,” Harvey said.
 
-      If you want to try it, there is a short quiz. You choose your roast and your grind. Harvey and Abby pick the coffee.
-
-      **Take the Harvey’s Coffee tasting quiz and see what your morning coffee should taste like.**
+      New customers start with a short quiz about how they brew. They choose the roast and the grind. Harvey and Abby pick the coffee.
 
   - type: cta
     variant: final
-    offer: "For our readers: Your first shipment is 50% off."
 ---

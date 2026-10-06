@@ -141,7 +141,7 @@ const year = (d.date ?? new Date()).getUTCFullYear();
       {d.publication && (
         <>
           <div class="nm-top">
-            <span class="nm-edition">{dateLong}</span>
+            <span class="nm-edition" data-live-date={d.liveDate ? 'long' : undefined}>{dateLong}</span>
             <span class="nm-edition nm-right">Today’s Paper</span>
           </div>
           <p class="nm-name">{d.publication}</p>
@@ -189,7 +189,7 @@ const year = (d.date ?? new Date()).getUTCFullYear();
           <p class="news-date">
             {d.label && <span class="news-label">{d.label}</span>}
             {d.author && <span class="news-by">By {d.author}</span>}
-            {dateStr && <time datetime={d.date!.toISOString().slice(0, 10)}>{dateStr}</time>}
+            {dateStr && <time datetime={d.date!.toISOString().slice(0, 10)} data-live-date={d.liveDate ? 'ap' : undefined}>{dateStr}</time>}
             {dateStr && d.readingTime && <span aria-hidden="true"> · </span>}
             {d.readingTime && <span>{d.readingTime}</span>}
           </p>
@@ -394,6 +394,26 @@ const year = (d.date ?? new Date()).getUTCFullYear();
   )}
 
   <Analytics />
+
+  {isNews && d.liveDate && (
+    <script is:inline>
+      /* liveDate: stamp the page with the reader's own date, in their time
+         zone, so the article always reads as today's. The built-in date is
+         what no-JS readers and crawlers see. AP month style matches the
+         server-side formatting above. */
+      (function () {
+        var now = new Date();
+        var AP = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
+        var ap = AP[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+        var long = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(now);
+        var iso = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+        document.querySelectorAll('[data-live-date]').forEach(function (el) {
+          el.textContent = el.getAttribute('data-live-date') === 'long' ? long : ap;
+          if (el.tagName === 'TIME') el.setAttribute('datetime', iso);
+        });
+      })();
+    </script>
+  )}
 
   {isNews && (
     <script is:inline>

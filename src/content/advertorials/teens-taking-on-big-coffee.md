@@ -12,6 +12,7 @@ section: "Food & Drink"
 kicker: "BREAKING NEWS"
 headline: 'These Two Teens Are Taking On “Big Coffee”'
 date: 2026-10-05
+liveDate: true
 readingTime: "7 min read"
 heroImage: /images/news/harvey-abby-roaster-sacbee.jpg
 heroAlt: "Harvey Uyeyama holds a steel bin of roasted coffee beans. Abby Merchant holds a bag of Harvey’s Coffee. An old cast-iron roaster sits beside them on a patio."

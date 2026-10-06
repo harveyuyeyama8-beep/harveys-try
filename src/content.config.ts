@@ -247,6 +247,11 @@ const advertorials = defineCollection({
     dek: z.string().optional(),
     author: z.string().optional(),
     date: z.coerce.date().optional(),
+    // news only: when true, the date line and the masthead edition date are
+    // rewritten in the browser to the reader's own current date, so the page
+    // always reads as today's. `date` stays as the fallback (no JS, crawlers,
+    // the <time datetime> attribute) — keep it recent.
+    liveDate: z.boolean().default(false),
     readingTime: z.string().optional(),
 
     // --- the CTA module, used by every `cta` block on the page ---

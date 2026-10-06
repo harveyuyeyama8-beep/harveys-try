@@ -53,6 +53,7 @@ collections:
       - { label: Subhead, name: dek, widget: text, required: false }
       - { label: Author, name: author, widget: string, required: false }
       - { label: Date, name: date, widget: datetime, required: false }
+      - { label: 'Date always shows today (news only)', name: liveDate, widget: boolean, required: false, default: false, hint: 'Rewrites the date line and the masthead date to the reader's own date in their browser. Keep Date recent anyway: it is what crawlers and no-JS readers see.' }
       - { label: 'Reading time', name: readingTime, widget: string, required: false }
 
       - label: 'Call to action'

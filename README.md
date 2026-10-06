@@ -337,6 +337,9 @@ CTAs render as flat promo boxes with a black button, and there is no button
 above the story, so the first `cta` block is **cta-1**. The page ends in a news
 footer whose first line is `site.legal` — the ad disclosure. An optional
 `label` ("Advertisement") shows beside the date line; empty by default.
+`liveDate: true` rewrites the date line and the masthead date in the browser to
+the reader's own date, so the page always reads as today's; `date` remains the
+fallback for crawlers and no-JS readers, so keep it recent.
 
 It adds three blocks, usable in any shell: `coverage` (a "More coverage" box of
 real articles — outlet, verbatim headline, date, link), `factbox` (big

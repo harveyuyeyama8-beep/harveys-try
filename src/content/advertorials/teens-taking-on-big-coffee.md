@@ -2,7 +2,7 @@
 title: "Newsstand Daily | Food & Drink"
 draft: false
 primary: false
-description: "The first time a neighbor said yes, Harvey Uyeyama was 14 years old, holding a bag of coffee roasted in his family’s backyard."
+description: "Most teenagers aren’t thinking about competing with companies that have been selling coffee for more than a hundred years. But these two California teenagers are."
 ogImage: /images/news/harvey-abby-roaster-sacbee.jpg
 noindex: true
 
@@ -34,15 +34,17 @@ blocks:
 
   - type: prose
     body: |
-      The first time a neighbor said yes, Harvey Uyeyama was 14 years old, holding a bag of coffee roasted in his family’s backyard.
+      Most teenagers aren’t thinking about competing with companies that have been selling coffee for more than a hundred years.
 
-      Two years later, that bag has grown into a business that has served more than 2,000 customers. Some of them say their old favorites can’t even compare.
+      But these two California teenagers are.
 
-      And the two teenagers running it may have found the one thing the large corporations can’t copy.
+      And they may have found the one thing the large corporations can’t copy.
+
+      What began as a boy knocking on doors with bags of coffee has grown into a business that has now served more than 2,000 customers. Some of them say their old favorites can’t even compare.
 
       So what are two teenagers doing that billion-dollar coffee brands aren’t?
 
-      It starts, like most of this story, with Harvey’s dad.
+      Strangely enough, it all started with a coffee roaster in a backyard.
 
   - type: nudge
     text: "Keep reading"

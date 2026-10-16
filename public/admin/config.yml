@@ -77,8 +77,9 @@ collections:
         widget: object
         required: false
         fields:
-          - { label: Title, name: title, widget: string }
+          - { label: Title, name: title, widget: string, required: false, hint: 'Leave empty for a single full-width button.' }
           - { label: Subtitle, name: sub, widget: string, required: false }
+          - { label: 'Show after (% of page scrolled)', name: after, widget: number, value_type: int, min: 0, max: 100, required: false, hint: 'Leave empty to show it once the first CTA has scrolled past.' }
 
       # ------------------------------------------------------------------
       # The page itself. Add, remove and drag blocks into any order.
@@ -192,7 +193,7 @@ collections:
                   - { label: Logo, name: logo, widget: select, required: false, options: [toi, sacbee, abc10, aol, yahoo, comstocks, enterprise, dirt] }
                   - { label: 'Headline (verbatim)', name: headline, widget: string }
                   - { label: Date, name: date, widget: string, required: false, hint: 'e.g. "July 1, 2026"' }
-                  - { label: URL, name: url, widget: string, pattern: ['^https?://\S+$', 'Paste the full link, starting with https://'] }
+                  - { label: URL, name: url, widget: string, pattern: ['^https?://\\S+$', 'Paste the full link, starting with https://'] }
 
           - label: 'Fact box'
             name: factbox
@@ -257,7 +258,7 @@ collections:
                   - { label: Outlet, name: outlet, widget: string }
                   - { label: Logo, name: logo, widget: select, required: false, options: [toi, sacbee, abc10, aol, yahoo, comstocks, enterprise, dirt], hint: 'Leave empty to show the outlet name as text instead.' }
                   - { label: Quote, name: quote, widget: text, hint: 'Paste the actual sentence from the article. Never paraphrase or invent.' }
-                  - { label: URL, name: url, widget: string, pattern: ['^https?://\S+$', 'Paste the full link, starting with https://'] }
+                  - { label: URL, name: url, widget: string, pattern: ['^https?://\\S+$', 'Paste the full link, starting with https://'] }
                   - { label: 'Link text', name: linkText, widget: string, default: 'Read the article →' }
 
           - label: Reviews

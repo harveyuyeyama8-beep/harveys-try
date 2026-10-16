@@ -269,9 +269,14 @@ const advertorials = defineCollection({
       destination: z.string().default('quiz'),
     }),
 
+    // The mobile sticky bar. Hidden on desktop. It slides up once the reader
+    // has got `after` percent of the way down the page; leave `after` empty
+    // and it waits until the first CTA block has scrolled past instead.
+    // Leave `title` empty and the bar is a single full-width button.
     sticky: z.object({
-      title: z.string(),
+      title: z.string().optional(),
       sub: z.string().optional(),
+      after: z.number().min(0).max(100).optional(),
     }).optional(),
 
     // --- the page itself ---

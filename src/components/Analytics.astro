@@ -93,6 +93,10 @@ const { ga4Id, metaPixelId, linkerDomains } = site;
     var progress = document.getElementById('progress');
     var bar = document.getElementById('stickybar');
     var firstCta = document.querySelector('.cta');
+    /* The bar appears either once the reader is `data-after` percent down the
+       page (set per page in the frontmatter) or, when that is not set, once
+       the first CTA block has scrolled out of view above. */
+    var after = bar && bar.dataset.after !== undefined ? parseFloat(bar.dataset.after) : NaN;
     var marks = [25, 50, 75, 100];
     var fired = {};
     var stuck = false;
@@ -109,8 +113,10 @@ const { ga4Id, metaPixelId, linkerDomains } = site;
         }
       });
 
-      if (bar && firstCta) {
-        var past = firstCta.getBoundingClientRect().bottom < 0;
+      if (bar && (!isNaN(after) || firstCta)) {
+        var past = !isNaN(after)
+          ? pct >= after
+          : firstCta.getBoundingClientRect().bottom < 0;
         bar.classList.toggle('show', past);
         bar.setAttribute('aria-hidden', past ? 'false' : 'true');
         if (past && !stuck) { stuck = true; document.body.classList.add('has-sticky'); }

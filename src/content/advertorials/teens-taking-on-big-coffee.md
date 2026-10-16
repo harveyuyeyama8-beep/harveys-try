@@ -28,6 +28,10 @@ cta:
   bullets: []
   destination: quiz
 
+sticky:
+  title: "50% off your first bag"
+  after: 30
+
 blocks:
   - type: trustbar
     label: "As Seen On"

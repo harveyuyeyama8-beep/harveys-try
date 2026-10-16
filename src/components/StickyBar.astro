@@ -1,20 +1,23 @@
 ---
 interface Props {
-  title: string;
+  title?: string;   // empty = the bar is just the button, full width
   sub?: string;
   button: string;
   destination: string;
   page: string;
+  after?: number;   // percent of the page scrolled before the bar appears
 }
-const { title, sub, button, destination, page } = Astro.props;
+const { title, sub, button, destination, page, after } = Astro.props;
 const href =
   `/go?to=${encodeURIComponent(destination)}&pos=sticky&pg=${encodeURIComponent(page)}`;
 ---
 
-<div id="stickybar" aria-hidden="true">
-  <div class="sb-text">
-    <b>{title}</b>
-    {sub && <span>{sub}</span>}
-  </div>
+<div id="stickybar" class:list={{ 'sb-solo': !title }} aria-hidden="true" data-after={after}>
+  {title && (
+    <div class="sb-text">
+      <b>{title}</b>
+      {sub && <span>{sub}</span>}
+    </div>
+  )}
   <a class="btn" href={href} data-cta="sticky" rel="noopener">{button}</a>
 </div>

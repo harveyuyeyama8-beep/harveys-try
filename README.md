@@ -341,6 +341,15 @@ footer whose first line is `site.legal` — the ad disclosure. An optional
 the reader's own date, so the page always reads as today's; `date` remains the
 fallback for crawlers and no-JS readers, so keep it recent.
 
+A `sticky` block turns on the mobile-only bar pinned to the bottom of the
+screen (desktop never shows it). On the news shell it is drawn as a
+newspaper's own offer bar: white, a hairline rule, the `title` in the headline
+serif, the `sub` under it, and a compact black button that fires `cta.button`
+and logs as position `sticky`. `after: 30` makes it slide up once the reader
+is 30% of the way down the page; leave `after` out and it waits until the
+first CTA block has scrolled past instead. Leave `title` out and the bar is a
+single full-width button.
+
 It adds three blocks, usable in any shell: `coverage` (a "More coverage" box of
 real articles — outlet, verbatim headline, date, link), `factbox` (big
 figures with a label under each, plus a footnote for the assumption) and

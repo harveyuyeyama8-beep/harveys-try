@@ -307,6 +307,8 @@ footer nav{display:flex; flex-wrap:wrap; gap:1.15rem; margin-top:1rem}
 #stickybar .sb-text{flex:1; min-width:0; font-family:var(--ui); font-size:.8125rem; line-height:1.3; color:var(--ink-2)}
 #stickybar .sb-text b{display:block; color:var(--ink); font-size:.875rem}
 #stickybar .btn{width:auto; flex:none; padding:.85rem 1.05rem; font-size:.8125rem}
+/* No title: one full-width button, the way a sticky CTA usually tests best. */
+#stickybar.sb-solo .btn{width:100%; flex:1; padding:1rem 1.25rem; font-size:1rem}
 @media(min-width:52rem){#stickybar{display:none}}
 body.has-sticky{padding-bottom:4.5rem}
 @media(min-width:52rem){body.has-sticky{padding-bottom:0}}
@@ -833,9 +835,24 @@ figure.pull-fig{margin:2.5rem 0; padding:0; max-width:none}
 .news-page .cta.final{background:#fff; border:2px solid var(--n-ink); border-top-width:2px; padding:1.5rem 1.25rem 1.25rem}
 .news-page .cta.final .cta-offer{font-size:clamp(2.25rem,8vw,2.75rem)}
 
-/* sticky bar, if a page turns it on */
-.news-page #stickybar{background:rgba(255,255,255,.97); border-top:1px solid var(--n-rule)}
-.news-page #stickybar .btn{padding:.8rem 1rem; font-size:.8125rem}
+/* sticky bar, if a page turns it on. Styled like a newspaper's own mobile
+   offer bar rather than an ad unit: white, a gray hairline, the offer in the
+   headline serif, a quiet sans sub-line, and a compact black button. */
+.news-page #stickybar{
+  background:#fff; border-top:1px solid var(--n-rule); backdrop-filter:none;
+  padding:.65rem 1rem calc(.65rem + env(safe-area-inset-bottom)); gap:.9rem;
+  box-shadow:0 -4px 14px -10px rgba(0,0,0,.35);
+}
+.news-page #stickybar .sb-text{font-family:var(--n-ui); font-size:.75rem; line-height:1.3; color:var(--n-meta)}
+.news-page #stickybar .sb-text b{font-family:var(--n-head); font-weight:700; font-size:1.0625rem; line-height:1.2; color:var(--n-ink); margin-bottom:.1rem}
+.news-page #stickybar .sb-text span{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.news-page #stickybar .btn{
+  background:var(--n-ink); color:#fff; border-radius:3px;
+  font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:.75rem .95rem; white-space:nowrap;
+}
+.news-page #stickybar .btn:hover{background:#333}
+.news-page #stickybar.sb-solo .btn{padding:1rem 1.25rem; font-size:.9375rem}
 
 /* footer: the disclosure line, then policies and copyright */
 .news-page .news-footer{
